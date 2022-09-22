@@ -1,28 +1,4 @@
-<!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
-    <!--
-      This example requires updating your template:
-
-      ```
-      <html class="h-full bg-gray-100">
-      <body class="h-full">
-      ```
-    -->
     <div>
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
@@ -145,7 +121,11 @@
                                         </button>
                                     </span>
                                 </h2>
-                                <CardsWithDeviders></CardsWithDeviders>
+                                <ul class="projects">
+                                    <li v-for="project in projects">
+                                        {{project.name}}
+                                    </li>
+                                </ul>
                             </div>
                         </aside>
                     </div>
@@ -157,31 +137,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import {
-    Dialog,
-    DialogPanel,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
-} from '@headlessui/vue'
-import {
-    Bars3BottomLeftIcon,
-    BellIcon,
-    CalendarIcon,
-    ChartBarIcon,
-    FolderIcon,
-    HomeIcon,
-    InboxIcon,
-    UsersIcon,
-    XMarkIcon,
-} from '@heroicons/vue/24/outline'
+import {computed, onMounted, ref} from 'vue'
+import {Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot,} from '@headlessui/vue'
+import {Bars3BottomLeftIcon, BellIcon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon,} from '@heroicons/vue/24/outline'
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/vue/20/solid'
 import EmptyProject from "./EmptyProject.vue";
-import CardsWithDeviders from "./CardsWithDeviders.vue";
+import CardsWithDividers from "./CardsWithDividers.vue";
+import {useStore} from "vuex";
 
 const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -197,7 +159,16 @@ const userNavigation = [
     { name: 'Sign out', href: '#' },
 ]
 
-const projects = [];
+
 
 const sidebarOpen = ref(false)
+
+const store = useStore();
+
+onMounted(() =>{
+    store.commit('general/getProjects');
+});
+
+const projects = computed(() => store.state.general.projects)
+
 </script>

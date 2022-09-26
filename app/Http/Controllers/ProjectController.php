@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CacheKey;
+use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -43,12 +47,13 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProjectStoreRequest $request
+     * @return ProjectResource
      */
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
-        //
+        $new = $this->projects->store($request);
+        return new ProjectResource($new);
     }
 
     /**
@@ -76,7 +81,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
@@ -86,13 +91,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Project $project
+     * @return ProjectResource
+     * @throws AuthorizationException
      */
-    public function destroy(Project $project)
+    public function destroy(Project $project): ProjectResource
     {
-        //
+        $this->authorize('delete', $project);
+        $this->projects->destroy($project);
+        return new ProjectResource($project);
     }
 }

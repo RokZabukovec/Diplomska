@@ -17,4 +17,11 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        https: false,
+        host: false,
+        port: 3009,
+        hmr: {host: 'localhost'},
+
+    },
 });

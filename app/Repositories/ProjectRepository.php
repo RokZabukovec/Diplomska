@@ -3,21 +3,50 @@
 namespace App\Repositories;
 
 
+use App\Helpers\CacheKey;
+use App\Http\Requests\ProjectStoreRequest;
 use App\Models\Project;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use LogicException;
 
 class ProjectRepository implements RepositoryInterface
 {
 
     public function getAll(int $user_id): Collection
     {
-        $key = Str::replace('?', $user_id, 'all_projects_from_user_?');
+        $key = Str::replace('?', $user_id, CacheKey::$userProjects);
 
         return Cache::rememberForever($key, function() use ($user_id) {
             return Project::where(['user_id' => $user_id])->get();
         });
+    }
+
+    public function store(ProjectStoreRequest $request): ?Project
+    {
+        $project = Project::create(
+            array_merge($request->validated(),
+                ['user_id' => $request->user()->id]));
+
+        if ($project instanceof Project){
+            $key = Str::replace('?', $request->user()->id, 'all_projects_from_user_?');
+            Cache::forget($key);
+            return $project;
+        }
+        return null;
+    }
+
+    public function destroy(Project $project): ?bool
+    {
+        try {
+            $deleted = $project->delete();
+            $key = Str::replace('?', $project->user_id, CacheKey::$userProjects);
+            Cache::forget($key);
+            return $deleted;
+        }catch (LogicException){
+            return false;
+        }
     }
 }

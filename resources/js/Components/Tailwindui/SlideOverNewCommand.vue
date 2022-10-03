@@ -94,6 +94,9 @@
                                                     <div class="sm:col-span-2">
                                                         <input
                                                             id="project-name"
+                                                            v-model="
+                                                                form.command
+                                                            "
                                                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                             name="command-name"
                                                             type="text"
@@ -115,8 +118,11 @@
                                                     <div class="sm:col-span-2">
                                                         <textarea
                                                             id="project-description"
+                                                            v-model="
+                                                                form.description
+                                                            "
                                                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                                            name="project-description"
+                                                            name="description"
                                                             rows="3"
                                                         />
                                                     </div>
@@ -155,13 +161,18 @@
                                                     class="space-y-1 px-4 sm:px-6 sm:py-5"
                                                 >
                                                     <span
-                                                        v-for="tag in form.tags"
+                                                        v-for="(
+                                                            tag, index
+                                                        ) in form.tags"
                                                         class="inline-flex items-center rounded-full bg-indigo-100 py-0.5 pl-2 mx-1 pr-0.5 text-xs font-medium text-indigo-700"
                                                     >
                                                         {{ tag }}
                                                         <button
                                                             class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:bg-indigo-500 focus:text-white focus:outline-none"
                                                             type="button"
+                                                            @click="
+                                                                removeTag(index)
+                                                            "
                                                         >
                                                             <span
                                                                 class="sr-only"
@@ -203,6 +214,9 @@
                                                 <button
                                                     class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     type="submit"
+                                                    @click.prevent="
+                                                        storeCommand
+                                                    "
                                                 >
                                                     Create
                                                 </button>
@@ -220,7 +234,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import {
     Dialog,
     DialogPanel,
@@ -230,18 +244,36 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { PlusIcon } from "@heroicons/vue/20/solid";
+import store from "../../Store/store";
+
+let projectId = computed(() => store.state.general.selectedProject.id);
 
 let form = {
-    name: "",
+    command: "",
     description: "",
+    project_id: parseInt(projectId.value),
     tags: [],
 };
 
 const tagsInput = ref("");
-const open = ref(false);
+let open = ref(false);
+
+onMounted(() => {
+    store.commit("commands/getCommands", projectId);
+});
+
+function storeCommand() {
+    store.commit("commands/storeCommand", form);
+    open.value = false;
+    for (let data in form) delete form[data];
+}
 
 function addToTags() {
     form.tags.push(tagsInput.value.trim());
     tagsInput.value = "";
+}
+
+function removeTag(index) {
+    form.tags.splice(index, 1);
 }
 </script>

@@ -99,7 +99,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import {
     Dialog,
     DialogPanel,
@@ -110,12 +110,15 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
 
+let props = defineProps({
+    project: Object,
+});
+
 const open = ref(false);
 let store = useStore();
-const projectSelected = computed(() => store.state.general.selectedProject);
 
 function deleteProject() {
-    store.commit("projects/deleteProject", projectSelected);
+    store.commit("projects/deleteProject", props.project);
     open.value = false;
 }
 </script>

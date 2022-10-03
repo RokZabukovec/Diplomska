@@ -1,4 +1,8 @@
-import {createStore} from "vuex";
+import { createStore } from "vuex";
+import { getCommands, storeCommandAsync } from "../API/commands.js";
+import { getLinks, storeLinkAsync } from "../API/links";
+import { getSnippets, storeSnippetAsync } from "../API/snippets";
+import { getPages, storePageAsync } from "../API/pages";
 
 // Create a new store instance.
 const store = createStore({
@@ -52,7 +56,7 @@ const store = createStore({
                 },
                 async deleteProject(state, project) {
                     await axios
-                        .delete("api/projects/" + project.value.id)
+                        .delete("api/projects/" + project.id)
                         .then((response) => {
                             if (response.status > 300) {
                                 console.log(response);
@@ -62,7 +66,7 @@ const store = createStore({
                                 store.state.general.selectedProject;
                             const indexOfObject = projects.findIndex(
                                 (object) => {
-                                    return object.id === project.value.id;
+                                    return object.id === project.id;
                                 }
                             );
                             store.state.general.projects.splice(
@@ -90,18 +94,15 @@ const store = createStore({
                 commands: [],
             }),
             mutations: {
-                async getCommands(state) {
-                    await axios
-                        .get("/api/commands")
+                async getCommands(state, projectId) {
+                    let commands = getCommands(projectId.value);
+                    await commands
                         .then((response) => {
-                            if (response.status > 200) {
-                                console.error(response);
-                                return;
-                            }
-                            state.commands = response.data.data;
+                            console.log(response);
+                            store.state.commands.commands = response.data.data;
                         })
-                        .catch((error) => {
-                            console.error(error);
+                        .catch((e) => {
+                            console.log(e);
                         });
                 },
                 async deleteCommand(state, command) {
@@ -128,20 +129,121 @@ const store = createStore({
                         });
                 },
                 async storeCommand(state, form) {
-                    await axios
-                        .post("api/commands", form)
+                    let response = storeCommandAsync(form);
+                    console.log(response);
+                    response
                         .then((response) => {
                             if (response.status > 300) {
-                                state.error =
-                                    "There was something wrong with the request.";
+                                console.log(response);
                                 return;
                             }
-                            store.state.general.commands.unshift(
+                            store.state.commands.commands.push(
                                 response.data.data
                             );
                         })
-                        .catch((error) => {
-                            console.error(error);
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+            },
+        },
+        pages: {
+            namespaced: true,
+            state: () => ({
+                pages: [],
+            }),
+            mutations: {
+                async getPages(state, projectId) {
+                    let pages = getPages(projectId.value);
+                    await pages
+                        .then((response) => {
+                            console.log(response);
+                            store.state.pages.pages = response.data.data;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+
+                async storePage(state, form) {
+                    let response = storePageAsync(form);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            state.pages.push(response.data.data);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+            },
+        },
+        links: {
+            namespaced: true,
+            state: () => ({
+                links: [],
+            }),
+            mutations: {
+                async getLinks(state, projectId) {
+                    let links = getLinks(projectId.value);
+                    await links
+                        .then((response) => {
+                            store.state.links.links = response.data;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+
+                async storeLink(state, form) {
+                    let response = storeLinkAsync(form);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            store.state.links.links.push(response);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+            },
+        },
+        snippets: {
+            namespaced: true,
+            state: () => ({
+                snippets: [],
+            }),
+            mutations: {
+                async getSnippets(state, projectId) {
+                    let snippets = getSnippets(projectId.value);
+                    await snippets
+                        .then((response) => {
+                            console.log(response);
+                            store.state.snippets.snippets = response.data;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+
+                async storeSnippet(state, form) {
+                    let response = storeSnippetAsync(form);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            state.snippets.push(response);
+                        })
+                        .catch((e) => {
+                            console.log(e);
                         });
                 },
             },

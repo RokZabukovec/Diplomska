@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Helpers\CacheKey;
-use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\CommandStoreRequest;
 use App\Models\Command;
 use App\Models\Project;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -13,25 +13,27 @@ use Illuminate\Support\Str;
 
 class CommandRepository implements RepositoryInterface
 {
-    public function getAll(int $user_id): Collection
+    public function getAll(int $project_id): Collection
     {
-        $key = Str::replace('?', $user_id, CacheKey::$userCommands);
+        $key = Str::replace('?', $project_id, CacheKey::$userCommands);
 
-        return Cache::rememberForever($key, function () use ($user_id) {
-            return Command::where(['user_id' => $user_id])->get();
+        return Cache::rememberForever($key, function () use ($project_id) {
+            return Command::where(['project_id' => $project_id])->with('tags')->get();
         });
     }
 
-    public function store(ProjectStoreRequest $request): ?Project
+    public function store(CommandStoreRequest $request): ?Command
     {
-        $project = Project::create(
-            array_merge($request->validated(),
-                ['user_id' => $request->user()->id]));
+        $validated = $request->validated();
+        $command = Command::create($validated);
+        if (!empty($validated['tags'])) {
+            $command->syncTags($validated['tags']);
+        }
 
-        if ($project instanceof Project) {
-            $key = Str::replace('?', $request->user()->id, 'all_projects_from_user_?');
+        if ($command instanceof Command) {
+            $key = Str::replace('?', $command->project_id, CacheKey::$userCommands);
             Cache::forget($key);
-            return $project;
+            return $command;
         }
         return null;
     }

@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="min-h-full">
         <TransitionRoot :show="sidebarOpen" as="template">
             <Dialog
                 as="div"
-                class="relative z-40 md:hidden"
+                class="relative z-40 lg:hidden"
                 @close="sidebarOpen = false"
             >
                 <TransitionChild
@@ -60,34 +60,72 @@
                                 <img
                                     alt="Your Company"
                                     class="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                    src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500"
                                 />
                             </div>
                             <div class="mt-5 h-0 flex-1 overflow-y-auto">
-                                <nav class="space-y-1 px-2">
-                                    <a
-                                        v-for="item in navigation"
-                                        :key="item.name"
-                                        :class="[
-                                            item.current
-                                                ? 'bg-gray-100 text-gray-900'
-                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                                            'group flex items-center px-2 py-2 text-base font-medium rounded-md',
-                                        ]"
-                                        :href="item.href"
-                                    >
-                                        <component
-                                            :is="item.icon"
+                                <nav class="px-2">
+                                    <div class="space-y-1 text-red-500">
+                                        <a
+                                            v-for="item in navigation"
+                                            :key="item.name"
+                                            :aria-current="
+                                                item.current
+                                                    ? 'page'
+                                                    : undefined
+                                            "
                                             :class="[
                                                 item.current
-                                                    ? 'text-gray-500'
-                                                    : 'text-gray-400 group-hover:text-gray-500',
-                                                'mr-4 flex-shrink-0 h-6 w-6',
+                                                    ? 'bg-gray-100 text-gray-900'
+                                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50',
+                                                'group flex items-center px-2 py-2 text-base leading-5 font-medium rounded-md',
                                             ]"
-                                            aria-hidden="true"
-                                        />
-                                        {{ item.name }}
-                                    </a>
+                                            :href="item.href"
+                                        >
+                                            <component
+                                                :is="item.icon"
+                                                :class="[
+                                                    item.current
+                                                        ? 'text-gray-500'
+                                                        : 'text-gray-400 group-hover:text-gray-500',
+                                                    'mr-3 flex-shrink-0 h-6 w-6',
+                                                ]"
+                                                aria-hidden="true"
+                                            />
+                                            {{ item.name }}
+                                        </a>
+                                    </div>
+                                    <div class="mt-8">
+                                        <h3
+                                            id="mobile-teams-headline"
+                                            class="px-3 text-sm font-medium text-gray-500"
+                                        >
+                                            Teams
+                                        </h3>
+                                        <div
+                                            aria-labelledby="mobile-teams-headline"
+                                            class="mt-1 space-y-1"
+                                            role="group"
+                                        >
+                                            <a
+                                                v-for="team in teams"
+                                                :key="team.name"
+                                                :href="team.href"
+                                                class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                                            >
+                                                <span
+                                                    :class="[
+                                                        team.bgColorClass,
+                                                        'w-2.5 h-2.5 mr-4 rounded-full',
+                                                    ]"
+                                                    aria-hidden="true"
+                                                />
+                                                <span class="truncate">{{
+                                                    team.name
+                                                }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </nav>
                             </div>
                         </DialogPanel>
@@ -100,60 +138,232 @@
         </TransitionRoot>
 
         <!-- Static sidebar for desktop -->
-        <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+        <div
+            class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4"
+        >
+            <div class="flex flex-shrink-0 items-center px-6">
+                <img
+                    alt="Your Company"
+                    class="h-8 w-auto"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500"
+                />
+            </div>
             <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div
-                class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-white pt-5"
-            >
-                <div class="flex flex-shrink-0 items-center px-4">
-                    <img
-                        alt="Your Company"
-                        class="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    />
+            <div class="mt-6 flex h-0 flex-1 flex-col overflow-y-auto">
+                <!-- User account dropdown -->
+                <Menu as="div" class="relative inline-block px-3 text-left">
+                    <div>
+                        <MenuButton
+                            class="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                        >
+                            <span
+                                class="flex w-full items-center justify-between"
+                            >
+                                <span
+                                    class="flex min-w-0 items-center justify-between space-x-3"
+                                >
+                                    <img
+                                        alt=""
+                                        class="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
+                                        src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                                    />
+                                    <span class="flex min-w-0 flex-1 flex-col">
+                                        <span
+                                            class="truncate text-sm font-medium text-gray-900"
+                                            >Jessy Schwarz</span
+                                        >
+                                        <span
+                                            class="truncate text-sm text-gray-500"
+                                            >@jessyschwarz</span
+                                        >
+                                    </span>
+                                </span>
+                                <ChevronUpDownIcon
+                                    aria-hidden="true"
+                                    class="h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                                />
+                            </span>
+                        </MenuButton>
+                    </div>
+                    <transition
+                        enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95"
+                    >
+                        <MenuItems
+                            class="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >View profile</a
+                                    >
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >Settings</a
+                                    >
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >Notifications</a
+                                    >
+                                </MenuItem>
+                            </div>
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >Get desktop app</a
+                                    >
+                                </MenuItem>
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >Support</a
+                                    >
+                                </MenuItem>
+                            </div>
+                            <div class="py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <a
+                                        :class="[
+                                            active
+                                                ? 'bg-gray-100 text-gray-900'
+                                                : 'text-gray-700',
+                                            'block px-4 py-2 text-sm',
+                                        ]"
+                                        href="#"
+                                        >Logout</a
+                                    >
+                                </MenuItem>
+                            </div>
+                        </MenuItems>
+                    </transition>
+                </Menu>
+                <!-- Sidebar Search -->
+                <div class="mt-5 px-3">
+                    <label class="sr-only" for="search">Search</label>
+                    <div class="relative mt-1 rounded-md shadow-sm">
+                        <div
+                            aria-hidden="true"
+                            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                        >
+                            <MagnifyingGlassIcon
+                                aria-hidden="true"
+                                class="mr-3 h-4 w-4 text-gray-400"
+                            />
+                        </div>
+                        <input
+                            id="search"
+                            class="block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            name="search"
+                            placeholder="Search"
+                            type="text"
+                        />
+                    </div>
                 </div>
-                <div class="mt-5 flex flex-grow flex-col">
-                    <nav class="flex-1 space-y-1 px-2 pb-4">
-                        <a
+                <!-- Navigation -->
+                <nav class="mt-6 px-3">
+                    <div class="space-y-1">
+                        <RouterLink
                             v-for="item in navigation"
                             :key="item.name"
+                            :to="item.href"
+                            :aria-current="item.current ? 'page' : undefined"
                             :class="[
                                 item.current
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                                    ? 'bg-gray-200 text-gray-900'
+                                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50',
                                 'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                             ]"
-                            :href="item.href"
+                            >{{ item.name }}
+                        </RouterLink>
+                    </div>
+                    <div class="mt-8">
+                        <!-- Secondary navigation -->
+                        <h3
+                            id="desktop-teams-headline"
+                            class="px-3 text-sm font-medium text-gray-500"
                         >
-                            <component
-                                :is="item.icon"
-                                :class="[
-                                    item.current
-                                        ? 'text-gray-500'
-                                        : 'text-gray-400 group-hover:text-gray-500',
-                                    'mr-3 flex-shrink-0 h-6 w-6',
-                                ]"
-                                aria-hidden="true"
-                            />
-                            {{ item.name }}
-                        </a>
-                    </nav>
-                </div>
+                            Teams
+                        </h3>
+                        <div
+                            aria-labelledby="desktop-teams-headline"
+                            class="mt-1 space-y-1"
+                            role="group"
+                        >
+                            <a
+                                v-for="team in teams"
+                                :key="team.name"
+                                :href="team.href"
+                                class="group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                            >
+                                <span
+                                    :class="[
+                                        team.bgColorClass,
+                                        'w-2.5 h-2.5 mr-4 rounded-full',
+                                    ]"
+                                    aria-hidden="true"
+                                />
+                                <span class="truncate">{{ team.name }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
-        <div class="flex flex-1 flex-col md:pl-64">
+        <!-- Main column -->
+        <div class="flex flex-col lg:pl-64">
+            <!-- Search header -->
             <div
-                class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow"
+                class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:hidden"
             >
                 <button
-                    class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+                    class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
                     type="button"
                     @click="sidebarOpen = true"
                 >
                     <span class="sr-only">Open sidebar</span>
-                    <Bars3BottomLeftIcon aria-hidden="true" class="h-6 w-6" />
+                    <Bars3CenterLeftIcon aria-hidden="true" class="h-6 w-6" />
                 </button>
-                <div class="flex flex-1 justify-between px-4">
+                <div class="flex flex-1 justify-between px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-1">
                         <form
                             action="#"
@@ -177,35 +387,25 @@
                                 <input
                                     id="search-field"
                                     class="block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
-                                    name="search"
+                                    name="search-field"
                                     placeholder="Search"
                                     type="search"
-                                    @focusin="search = true"
-                                    @focusout="search = false"
                                 />
                             </div>
                         </form>
                     </div>
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <button
-                            class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            type="button"
-                        >
-                            <span class="sr-only">View notifications</span>
-                            <BellIcon aria-hidden="true" class="h-6 w-6" />
-                        </button>
-
+                    <div class="flex items-center">
                         <!-- Profile dropdown -->
                         <Menu as="div" class="relative ml-3">
                             <div>
                                 <MenuButton
-                                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                                 >
                                     <span class="sr-only">Open user menu</span>
                                     <img
                                         alt=""
                                         class="h-8 w-8 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                        src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                     />
                                 </MenuButton>
                             </div>
@@ -218,74 +418,163 @@
                                 leave-to-class="transform opacity-0 scale-95"
                             >
                                 <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 >
-                                    <MenuItem
-                                        v-for="item in userNavigation"
-                                        :key="item.name"
-                                        v-slot="{ active }"
-                                    >
-                                        <a
-                                            :class="[
-                                                active ? 'bg-gray-100' : '',
-                                                'block px-4 py-2 text-sm text-gray-700',
-                                            ]"
-                                            :href="item.href"
-                                            >{{ item.name }}</a
-                                        >
-                                    </MenuItem>
+                                    <div class="py-1">
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >View profile</a
+                                            >
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >Settings</a
+                                            >
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >Notifications</a
+                                            >
+                                        </MenuItem>
+                                    </div>
+                                    <div class="py-1">
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >Get desktop app</a
+                                            >
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >Support</a
+                                            >
+                                        </MenuItem>
+                                    </div>
+                                    <div class="py-1">
+                                        <MenuItem v-slot="{ active }">
+                                            <a
+                                                :class="[
+                                                    active
+                                                        ? 'bg-gray-100 text-gray-900'
+                                                        : 'text-gray-700',
+                                                    'block px-4 py-2 text-sm',
+                                                ]"
+                                                href="#"
+                                                >Logout</a
+                                            >
+                                        </MenuItem>
+                                    </div>
                                 </MenuItems>
                             </transition>
                         </Menu>
                     </div>
                 </div>
             </div>
-
             <main class="flex-1">
-                <div class="py-6">
-                    <div class="flex min-h-screen px-1 sm:px-2 md:px-2">
-                        <!-- Replace with your content -->
-                        <main
-                            class="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last"
-                        >
-                            <ProjectContentSelection
-                                v-if="selectedProject"
-                            ></ProjectContentSelection>
-                            <!-- End main area -->
-                        </main>
-                        <aside
-                            class="relative hidden w-96 flex-shrink-0 overflow-y-auto border-r border-gray-200 xl:order-first xl:flex xl:flex-col"
-                        >
-                            <!-- Start secondary column (hidden on smaller screens) -->
-                            <div class="inset-0 py-6 px-1 sm:px-2 lg:px-8">
-                                <h2
-                                    class="py-1 px-2 flex justify-between align-middle mb-4 text-xl text-gray-600 font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight"
-                                >
-                                    Projects
-                                    <span class="action">
-                                        <SlideOverNewProject></SlideOverNewProject>
-                                    </span>
-                                </h2>
-                                <div
-                                    v-if="!projects.length"
-                                    class="inset-0 py-6 px-4 sm:px-6 lg:px-8 align-middle"
-                                >
-                                    <EmptyProject></EmptyProject>
-                                </div>
-                                <CardsWithDividers
-                                    v-else
-                                    :data="projects"
-                                ></CardsWithDividers>
-                            </div>
-                        </aside>
+                <!-- Page title & actions -->
+                <div
+                    class="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
+                >
+                    <div class="min-w-0 flex-1">
+                        <router-link to="/">
+                            <button
+                                type="button"
+                                class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            >
+                                <HomeIcon class="h-4 w-4 text-white" />
+                                Home
+                            </button>
+                        </router-link>
+                    </div>
+                    <div class="mt-4 flex sm:mt-0 sm:ml-4">
+                        <SlideOverNewProject></SlideOverNewProject>
                     </div>
                 </div>
+
+                <!-- Projects list (only on smallest breakpoint) -->
+                <div class="mt-10 sm:hidden">
+                    <div class="px-4 sm:px-6">
+                        <h2 class="text-sm font-medium text-gray-900">
+                            Projects
+                        </h2>
+                    </div>
+                    <ul
+                        class="mt-3 divide-y divide-gray-100 border-t border-gray-200"
+                        role="list"
+                    >
+                        <li v-for="project in projects" :key="project.id">
+                            <a
+                                class="group flex items-center justify-between px-4 py-4 hover:bg-gray-50 sm:px-6"
+                                href="#"
+                            >
+                                <span
+                                    class="flex items-center space-x-3 truncate"
+                                >
+                                    <span
+                                        :class="[
+                                            project.label_color,
+                                            'w-2.5 h-2.5 flex-shrink-0 rounded-full',
+                                        ]"
+                                        aria-hidden="true"
+                                    />
+                                    <span
+                                        class="truncate text-sm font-medium leading-6"
+                                    >
+                                        {{ project.name }}
+                                    </span>
+                                </span>
+                                <ChevronRightIcon
+                                    aria-hidden="true"
+                                    class="ml-4 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Projects table (small breakpoint and up) -->
+                <router-view></router-view>
             </main>
         </div>
     </div>
 </template>
 
 <script setup>
+import moment from "moment";
 import { computed, onMounted, ref } from "vue";
 import {
     Dialog,
@@ -298,49 +587,44 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 import {
-    Bars3BottomLeftIcon,
-    BellIcon,
-    CalendarIcon,
-    ChartBarIcon,
-    FolderIcon,
+    Bars3CenterLeftIcon,
+    Bars4Icon,
     HomeIcon,
-    InboxIcon,
-    UsersIcon,
     XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
-import EmptyProject from "./EmptyProject.vue";
-import CardsWithDividers from "./CardsWithDividers.vue";
-import { useStore } from "vuex";
+import {
+    ChevronRightIcon,
+    ChevronUpDownIcon,
+    MagnifyingGlassIcon,
+} from "@heroicons/vue/20/solid";
+import store from "../../Store/store.js";
 import SlideOverNewProject from "./SlideOverNewProject.vue";
-import ProjectContentSelection from "./ProjectContentSelection.vue";
 
-// data
 const navigation = [
-    { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-    { name: "Team", href: "#", icon: UsersIcon, current: false },
-    { name: "Projects", href: "#", icon: FolderIcon, current: false },
-    { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-    { name: "Documents", href: "#", icon: InboxIcon, current: false },
-    { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+    { name: "Home", href: "/", icon: HomeIcon, current: true },
+    {
+        name: "My tasks",
+        href: "/",
+        icon: Bars4Icon,
+        current: false,
+    },
 ];
-const userNavigation = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
+const teams = [
+    { name: "Engineering", href: "#", bgColorClass: "bg-indigo-500" },
+    {
+        name: "Human Resources",
+        href: "#",
+        bgColorClass: "bg-green-500",
+    },
+    { name: "Customer Success", href: "#", bgColorClass: "bg-yellow-500" },
 ];
-const sidebarOpen = ref(false);
-let search = ref(false);
 
-// computed
-const store = useStore();
 const projects = computed(() => store.state.general.projects);
-const selectedProject = computed(() => store.state.general.selectedProject);
+
+const sidebarOpen = ref(false);
 
 // lifecycle
 onMounted(() => {
     store.commit("general/getProjects");
 });
-
-// methods
 </script>

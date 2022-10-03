@@ -13,7 +13,7 @@ class CommandStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,10 @@ class CommandStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'command' => ['required', 'max:255', 'string'],
+            'command' => ['required', 'string'],
             'description' => ['nullable'],
             'project_id' => ['required', 'exists:projects,id'],
+            'tags' => ['array'],
         ];
     }
 }

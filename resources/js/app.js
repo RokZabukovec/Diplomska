@@ -7,7 +7,7 @@ import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import store from "./Store/store.js";
-import VueHighlightJS from "vue-highlightjs";
+import { router } from "./Router/router";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -23,7 +23,7 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(store)
-            .use(VueHighlightJS)
+            .use(router)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

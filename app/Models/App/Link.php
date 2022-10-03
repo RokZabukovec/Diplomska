@@ -15,19 +15,9 @@ class Link extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['title', 'link', 'description', 'project_id'];
+    protected $fillable = ['title', 'url', 'description', 'project_id'];
 
     protected $searchableFields = ['*'];
-
-    /**
-     * Get the indexable data array for the model.
-     *
-     * @return array
-     */
-    public function toSearchableArray()
-    {
-        return $this->toArray();
-    }
 
     public static function getFilterableAttributes(): array
     {
@@ -43,6 +33,16 @@ class Link extends Model
             'link',
             'created_at',
         ];
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return $this->toArray();
     }
 
     public function project()

@@ -39,7 +39,9 @@ With minimal menu icon Requires JS
                         >
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
-                        <DeleteProjectModal></DeleteProjectModal>
+                        <DeleteProjectModal
+                            :project="project"
+                        ></DeleteProjectModal>
                     </MenuItem>
                 </div>
             </MenuItems>
@@ -51,7 +53,12 @@ With minimal menu icon Requires JS
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import DeleteProjectModal from "./DeleteProjectModal.vue";
-</script>
+import { onMounted } from "vue";
+let props = defineProps({
+    project: Object,
+});
 
-With simple header Requires JS © 2022 Tailwind Labs Inc. All rights reserved.
-Privacy policy Changelog
+onMounted(() => {
+    console.log("PROJECT EDIT MENU", props);
+});
+</script>

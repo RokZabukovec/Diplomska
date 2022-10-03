@@ -24,5 +24,6 @@ module.exports = {
         require("@tailwindcss/typography"),
         require("tailwindcss-font-inter"),
         require("@tailwindcss/typography"),
+        require("@tailwindcss/line-clamp"),
     ],
 };

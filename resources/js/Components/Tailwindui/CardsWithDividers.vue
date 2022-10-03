@@ -1,6 +1,6 @@
 <template>
     <div class="rounded-md bg-white shadow">
-        <ul class="divide-y divide-gray-200" role="list">
+        <ul role="list">
             <li
                 v-for="project in data"
                 :key="project.id"
@@ -14,11 +14,11 @@
             >
                 <Transition
                     enter="transition-opacity duration-75"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
+                    enter-from="opacity-0"
+                    enter-to="opacity-100"
                     leave="transition-opacity duration-150"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+                    leave-from="opacity-100"
+                    leave-to="opacity-0"
                 >
                     <div class="flex justify-between align-middle">
                         <div>
@@ -27,9 +27,11 @@
                             >
                                 {{ project.name }}
                             </h2>
-                            <p class="text-sm">{{ project.description }}</p>
+                            <p class="text-sm text-gray-400">
+                                {{ project.description }}
+                            </p>
                         </div>
-                        <ProjectEditMenu></ProjectEditMenu>
+                        <ProjectEditMenu :project="project"></ProjectEditMenu>
                     </div>
                 </Transition>
             </li>

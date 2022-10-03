@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\CommandRepository;
 use App\Repositories\ProjectRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->scoped(ProjectRepository::class, function () {
             return new ProjectRepository();
+        });
+        $this->app->scoped(CommandRepository::class, function () {
+            return new CommandRepository();
         });
     }
 

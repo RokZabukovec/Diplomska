@@ -135,19 +135,47 @@
                         </div>
                     </div>
                     <div v-if="Object.keys(categories)[idx] === 'Links'">
+                        <SkeletonLoader></SkeletonLoader>
                         <div
                             class="relative rounded-md p-3 bg-white my-3"
                             v-for="post in posts"
                             :key="post.id"
                         >
-                            <a
-                                :href="post.url"
-                                class="no-underline relative rounded-md hover:bg-gray-100 flex flex-col text-blue-500 hover:text-blue-600 my-0"
-                                target="_blank"
-                            >
-                                {{ post.title }}
-                            </a>
-                            <p class="line-clamp-3">
+                            <div class="flex justify-between">
+                                <a
+                                    :href="post.url"
+                                    class="no-underline relative rounded-md hover:bg-gray-100 text-blue-500 hover:text-blue-600 my-0"
+                                    target="_blank"
+                                >
+                                    <div class="flex items-center">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="w-5 h-5 mr-3"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+                                            />
+                                        </svg>
+
+                                        <span v-if="post.title">
+                                            {{ post.title }}
+                                        </span>
+                                        <span v-else>
+                                            {{ post.url }}
+                                        </span>
+                                    </div>
+                                </a>
+                                <div class="text-gray-400 text-sm">
+                                    {{ moment(post.created_at).format("LL") }}
+                                </div>
+                            </div>
+                            <p class="line-clamp-3" v-if="post.description">
                                 {{ post.description }}
                             </p>
                         </div>
@@ -165,12 +193,12 @@ import SlideOverNewCommand from "./SlideOverNewCommand.vue";
 import SlideOverNewPage from "./SlideOverNewPage.vue";
 import store from "../../Store/store.js";
 import SlideOverNewLink from "./SlideOverNewLink.vue";
+import SkeletonLoader from "./SkeletonLoader.vue";
 import moment from "moment";
 
 const categories = ref({
     Commands: computed(() => store.state.commands.commands),
     Pages: computed(() => store.state.pages.pages),
-    Snippets: computed(() => store.state.snippets.snippets),
     Links: computed(() => store.state.links.links),
 });
 </script>

@@ -12,13 +12,29 @@ const store = createStore({
             state: () => ({
                 projects: [],
                 selectedProject: null,
+                teams: [],
+                loading: false,
             }),
             mutations: {
+                async getTeams(state) {
+                    await axios
+                        .get("/api/user/teams")
+                        .then((response) => {
+                            if (response.status > 300) {
+                                return;
+                            }
+                            console.log(response);
+                            state.teams = response.data;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
                 async getProjects(state) {
                     await axios
                         .get("/api/projects")
                         .then((response) => {
-                            if (response.status > 200) {
+                            if (response.status > 300) {
                                 console.error(response);
                                 return;
                             }
@@ -38,10 +54,12 @@ const store = createStore({
             state: () => ({}),
             mutations: {
                 async storeProject(state, form) {
+                    store.state.general.loading = true;
                     await axios
                         .post("api/projects", form)
                         .then((response) => {
                             if (response.status > 300) {
+                                store.state.general.loading = false;
                                 state.error =
                                     "There was something wrong with the request.";
                                 return;
@@ -52,6 +70,9 @@ const store = createStore({
                         })
                         .catch((error) => {
                             console.error(error);
+                        })
+                        .finally(() => {
+                            store.state.general.loading = false;
                         });
                 },
                 async deleteProject(state, project) {
@@ -95,14 +116,19 @@ const store = createStore({
             }),
             mutations: {
                 async getCommands(state, projectId) {
+                    store.state.general.loading = true;
                     let commands = getCommands(projectId.value);
                     await commands
                         .then((response) => {
                             console.log(response);
                             store.state.commands.commands = response.data.data;
+                            store.state.general.loading = false;
                         })
                         .catch((e) => {
                             console.log(e);
+                        })
+                        .finally(() => {
+                            store.state.general.loading = false;
                         });
                 },
                 async deleteCommand(state, command) {
@@ -154,6 +180,7 @@ const store = createStore({
             }),
             mutations: {
                 async getPages(state, projectId) {
+                    store.state.general.loading = true;
                     let pages = getPages(projectId.value);
                     await pages
                         .then((response) => {
@@ -162,6 +189,9 @@ const store = createStore({
                         })
                         .catch((e) => {
                             console.log(e);
+                        })
+                        .finally(() => {
+                            store.state.general.loading = false;
                         });
                 },
 
@@ -188,6 +218,7 @@ const store = createStore({
             }),
             mutations: {
                 async getLinks(state, projectId) {
+                    store.state.general.loading = true;
                     let links = getLinks(projectId.value);
                     await links
                         .then((response) => {
@@ -195,6 +226,9 @@ const store = createStore({
                         })
                         .catch((e) => {
                             console.log(e);
+                        })
+                        .finally(() => {
+                            store.state.general.loading = false;
                         });
                 },
 
@@ -206,7 +240,7 @@ const store = createStore({
                                 console.log(response);
                                 return;
                             }
-                            store.state.links.links.push(response);
+                            store.state.links.links.push(response.data.data);
                         })
                         .catch((e) => {
                             console.log(e);

@@ -111,6 +111,7 @@ import moment from "moment";
 
 import { ChevronRightIcon } from "@heroicons/vue/20/solid";
 import ProjectEditMenu from "./ProjectEditMenu.vue";
+import SkeletonLoader from "./SkeletonLoader.vue";
 
 const projects = computed(() => store.state.general.projects);
 

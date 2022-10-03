@@ -109,17 +109,9 @@
                                         >
                                             <a
                                                 v-for="team in teams"
-                                                :key="team.name"
-                                                :href="team.href"
+                                                :key="team.id"
                                                 class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                             >
-                                                <span
-                                                    :class="[
-                                                        team.bgColorClass,
-                                                        'w-2.5 h-2.5 mr-4 rounded-full',
-                                                    ]"
-                                                    aria-hidden="true"
-                                                />
                                                 <span class="truncate">{{
                                                     team.name
                                                 }}</span>
@@ -609,22 +601,15 @@ const navigation = [
         current: false,
     },
 ];
-const teams = [
-    { name: "Engineering", href: "#", bgColorClass: "bg-indigo-500" },
-    {
-        name: "Human Resources",
-        href: "#",
-        bgColorClass: "bg-green-500",
-    },
-    { name: "Customer Success", href: "#", bgColorClass: "bg-yellow-500" },
-];
 
 const projects = computed(() => store.state.general.projects);
+const teams = computed(() => store.state.general.teams);
 
 const sidebarOpen = ref(false);
 
 // lifecycle
 onMounted(() => {
     store.commit("general/getProjects");
+    store.commit("general/getTeams");
 });
 </script>

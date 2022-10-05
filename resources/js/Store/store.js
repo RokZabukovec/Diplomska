@@ -11,6 +11,7 @@ const store = createStore({
             namespaced: true,
             state: () => ({
                 projects: [],
+                pined: [],
                 selectedProject: null,
                 teams: [],
                 loading: false,
@@ -38,7 +39,9 @@ const store = createStore({
                                 console.error(response);
                                 return;
                             }
-                            state.projects = response.data.data;
+                            console.log(response);
+                            state.projects = response.data.data.projects;
+                            state.pined = response.data.data.pined;
                         })
                         .catch((error) => {
                             console.error(error);
@@ -105,6 +108,29 @@ const store = createStore({
                         })
                         .catch((error) => {
                             console.error(error);
+                        });
+                },
+                pinProject(state, project) {
+                    let projects = store.state.general.projects;
+                    axios
+                        .put(`api/projects/${project.id}/pin`)
+                        .then((response) => {
+                            let index = projects
+                                .map((project) => project.id)
+                                .indexOf(project);
+                            project.pined = !project.pined;
+                            if (!project.pined) {
+                                project.pined = false;
+                                store.state.general.pined.splice(index, 1);
+                            } else {
+                                project.pined = true;
+                                store.state.general.pined.push(project);
+                            }
+
+                            store.state.general.projects[index] = project;
+                        })
+                        .catch((error) => {
+                            console.log(error);
                         });
                 },
             },

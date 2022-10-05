@@ -11,6 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ProjectController extends Controller
 {
@@ -100,5 +101,18 @@ class ProjectController extends Controller
         $this->authorize('delete', $project);
         $this->projects->destroy($project);
         return new ProjectResource($project);
+    }
+
+    public function pin(Request $request, Project $project)
+    {
+        $project->pined = !$project->pined;
+        $saved = $project->save();
+
+        if ($saved){
+            $key = Str::replace('?', $request->user()->id, 'all_projects_from_user_?');
+            Cache::forget($key);
+            return $project;
+        }
+        return new BadRequestException();
     }
 }

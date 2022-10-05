@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 
 use App\Helpers\CacheKey;
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Models\Project;
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -15,13 +16,17 @@ use LogicException;
 class ProjectRepository implements RepositoryInterface
 {
 
-    public function getAll(int $user_id): Collection
+    public function getAll(int $user_id): array
     {
-        $key = Str::replace('?', $user_id, CacheKey::$userProjects);
+        $projects = Project::where(['user_id' => $user_id])
+            ->get();
+        $pined = Project::where(['user_id' => $user_id, 'pined' => true])
+            ->get();
 
-        return Cache::rememberForever($key, function() use ($user_id) {
-            return Project::where(['user_id' => $user_id])->get();
-        });
+        return [
+            'projects' => $projects,
+            'pined' => $pined
+        ];
     }
 
     public function store(ProjectStoreRequest $request): ?Project

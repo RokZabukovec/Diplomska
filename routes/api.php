@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->get('/user/teams', function (Request $request
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
 
+Route::put('/projects/{project}/pin', [ProjectController::class, 'pin'])->name('projects.pin');
+
 Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
 
 Route::apiResource('pages', PageController::class)->middleware('auth:sanctum');

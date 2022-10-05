@@ -1,5 +1,6 @@
 <template>
     <div class="w-full inset-0 py-6 px-1 sm:px-2 lg:px-8 prose">
+        <Breadcrumbs></Breadcrumbs>
         <TabGroup>
             <TabList class="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                 <Tab v-slot="{ selected }" as="template">

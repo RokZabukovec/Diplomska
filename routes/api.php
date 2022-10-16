@@ -38,3 +38,6 @@ Route::apiResource('pages', PageController::class)->middleware('auth:sanctum');
 Route::apiResource('links', LinkController::class)->middleware('auth:sanctum');
 
 Route::apiResource('snippets', SnippetController::class)->middleware('auth:sanctum');
+
+
+Route::middleware('auth:sanctum')->get('/user/teams/projects', [ProjectController::class, 'teamsProjects']);

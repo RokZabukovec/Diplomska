@@ -19,14 +19,10 @@ const createTeam = () => {
 </script>
 
 <template>
-    <FormSection @submitted="createTeam">
-        <template #title> Team Details </template>
-
-        <template #description>
-            Create a new team to collaborate with others on projects.
-        </template>
-
-        <template #form>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- We've used 3xl here, but feel free to try other max-widths based on your needs -->
+    <div class="mx-auto max-w-3xl">
+        <form @submit.prevent="createTeam">
             <div class="col-span-6">
                 <InputLabel value="Team Owner" />
 
@@ -57,15 +53,14 @@ const createTeam = () => {
                 />
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
-        </template>
-
-        <template #actions>
             <PrimaryButton
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
                 Create
             </PrimaryButton>
-        </template>
-    </FormSection>
+        </form>
+    </div>
+  </div>
+
 </template>

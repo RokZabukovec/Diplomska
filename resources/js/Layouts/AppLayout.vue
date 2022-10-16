@@ -7,6 +7,7 @@ import store from "../Store/store";
 
 defineProps({
     title: String,
+
 });
 
 onMounted(() => {
@@ -23,7 +24,7 @@ onMounted(() => {
         <div class="min-h-screen bg-gray-100">
             <!-- Page Content -->
             <main>
-                <MultiColumnLayout></MultiColumnLayout>
+                <slot></slot>
             </main>
         </div>
     </div>

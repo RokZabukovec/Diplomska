@@ -10,6 +10,7 @@ const store = createStore({
         general: {
             namespaced: true,
             state: () => ({
+                user:{},
                 projects: [],
                 pined: [],
                 selectedProject: null,
@@ -33,15 +34,31 @@ const store = createStore({
                 },
                 async getProjects(state) {
                     await axios
-                        .get("/api/projects")
+                        .get("/api/user/teams/projects")
                         .then((response) => {
                             if (response.status > 300) {
                                 console.error(response);
                                 return;
                             }
-                            console.log(response);
-                            state.projects = response.data.data.projects;
-                            state.pined = response.data.data.pined;
+                            state.projects = response.data;
+
+                            state.projects.map((user)=>{
+                                user.projects.map(project => {
+                                    let splitName = project.name.split(" ");
+                                
+                                    if(splitName.length === 1){
+                                        project.initials = splitName[0].slice(0, 2);
+                                    }
+                                
+                                    if(splitName.length >= 2) {
+                                        project.initials = splitName[0].slice(0, 1) + splitName[1].slice(0, 1);
+                                    }
+
+                                    if(!state.pined.find(p => p.id === project.id) && project.pined){
+                                        state.pined.push(project);
+                                    }
+                                });
+                            });
                         })
                         .catch((error) => {
                             console.error(error);
@@ -50,6 +67,9 @@ const store = createStore({
                 selectProject(state, selected) {
                     state.selectedProject = selected;
                 },
+                setUser(state, user) {
+                    state.user = user;
+                }
             },
         },
         projects: {
@@ -67,9 +87,15 @@ const store = createStore({
                                     "There was something wrong with the request.";
                                 return;
                             }
-                            store.state.general.projects.unshift(
-                                response.data.data
-                            );
+                            let user = store.state.general.user
+                            store.state.general.projects.map((teamUser)=>{
+                                if(user.id === teamUser.id){
+                                    teamUser.projects.push(
+                                        response.data.data
+                                    );
+                                }
+                            });
+
                         })
                         .catch((error) => {
                             console.error(error);
@@ -84,27 +110,19 @@ const store = createStore({
                         .then((response) => {
                             if (response.status > 300) {
                                 console.log(response);
+                                return;
                             }
-                            var projects = store.state.general.projects;
-                            var selectedProject =
-                                store.state.general.selectedProject;
-                            const indexOfObject = projects.findIndex(
-                                (object) => {
-                                    return object.id === project.id;
-                                }
-                            );
-                            store.state.general.projects.splice(
-                                indexOfObject,
-                                1
-                            );
-
-                            store.state.general.selectedProject =
-                                projects.findIndex((object) => {
-                                    return (
-                                        object.id !== null &&
-                                        object.id !== project.id
+                            var teamUsers = store.state.general.projects;
+                            let user = store.state.general.user
+                            store.state.general.projects.map((teamUser)=>{
+                                if(user.id === teamUser.id){
+                                    let index = teamUser.projects.findIndex(teamProject => teamProject.id == project.id);
+                                    teamUser.projects.splice(
+                                        index,
+                                        1
                                     );
-                                });
+                                }
+                            });
                         })
                         .catch((error) => {
                             console.error(error);

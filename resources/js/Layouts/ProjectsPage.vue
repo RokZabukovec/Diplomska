@@ -810,6 +810,12 @@ import {
 } from "@heroicons/vue/20/solid";
 import store from "../Store/store";
 
+const props = defineProps({
+    user: {
+        type: Object,
+        default: null,
+    },
+});
 const navigation = [
     { name: "Home", href: "#", icon: HomeIcon, current: true },
     {

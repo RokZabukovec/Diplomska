@@ -188,7 +188,6 @@
                                     </button>
                                 </span>
                             </template>
-
                             <template #content>
                                 <!-- Account Management -->
                                 <div

@@ -28,4 +28,4 @@ createInertiaApp({
             .mount(el);
     },
 }).then(() => console.log("Welcome to WhatNow"));
-InertiaProgress.init({ color: "#4B5563" });
+InertiaProgress.init({ color: "#dag900" });

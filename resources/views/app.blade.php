@@ -11,8 +11,7 @@
     @vite('resources/js/app.js')
     @inertiaHead
 </head>
-<body
-    class="font-inter font-feature-default antialiased h-full overflow-scroll">
+<body class="font-inter font-feature-default antialiased h-full overflow-scroll">
 @inertia
 </body>
 </html>

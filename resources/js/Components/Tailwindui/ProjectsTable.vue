@@ -17,17 +17,17 @@
                             'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md',
                         ]"
                     >
-                        {{ initials(project.name) }}
+                        {{ project.initials }}
                     </div>
                     <div
                         class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white"
                     >
                         <div class="flex-1 truncate px-4 py-2 text-sm">
-                            <a
-                                href="#"
+                            <button
+                                @click="selectProject(project)"
                                 class="font-medium text-gray-900 hover:text-gray-600"
-                                >{{ project.name }}</a
-                            >
+                                >{{ project.name }}</button>
+                            
                             <p class="text-gray-500">
                                 {{ moment(project.created_at).format("LL") }}
                             </p>
@@ -130,11 +130,13 @@
         </div>
 
         <!-- Projects table (small breakpoint and up) -->
-        <div class="mt-8 hidden sm:block">
+        <div class="hidden sm:block">
             <div
                 class="inline-block min-w-full border-b border-gray-200 align-middle"
             >
-                <table class="min-w-full">
+            <div v-for="user, id in userProjects" :key="id">
+                <UserHeading :user="user"></UserHeading>
+                <table class="min-w-full" >
                     <thead>
                         <tr class="border-t border-gray-200">
                             <th
@@ -156,7 +158,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 bg-white">
-                        <tr v-for="project in projects" :key="project.id">
+                        <tr v-for="project in user.projects" :key="project.id">
                             <td
                                 class="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium text-gray-900"
                             >
@@ -215,6 +217,8 @@
                     </tbody>
                 </table>
             </div>
+
+            </div>
         </div>
     </div>
 </template>
@@ -229,19 +233,30 @@ import {
     EllipsisVerticalIcon,
 } from "@heroicons/vue/20/solid";
 import ProjectEditMenu from "./ProjectEditMenu.vue";
+import UserHeading from "./UserHeading.vue";
 
-const projects = computed(() => store.state.general.projects);
+const userProjects = computed(() => store.state.general.projects);
 const pined = computed(() => store.state.general.pined);
-const initials = computed((projectName) => {
-    return "RZ";
-});
 
 function selectProject(project) {
     store.commit("general/selectProject", project);
 }
 function pinProject(project) {
+    project.initials = initials(project).toUpperCase();
     store.commit("projects/pinProject", project);
 }
+
+let initials = (project) => {
+    let splitName = project.name.split(" ");
+
+    if(splitName.length === 1){
+        return splitName[0].slice(0, 2);
+    }
+
+    if(splitName.length >= 2) {
+        return splitName[0].slice(0, 1) + splitName[1].slice(0, 1);
+    }
+};
 </script>
 
 <style scoped></style>

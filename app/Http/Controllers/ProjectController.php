@@ -6,6 +6,7 @@ use App\Helpers\CacheKey;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Models\User;
 use App\Repositories\ProjectRepository;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -114,5 +115,14 @@ class ProjectController extends Controller
             return $project;
         }
         return new BadRequestException();
+    }
+
+    public function teamsProjects(Request $request){
+        
+        $users = request()->user()->currentTeam->allUsers();
+
+        $user_ids = $users->pluck('id');
+
+        return User::whereIn('id', $user_ids)->with('projects')->get();
     }
 }

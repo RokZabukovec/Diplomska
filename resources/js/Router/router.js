@@ -4,10 +4,9 @@ import ProjectContentSelection from "../Components/Tailwindui/ProjectContentSele
 import CreateTeamForm from "../Pages/Teams/Partials/CreateTeamForm.vue";
 import TeamMemberManager from "../Pages/Teams/Partials/TeamMemberManager.vue";
 
-
 const dashboardRoutes = [
     { path: "/project/:id", component: ProjectContentSelection },
-    { path: "/", component: ProjectsTable},
+    { path: "/", component: ProjectsTable },
 ];
 
 export const router = VueRouter.createRouter({

@@ -4,6 +4,7 @@
             class="inline-flex justify-between items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             type="button"
             @click="open = true"
+            @open-new-project = "open = true"
         >
             New project
             <PlusIcon aria-hidden="true" class="ml-2 -mr-0.5 h-4 w-4" />
@@ -160,7 +161,71 @@
                                                         aria-hidden="true"
                                                         class="text-sm font-medium text-gray-900"
                                                     >
-                                                        Privacy
+                                                        Color
+                                                    </div>
+
+                                                    <div>
+                                                        <RadioGroup
+                                                            v-model="
+                                                                form.label_color
+                                                            "
+                                                            class="mt-4"
+                                                        >
+                                                            <RadioGroupLabel
+                                                                class="sr-only"
+                                                            >
+                                                                Choose a color
+                                                            </RadioGroupLabel>
+                                                            <div
+                                                                class="flex items-center space-x-3"
+                                                            >
+                                                                <RadioGroupOption
+                                                                    as="template"
+                                                                    v-for="color in product.colors"
+                                                                    :key="
+                                                                        color.name
+                                                                    "
+                                                                    :value="
+                                                                        color.name
+                                                                    "
+                                                                    v-slot="{
+                                                                        active,
+                                                                        checked,
+                                                                    }"
+                                                                >
+                                                                    <div
+                                                                        :class="[
+                                                                            color.selectedClass,
+                                                                            active &&
+                                                                            checked
+                                                                                ? 'ring ring-offset-1'
+                                                                                : '',
+                                                                            !active &&
+                                                                            checked
+                                                                                ? 'ring-2'
+                                                                                : '',
+                                                                            '-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none',
+                                                                        ]"
+                                                                    >
+                                                                        <RadioGroupLabel
+                                                                            as="span"
+                                                                            class="sr-only"
+                                                                        >
+                                                                            {{
+                                                                                color.name
+                                                                            }}
+                                                                        </RadioGroupLabel>
+                                                                        <span
+                                                                            aria-hidden="true"
+                                                                            :class="[
+                                                                                color.class,
+                                                                                'h-8 w-8 border border-black border-opacity-10 rounded-full',
+                                                                            ]"
+                                                                        />
+                                                                    </div>
+                                                                </RadioGroupOption>
+                                                            </div>
+                                                        </RadioGroup>
                                                     </div>
                                                     <div
                                                         class="space-y-5 sm:col-span-2"
@@ -364,7 +429,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { StarIcon } from "@heroicons/vue/20/solid";
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import {
     Dialog,
     DialogPanel,
@@ -417,10 +484,6 @@ const team = [
     },
 ];
 
-let form = ref({
-    name: "",
-    description: "",
-});
 // computed
 const store = useStore();
 const projects = computed(() => store.state.general.projects);
@@ -430,4 +493,29 @@ function storeProject() {
     open.value = false;
     store.commit("projects/storeProject", form.value);
 }
+
+const product = {
+    colors: [
+        { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
+        { name: "Red", class: "bg-red-400", selectedClass: "ring-red-400" },
+        {
+            name: "Green",
+            class: "bg-green-400",
+            selectedClass: "ring-green-400",
+        },
+        { name: "Blue", class: "bg-blue-400", selectedClass: "ring-blue-400" },
+        {
+            name: "Orange",
+            class: "bg-orange-400",
+            selectedClass: "ring-orange-400",
+        },
+    ],
+};
+
+let form = ref({
+    name: "",
+    description: "",
+    label_color: product.colors[0].name,
+});
+
 </script>

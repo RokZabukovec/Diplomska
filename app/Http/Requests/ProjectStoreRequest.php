@@ -25,7 +25,8 @@ class ProjectStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255', 'string'],
-            'description' => ['nullable']
+            'description' => ['nullable'],
+            'label_color' => ['required']
         ];
     }
 }

@@ -4,7 +4,9 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SnippetController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,3 +43,7 @@ Route::apiResource('snippets', SnippetController::class)->middleware('auth:sanct
 
 
 Route::middleware('auth:sanctum')->get('/user/teams/projects', [ProjectController::class, 'teamsProjects']);
+
+Route::middleware('auth:sanctum')->put('/user/teams/switch', [TeamController::class, 'switchTeam']);
+
+Route::middleware('auth:sanctum')->get('/search', [SearchController::class, 'search']);

@@ -108,10 +108,12 @@
                                             role="group"
                                         >
                                             <a
-                                            href="#"
+                                                href="#"
                                                 v-for="team in teams"
                                                 :key="team.id"
-                                                @click.prevent="switchToTeam(team)"
+                                                @click.prevent="
+                                                    switchToTeam(team)
+                                                "
                                                 class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                             >
                                                 <span class="truncate">{{
@@ -148,7 +150,7 @@
                 <Menu as="div" class="relative inline-block px-3 text-left">
                     <div>
                         <MenuButton
-                            class="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                            class="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 mt-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                         >
                             <span
                                 class="flex w-full items-center justify-between"
@@ -162,7 +164,10 @@
                                         :src="props.page.user.profile_photo_url"
                                     />
                                     <span class="flex min-w-0 flex-1 flex-col">
-                                        <span class="truncate text-sm font-medium text-gray-900">{{ props.page.user.name }}</span>
+                                        <span
+                                            class="truncate text-sm font-medium text-gray-900"
+                                            >{{ props.page.user.name }}</span
+                                        >
                                     </span>
                                 </span>
                                 <ChevronUpDownIcon
@@ -244,7 +249,8 @@
                                                 : 'text-gray-700',
                                             'block px-4 py-2 text-sm',
                                         ]"
-                                        href="#" @click.prevent="logout()"
+                                        href="#"
+                                        @click.prevent="logout()"
                                         >Logout</a
                                     >
                                 </MenuItem>
@@ -271,7 +277,9 @@
                             name="search"
                             placeholder="Search"
                             type="text"
+                            @click="toggleSpotlight(true)"
                         />
+                        <Spotlight :open="spotlightOpen"></Spotlight>
                     </div>
                 </div>
                 <!-- Navigation -->
@@ -311,7 +319,13 @@
                                 @click.prevent="switchToTeam(team)"
                                 class="relative group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
                             >
-                            <span v-if="team.personal_team" class="absolute bg-green-500 top-0 left-0 h-full w-1"></span>
+                                <span
+                                    v-if="
+                                        team.id ===
+                                        props.page.user.current_team_id
+                                    "
+                                    class="absolute bg-green-500 top-0 left-0 h-full w-1"
+                                ></span>
                                 <span
                                     :class="[
                                         team.bgColorClass,
@@ -322,17 +336,12 @@
                                 <span class="truncate">{{ team.name }}</span>
                             </a>
                         </div>
-                        <RouterLink to="/teams/create" class="absolute mt-5 mx-auto">
-                            <button type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                Create team
-                            </button>
-                        </RouterLink>
                     </div>
                 </nav>
             </div>
         </div>
         <!-- Main column -->
-        <div class="flex flex-col lg:pl-64">
+        <div class="flex flex-col lg:pl-64 min-h-screen">
             <!-- Search header -->
             <div
                 class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:hidden"
@@ -475,10 +484,10 @@
                                                         : 'text-gray-700',
                                                     'block px-4 py-2 text-sm',
                                                 ]"
-                                                href="#" @click.prevent="logout()"
+                                                href="#"
+                                                @click.prevent="logout()"
                                                 >Logout</a
                                             >
-                                            
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -559,6 +568,7 @@
 <script setup>
 import moment from "moment";
 import { Inertia } from "@inertiajs/inertia";
+import Spotlight from "./Spotlight.vue";
 
 import { computed, onMounted, ref } from "vue";
 import {
@@ -585,9 +595,9 @@ import {
 import store from "../../Store/store.js";
 import SlideOverNewProject from "./SlideOverNewProject.vue";
 
-const navigation = [
-    { name: "Home", href: "/", icon: HomeIcon, current: true },
-];
+let spotlightOpen = ref(false);
+
+const navigation = [{ name: "Home", href: "/", icon: HomeIcon, current: true }];
 
 const props = defineProps({
     page: {
@@ -609,19 +619,14 @@ onMounted(() => {
 
 function logout() {
     Inertia.post(route("logout"));
-};
+}
 
 function switchToTeam(team) {
-    store.commit("general/switchTeam",team.id);
-    console.log(team);
-    Inertia.put(
-        route("current-team.update"),
-        {
-            team_id: team.id,
-        },
-        {
-            preserveState: false,
-        }
-    );
-};
+    store.commit("general/switchTeam", team.id);
+    window.location.reload();
+}
+
+function toggleSpotlight(value) {
+    spotlightOpen.value = value;
+}
 </script>

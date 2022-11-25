@@ -1,7 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import MultiColumnLayout from "../Components/Tailwindui/MultiColumnLayout.vue";
-
 </script>
 
 <template>

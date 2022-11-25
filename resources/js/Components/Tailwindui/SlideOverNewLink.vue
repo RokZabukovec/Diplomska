@@ -268,13 +268,13 @@ import store from "../../Store/store";
 
 let projectId = computed(() => store.state.general.selectedProject.id);
 
-let form = {
+let form = ref({
     title: "",
     url: "",
     description: "",
     tags: [],
     project_id: projectId.value,
-};
+});
 
 const tagsInput = ref("");
 let open = ref(false);
@@ -290,12 +290,12 @@ function storeLink() {
 }
 
 function addToTags() {
-    form.tags.push(tagsInput.value.trim());
+    form.value.tags.push(tagsInput.value.trim());
     tagsInput.value = "";
 }
 
 function removeTag(index) {
-    form.tags.splice(index, 1);
-    console.log(form.tags);
+    console.log(form.value.tags);
+    form.value.tags.splice(0, 1);
 }
 </script>

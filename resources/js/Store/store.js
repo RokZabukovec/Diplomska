@@ -10,7 +10,7 @@ const store = createStore({
         general: {
             namespaced: true,
             state: () => ({
-                user:{},
+                user: {},
                 projects: [],
                 pined: [],
                 selectedProject: null,
@@ -18,14 +18,28 @@ const store = createStore({
                 loading: false,
             }),
             mutations: {
+                async switchTeam(state, team) {
+                    await axios
+                        .put("/api/user/teams/switch?team_id=" + team)
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            state.teams = response.data;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                },
                 async getTeams(state) {
                     await axios
                         .get("/api/user/teams")
                         .then((response) => {
                             if (response.status > 300) {
+                                console.log(response);
                                 return;
                             }
-                            console.log(response);
                             state.teams = response.data;
                         })
                         .catch((error) => {
@@ -42,22 +56,23 @@ const store = createStore({
                             }
                             state.projects = response.data;
 
-                            state.projects.map((user)=>{
-                                user.projects.map(project => {
-                                    let splitName = project.name.split(" ");
-                                
-                                    if(splitName.length === 1){
-                                        project.initials = splitName[0].slice(0, 2);
-                                    }
-                                
-                                    if(splitName.length >= 2) {
-                                        project.initials = splitName[0].slice(0, 1) + splitName[1].slice(0, 1);
-                                    }
+                            state.projects.map((project) => {
+                                let splitName = project.name.split(" ");
 
-                                    if(!state.pined.find(p => p.id === project.id) && project.pined){
-                                        state.pined.push(project);
-                                    }
-                                });
+                                if (splitName.length === 1) {
+                                    project.initials = splitName[0].slice(
+                                        0,
+                                        2
+                                    );
+                                }
+
+                                if (splitName.length >= 2) {
+                                    project.initials =
+                                        splitName[0].slice(0, 1) +
+                                        splitName[1].slice(0, 1);
+                                }
+
+
                             });
                         })
                         .catch((error) => {
@@ -69,7 +84,7 @@ const store = createStore({
                 },
                 setUser(state, user) {
                     state.user = user;
-                }
+                },
             },
         },
         projects: {
@@ -87,15 +102,8 @@ const store = createStore({
                                     "There was something wrong with the request.";
                                 return;
                             }
-                            let user = store.state.general.user
-                            store.state.general.projects.map((teamUser)=>{
-                                if(user.id === teamUser.id){
-                                    teamUser.projects.push(
-                                        response.data.data
-                                    );
-                                }
-                            });
-
+                            let user = store.state.general.user;
+                            store.state.general.projects.push(response.data.data);
                         })
                         .catch((error) => {
                             console.error(error);
@@ -112,15 +120,15 @@ const store = createStore({
                                 console.log(response);
                                 return;
                             }
-                            var teamUsers = store.state.general.projects;
-                            let user = store.state.general.user
-                            store.state.general.projects.map((teamUser)=>{
-                                if(user.id === teamUser.id){
-                                    let index = teamUser.projects.findIndex(teamProject => teamProject.id == project.id);
-                                    teamUser.projects.splice(
-                                        index,
-                                        1
+                            var projects = store.state.general.projects;
+                            let user = store.state.general.user;
+                            store.state.general.projects.map((stored) => {
+                                if (stored.id === project.id) {
+                                    let index = projects.findIndex(
+                                        (storedProject) =>
+                                        storedProject.id == project.id
                                     );
+                                    store.state.general.projects.splice(index, 1);
                                 }
                             });
                         })
@@ -157,16 +165,18 @@ const store = createStore({
             namespaced: true,
             state: () => ({
                 commands: [],
+                pagination: {}
             }),
             mutations: {
-                async getCommands(state, projectId) {
+                async getCommands(state, projectId, page = 1) {
+                    console.log('getCommands', projectId, page);
                     store.state.general.loading = true;
-                    let commands = getCommands(projectId.value);
+                    let commands = getCommands(projectId.value, page);
                     await commands
                         .then((response) => {
                             console.log(response);
                             store.state.commands.commands = response.data.data;
-                            store.state.general.loading = false;
+                            store.state.commands.pagination = response.data;
                         })
                         .catch((e) => {
                             console.log(e);

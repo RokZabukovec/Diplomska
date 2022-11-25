@@ -1,10 +1,8 @@
 <template>
-    <div>
-        <PlusIcon
-            aria-hidden="true"
-            class="right-2 cursor-pointer ml-2 -mr-0.5 h-5 w-5 hover:text-indigo-700"
-            @click="open = true"
-        />
+    <div class="my-2">
+        <button @click="open = true" type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Add +
+        </button>
         <TransitionRoot :show="open" as="template">
             <Dialog as="div" class="relative z-10" @close="open = false">
                 <div class="fixed inset-0" />
@@ -248,32 +246,28 @@ import store from "../../Store/store";
 
 let projectId = computed(() => store.state.general.selectedProject.id);
 
-let form = {
+let form = ref({
     command: "",
     description: "",
     project_id: parseInt(projectId.value),
     tags: [],
-};
+});
 
 const tagsInput = ref("");
 let open = ref(false);
 
-onMounted(() => {
-    store.commit("commands/getCommands", projectId);
-});
-
 function storeCommand() {
-    store.commit("commands/storeCommand", form);
+    store.commit("commands/storeCommand", form.value);
     open.value = false;
     for (let data in form) delete form[data];
 }
 
 function addToTags() {
-    form.tags.push(tagsInput.value.trim());
+    form.value.tags.push(tagsInput.value.trim());
     tagsInput.value = "";
 }
 
 function removeTag(index) {
-    form.tags.splice(index, 1);
+    form.value.tags.splice(index, 1);
 }
 </script>

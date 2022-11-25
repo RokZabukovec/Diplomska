@@ -7,7 +7,6 @@ import store from "../Store/store";
 
 defineProps({
     title: String,
-
 });
 
 onMounted(() => {

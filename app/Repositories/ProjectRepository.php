@@ -34,7 +34,7 @@ class ProjectRepository implements RepositoryInterface
         $project = Project::create(
             array_merge($request->validated(),
                 ['user_id' => $request->user()->id]));
-
+                
         if ($project instanceof Project){
             $key = Str::replace('?', $request->user()->id, 'all_projects_from_user_?');
             Cache::forget($key);

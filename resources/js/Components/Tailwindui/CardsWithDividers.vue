@@ -5,26 +5,15 @@
                 v-for="project in data"
                 :key="project.id"
                 :class="{
-                    'bg-indigo-600 text-white':
-                        projectSelected != null &&
-                        project.id === projectSelected.id,
+                    'bg-indigo-600 text-white': projectSelected != null && project.id === projectSelected.id,
                 }"
                 class="px-6 py-4 cursor-pointer rounded"
                 @click="selectProject(project)"
             >
-                <Transition
-                    enter="transition-opacity duration-75"
-                    enter-from="opacity-0"
-                    enter-to="opacity-100"
-                    leave="transition-opacity duration-150"
-                    leave-from="opacity-100"
-                    leave-to="opacity-0"
-                >
+                <Transition enter="transition-opacity duration-75" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity duration-150" leave-from="opacity-100" leave-to="opacity-0">
                     <div class="flex justify-between align-middle">
                         <div>
-                            <h2
-                                class="flex justify-between font-bold leading-7 sm:truncate sm:tracking-tight"
-                            >
+                            <h2 class="flex justify-between font-bold leading-7 sm:truncate sm:tracking-tight">
                                 {{ project.name }}
                             </h2>
                             <p class="text-sm text-gray-400">

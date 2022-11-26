@@ -7,7 +7,6 @@ use App\Http\Requests\CommandStoreRequest;
 use App\Models\Command;
 use App\Models\Project;
 use App\Repositories\Interfaces\RepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -16,11 +15,7 @@ class CommandRepository implements RepositoryInterface
 {
     public function getAll(int $project_id): LengthAwarePaginator
     {
-        $key = Str::replace('?', $project_id, CacheKey::$userCommands);
-
-        return Cache::rememberForever($key, function () use ($project_id) {
-            return Command::where(['project_id' => $project_id])->with('tags')->paginate(2);
-        });
+        return Command::where(['project_id' => $project_id])->with('tags')->paginate(10);
     }
 
     public function store(CommandStoreRequest $request): ?Command

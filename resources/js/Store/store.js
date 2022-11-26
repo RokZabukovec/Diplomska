@@ -60,19 +60,12 @@ const store = createStore({
                                 let splitName = project.name.split(" ");
 
                                 if (splitName.length === 1) {
-                                    project.initials = splitName[0].slice(
-                                        0,
-                                        2
-                                    );
+                                    project.initials = splitName[0].slice(0, 2);
                                 }
 
                                 if (splitName.length >= 2) {
-                                    project.initials =
-                                        splitName[0].slice(0, 1) +
-                                        splitName[1].slice(0, 1);
+                                    project.initials = splitName[0].slice(0, 1) + splitName[1].slice(0, 1);
                                 }
-
-
                             });
                         })
                         .catch((error) => {
@@ -98,8 +91,7 @@ const store = createStore({
                         .then((response) => {
                             if (response.status > 300) {
                                 store.state.general.loading = false;
-                                state.error =
-                                    "There was something wrong with the request.";
+                                state.error = "There was something wrong with the request.";
                                 return;
                             }
                             let user = store.state.general.user;
@@ -124,10 +116,7 @@ const store = createStore({
                             let user = store.state.general.user;
                             store.state.general.projects.map((stored) => {
                                 if (stored.id === project.id) {
-                                    let index = projects.findIndex(
-                                        (storedProject) =>
-                                        storedProject.id == project.id
-                                    );
+                                    let index = projects.findIndex((storedProject) => storedProject.id == project.id);
                                     store.state.general.projects.splice(index, 1);
                                 }
                             });
@@ -141,9 +130,7 @@ const store = createStore({
                     axios
                         .put(`api/projects/${project.id}/pin`)
                         .then((response) => {
-                            let index = projects
-                                .map((project) => project.id)
-                                .indexOf(project);
+                            let index = projects.map((project) => project.id).indexOf(project);
                             project.pined = !project.pined;
                             if (!project.pined) {
                                 project.pined = false;
@@ -165,16 +152,19 @@ const store = createStore({
             namespaced: true,
             state: () => ({
                 commands: [],
-                pagination: {}
+                pagination: {},
+                data: {},
             }),
             mutations: {
-                async getCommands(state, projectId, page = 1) {
-                    console.log('getCommands', projectId, page);
+                async getCommands(state, { project, page }) {
+                    console.log("STATE: ", state);
+                    console.log("PAGE IN STORE: ", page);
                     store.state.general.loading = true;
-                    let commands = getCommands(projectId.value, page);
+                    let commands = getCommands(project, page);
                     await commands
                         .then((response) => {
                             console.log(response);
+                            store.state.commands.data = response;
                             store.state.commands.commands = response.data.data;
                             store.state.commands.pagination = response.data;
                         })
@@ -194,15 +184,10 @@ const store = createStore({
                             }
                             var commands = store.state.general.commands;
 
-                            const indexOfObject = commands.findIndex(
-                                (object) => {
-                                    return object.id === command.value.id;
-                                }
-                            );
-                            store.state.general.commands.splice(
-                                indexOfObject,
-                                1
-                            );
+                            const indexOfObject = commands.findIndex((object) => {
+                                return object.id === command.value.id;
+                            });
+                            store.state.general.commands.splice(indexOfObject, 1);
                         })
                         .catch((error) => {
                             console.error(error);
@@ -217,9 +202,7 @@ const store = createStore({
                                 console.log(response);
                                 return;
                             }
-                            store.state.commands.commands.push(
-                                response.data.data
-                            );
+                            store.state.commands.commands.push(response.data.data);
                         })
                         .catch((e) => {
                             console.log(e);

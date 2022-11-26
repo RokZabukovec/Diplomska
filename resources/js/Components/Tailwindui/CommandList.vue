@@ -1,53 +1,50 @@
 <template>
     <div class="overflow-hidden bg-white shadow sm:rounded-md">
-      <ul role="list" class="divide-y divide-gray-200">
-        <li v-for="command in commands" :key="command.id">
-          <a href="#" class="block hover:bg-gray-50">
-            <div class="px-4 py-4 sm:px-6">
-              <div class="flex items-center justify-between">
-                <p class="truncate text-sm font-medium text-indigo-600" v-html="colorizeCommand(command.command)"></p>
-              </div>
-              <div class="mt-2 sm:flex sm:justify-between">
-                <div class="sm:flex">
-                  <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                    {{ command.description }}
-                  </p>
-                </div>
-              </div>
-              <div class="flex flex-shrink-0 mt-3">
-                  <p class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800" v-for="tag in command.tags" :key="tag.id">
-                    {{ tag.name.en }}
-                </p>
-                </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <TailwindPagination
-        :data="pagination"
-        @pagination-change-page="getResults"
-    />
+        <ul role="list" class="divide-y divide-gray-200">
+            <li v-for="command in commands" :key="command.id">
+                <EditCommandModal :command="command">
+                    <a href="#" class="block hover:bg-gray-50">
+                        <div class="px-4 py-4 sm:px-6">
+                            <div class="flex items-center justify-between">
+                                <p class="truncate text-sm font-medium text-indigo-600" v-html="colorizeCommand(command.command)"></p>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                        {{ command.description }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex flex-shrink-0 mt-3">
+                                <p v-for="tag in command.tags" :key="tag.id" class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                                    {{ tag.name.en }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </EditCommandModal>
+            </li>
+        </ul>
+        <CommandPagination :pagination="pagination"></CommandPagination>
     </div>
-  </template>
+</template>
 
-  <script setup>
-    import SlideOverNewCommand from "./SlideOverNewCommand.vue";
-    import { TailwindPagination } from 'laravel-vue-pagination';
+<script setup>
+import CommandPagination from "./CommandPagination.vue";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
+import EditCommandModal from "./EditCommandModal.vue";
 
-    import { computed, onMounted } from "vue";
-    import { useStore } from "vuex";
+let store = useStore();
+let commands = computed(() => store.state.commands.commands);
+let pagination = computed(() => store.state.commands.pagination);
+let projectId = computed(() => store.state.general.selectedProject.id);
 
-    let store = useStore();
-    let commands = computed(() => store.state.commands.commands);
-    let pagination = computed(() => store.state.commands.pagination);
-    let projectId = computed(() => store.state.general.selectedProject.id);
+const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
+const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
+const isQuoted = (text) => /^(".+")|('.+')$/.test(text);
 
-    const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
-    const isOperator = (text) =>
-    /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
-    const isQuoted = (text) => /^(".+")|('.+')$/.test(text);
-
-    let colorizeCommand = (command) => {
+let colorizeCommand = (command) => {
     const cursorNode = document.createElement("span");
     cursorNode.className = "stylized-commands";
 
@@ -85,15 +82,17 @@
         return cursorNode.appendChild(textNode);
     });
     return cursorNode.outerHTML;
+};
+
+const getCommands = (page) => {
+    let payload = {
+        project: projectId.value,
+        page: page,
     };
+    store.commit("commands/getCommands", payload);
+};
 
-    const getResults = (projectId, page)=> {
-        console.log('getResults', projectId, page)
-        store.commit("commands/getCommands", projectId, page);
-    }
-
-    onMounted(() => {
-        getResults(projectId, 1);
-    });
-
-  </script>
+onMounted(() => {
+    getCommands(1);
+});
+</script>

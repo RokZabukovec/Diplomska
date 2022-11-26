@@ -7,33 +7,17 @@
                         <div class="card-body">
                             <h5 class="card-title">Create document</h5>
                             <hr />
-                            <select
-                                aria-label="Project name"
-                                class="form-select"
-                            >
+                            <select aria-label="Project name" class="form-select">
                                 <option selected>Select project</option>
-                                <option
-                                    v-for="project in projects"
-                                    :key="project.id"
-                                    :value="project.id"
-                                >
+                                <option v-for="project in projects" :key="project.id" :value="project.id">
                                     {{ project.name }}
                                 </option>
                             </select>
                             <br />
                             <div class="form-check float-end">
-                                <label
-                                    class="form-check-label"
-                                    for="flexCheckDefault"
-                                >
+                                <label class="form-check-label" for="flexCheckDefault">
                                     {{ editorSwitch }}
-                                    <input
-                                        id="flexCheckDefault"
-                                        v-model="preview"
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        value=""
-                                    />
+                                    <input id="flexCheckDefault" v-model="preview" class="form-check-input" type="checkbox" value="" />
                                 </label>
                             </div>
                         </div>
@@ -41,21 +25,11 @@
                 </div>
                 <div class="col-sm-12 col-md-9">
                     <div v-if="preview" class="card document-preview__wrapper">
-                        <div
-                            v-highlight
-                            class="card-body markdown-body"
-                            v-html="compiledMarkdown"
-                        ></div>
+                        <div v-highlight class="card-body markdown-body" v-html="compiledMarkdown"></div>
                     </div>
-                    <textarea
-                        v-else
-                        class="markdown-editor__textarea"
-                    ></textarea>
+                    <textarea v-else class="markdown-editor__textarea"></textarea>
                     <div class="page-actions">
-                        <button
-                            class="btn btn-warning btn-page-save"
-                            @click="save()"
-                        ></button>
+                        <button class="btn btn-warning btn-page-save" @click="save()"></button>
                     </div>
                 </div>
             </div>

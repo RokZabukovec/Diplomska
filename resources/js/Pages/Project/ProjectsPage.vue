@@ -10,5 +10,4 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 let props = defineProps({
     project: Object,
 });
-
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-hidden bg-white shadow sm:rounded-md">
+    <div class="overflow-hidden bg-white shadow sm:rounded-md w-1/2">
         <ul role="list" class="divide-y divide-gray-200">
             <li v-for="command in commands" :key="command.id">
                 <EditCommandModal :command="command">

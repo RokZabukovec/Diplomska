@@ -3,6 +3,7 @@ import { getCommands, storeCommandAsync } from "../API/commands.js";
 import { getLinks, storeLinkAsync } from "../API/links";
 import { getSnippets, storeSnippetAsync } from "../API/snippets";
 import { getPages, storePageAsync } from "../API/pages";
+import { getMembers } from "../API/team.js";
 
 // Create a new store instance.
 const store = createStore({
@@ -154,6 +155,11 @@ const store = createStore({
                 commands: [],
                 pagination: {},
                 data: {},
+                filters: {
+                    people: null,
+                    query: "",
+                    tag: null,
+                },
             }),
             mutations: {
                 async getCommands(state, { project, page }) {
@@ -312,6 +318,24 @@ const store = createStore({
                                 return;
                             }
                             state.snippets.push(response);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+            },
+        },
+        teams: {
+            namespaced: true,
+            state: () => ({
+                members: [],
+            }),
+            mutations: {
+                async getMembers() {
+                    let members = getMembers();
+                    await members
+                        .then((response) => {
+                            store.state.teams.members = response.data;
                         })
                         .catch((e) => {
                             console.log(e);

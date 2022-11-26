@@ -44,6 +44,6 @@ Route::apiResource('snippets', SnippetController::class)->middleware('auth:sanct
 
 Route::middleware('auth:sanctum')->get('/user/teams/projects', [ProjectController::class, 'teamsProjects']);
 
-Route::middleware('auth:sanctum')->put('/user/teams/switch', [TeamController::class, 'switchTeam']);
+Route::middleware('auth:sanctum')->get('/user/personalteam/members', [TeamController::class, 'getTeamMembers']);
 
 Route::middleware('auth:sanctum')->get('/search', [SearchController::class, 'search']);

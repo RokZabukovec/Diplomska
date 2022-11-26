@@ -28,4 +28,12 @@ class TeamController extends Controller
         }
 
     }
+
+    public function getTeamMembers(Request $request){
+        $user = $request->user();
+        $team = $user->personalTeam();
+
+        return $team->allUsers();
+    }
+
 }

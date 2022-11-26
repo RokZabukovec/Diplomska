@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="w-full inset-0 py-6 px-1 sm:px-2 lg:px-8 md:w-1/2 mx-auto">
+        <div class="w-full inset-0 py-6 px-1 sm:px-2 lg:px-8">
             <div class="topbar flex justify-between mb-5">
                 <button>
                     <div>
                         <div class="relative mt-1 flex items-center">
-                            <input placeholder="Search" type="text" name="search" id="search" class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                            <input id="search" placeholder="Search" type="text" name="search" class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                             <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
                                 <kbd class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-sm font-medium text-gray-400">⌘K</kbd>
                             </div>
@@ -14,7 +14,10 @@
                 </button>
                 <SlideOverNewCommand></SlideOverNewCommand>
             </div>
-            <CommandList></CommandList>
+            <div class="flex">
+                <CommandList></CommandList>
+                <TeamMembersFilter></TeamMembersFilter>
+            </div>
         </div>
     </div>
 </template>
@@ -26,6 +29,7 @@ import SlideOverNewCommand from "./SlideOverNewCommand.vue";
 import SlideOverNewPage from "./SlideOverNewPage.vue";
 import store from "../../Store/store.js";
 import CommandList from "./CommandList.vue";
+import TeamMembersFilter from "./TeamMembersFilter.vue";
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);

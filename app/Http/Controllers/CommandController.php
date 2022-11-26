@@ -26,6 +26,7 @@ class CommandController extends Controller
     public function index(Request $request)
     {
         $project_id = $request->get('project_id', 0);
+        $people = $request->get('people', 0);
         $commands = $this->commands->getAll($project_id);
         return new CommandResource($commands);
     }

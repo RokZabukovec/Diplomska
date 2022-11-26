@@ -15,11 +15,16 @@
                                     <div v-if="!commandEdit" class="command-show rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between hover:ring cursor-pointer transition-all" @click="showCommandEditInput" v-html="colorizeCommand(props.command.command)"></div>
                                     <div v-if="commandEdit" class="command-edit" @focusout="showCommandEditInput">
                                         <div class="mt-1">
-                                            <input id="command" type="text" name="command" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="you@example.com" aria-describedby="email-description" :value="command.command" />
+                                            <input id="command" ref="commandInput" v-model="commandEdited.command" type="text" name="command" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm command-show rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between hover:ring cursor-pointer transition-all" placeholder="you@example.com" aria-describedby="email-description" />
                                         </div>
                                     </div>
-                                    <div class="command-description text-slate-700 my-4 leading-loose hover:ring cursor-pointer rounded-md transition-all p-2">
+                                    <div v-if="!descriptionEdit" class="command-description text-slate-700 my-4 leading-loose hover:ring cursor-pointer rounded-md transition-all p-2" @click="showDescriptionEditInput">
                                         {{ props.command.description ?? "Add description" }}
+                                    </div>
+                                    <div v-if="descriptionEdit">
+                                        <div class="mt-1">
+                                            <textarea id="comment" v-model="commandEdited.description" rows="4" name="comment" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                        </div>
                                     </div>
                                     <div class="flex flex-shrink-0 hover:ring cursor-pointer rounded-md transition-all p-2">
                                         <p v-for="tag in command.tags" :key="tag.id" class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
@@ -43,9 +48,31 @@ import { CheckIcon } from "@heroicons/vue/24/outline";
 import { colorizeCommand } from "../../helpers/helpers";
 const open = ref(false);
 const commandEdit = ref(false);
+const descriptionEdit = ref(false);
+
 const props = defineProps(["command"]);
 
-function showCommandEditInput() {
+let commandEdited = ref({
+    id: props.command.id,
+    command: props.command.command,
+    description: props.command.description,
+    tags: [],
+});
+
+function showCommandEditInput(event) {
+    console.log(event);
+    let origin = event.target;
+    origin.closest("input").focus();
     commandEdit.value = !commandEdit.value;
+    if (commandEdit.value == false) {
+        console.log("Command updated: " + commandEdited.value);
+    }
+}
+
+function showDescriptionEditInput() {
+    descriptionEdit.value = !descriptionEdit.value;
+    if (descriptionEdit.value == false) {
+        console.log("Description updated: " + commandEdited.value);
+    }
 }
 </script>

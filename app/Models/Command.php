@@ -36,4 +36,18 @@ class Command extends Model
     {
         return $query->with('user')->pluck('id');
     }
+
+        /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+ 
+        $array["user_id"] = $this->project()->first()->user_id;
+ 
+        return $array;
+    }
 }

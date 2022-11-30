@@ -33,6 +33,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.2",
         "@heroicons/vue": "^2.0.11",
+        "epic-spinners": "^2.0.0",
         "marked": "^0.3.19",
         "moment": "^2.29.4",
         "vuex": "^4.0.2"

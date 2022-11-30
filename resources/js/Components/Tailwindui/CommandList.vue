@@ -34,11 +34,21 @@ import CommandPagination from "./CommandPagination.vue";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import EditCommandModal from "./EditCommandModal.vue";
+import {useRoute} from "vue-router";
+
 
 let store = useStore();
+let loading = computed(() => store.state.general.loading);
 let commands = computed(() => store.state.commands.commands);
 let pagination = computed(() => store.state.commands.pagination);
-let projectId = computed(() => store.state.general.selectedProject.id);
+let projectId = computed(() => store.state.general.selectedProject?.id);
+    const route = useRoute();
+    console.log(projectId);
+
+   if(projectId.value == undefined){
+       projectId = route.params.id;
+   }
+    console.log(projectId);
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
@@ -86,7 +96,7 @@ let colorizeCommand = (command) => {
 
 const getCommands = (page) => {
     let payload = {
-        project: projectId.value,
+        project: isNaN(projectId) == false ? projectId : projectId.value,
         page: page,
     };
     store.commit("commands/getCommands", payload);

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->longText('description')->nullable();
-            $table->foreign('command_id')
+            $table->foreignId('command_id')
             ->references('id')->on('commands')
             ->constrained()
             ->onDelete('cascade');

@@ -17,6 +17,7 @@ const store = createStore({
                 selectedProject: null,
                 teams: [],
                 loading: false,
+                loadingProjects: false
             }),
             mutations: {
                 async switchTeam(state, team) {
@@ -48,6 +49,7 @@ const store = createStore({
                         });
                 },
                 async getProjects(state) {
+                    store.state.general.loadingProjects  = true;
                     await axios
                         .get("/api/user/teams/projects")
                         .then((response) => {
@@ -71,6 +73,9 @@ const store = createStore({
                         })
                         .catch((error) => {
                             console.error(error);
+                        })
+                        .finally(()=>{
+                            store.state.general.loadingProjects = false;
                         });
                 },
                 selectProject(state, selected) {
@@ -163,13 +168,10 @@ const store = createStore({
             }),
             mutations: {
                 async getCommands(state, { project, page }) {
-                    console.log("STATE: ", state);
-                    console.log("PAGE IN STORE: ", page);
                     store.state.general.loading = true;
                     let commands = getCommands(project, page);
                     await commands
                         .then((response) => {
-                            console.log(response);
                             store.state.commands.data = response;
                             store.state.commands.commands = response.data.data;
                             store.state.commands.pagination = response.data;

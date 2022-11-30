@@ -1,6 +1,15 @@
 <template>
     <div>
-        <div class="w-full inset-0 py-6 px-1 sm:px-2 lg:px-8">
+            <div class="pt-5" v-show="loading">
+            <hollow-dots-spinner
+            class="container mx-auto mt-5"
+            :animation-duration="1000"
+            :dot-size="15"
+            :dots-num="3"
+            color="#9400ff"
+            />
+        </div>
+        <div class="w-full inset-0 py-6 px-1 sm:px-2 lg:px-8" v-show="!loading">
             <div class="topbar flex justify-between mb-5">
                 <button>
                     <div>
@@ -30,7 +39,9 @@ import SlideOverNewPage from "./SlideOverNewPage.vue";
 import store from "../../Store/store.js";
 import CommandList from "./CommandList.vue";
 import TeamMembersFilter from "./TeamMembersFilter.vue";
+import { HollowDotsSpinner } from 'epic-spinners'
 
+let loading = computed(() => store.state.general.loading);
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
 const isQuoted = (text) => /^(".+")|('.+')$/.test(text);

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Projects list (only on smallest breakpoint) -->
-        <div class="mt-10 sm:hidden">
+        <div class="mt-10 sm:hidden" v-show="!loading">
             <div class="px-4 sm:px-6">
                 <h2 class="text-sm font-medium text-gray-900">Projects</h2>
             </div>
@@ -21,7 +21,7 @@
         </div>
 
         <!-- Projects table (small breakpoint and up) -->
-        <div class="hidden sm:block min-h-screen">
+        <div class="hidden sm:block min-h-screen" v-show="!loading">
             <div class="inline-block min-w-full border-b border-gray-200 align-middle min-h-screen">
                 <table class="min-w-full" v-if="userProjects.length">
                     <thead>
@@ -59,6 +59,17 @@
                 </div>
             </div>
         </div>
+        <div>
+            <div class="pt-5">
+                <hollow-dots-spinner
+                class="container mx-auto mt-5"
+                :animation-duration="1000"
+                :dot-size="15"
+                :dots-num="3"
+                color="#9400ff"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -71,11 +82,22 @@ import { ChevronRightIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid"
 import ProjectEditMenu from "./ProjectEditMenu.vue";
 import UserHeading from "./UserHeading.vue";
 import EmptyProject from "./EmptyProject.vue";
+import { HollowDotsSpinner } from 'epic-spinners'
+import {useRoute} from "vue-router";
+
+
+let loading = computed(() => store.state.general.loadingProjects);
+const route = useRoute();
 
 const userProjects = computed(() => store.state.general.projects);
 const pined = computed(() => store.state.general.pined);
 
 function selectProject(project) {
+   const id = route.params.id;
+   console.log("Project id: ", id);
+    if(project == null){
+        project = id;
+    }
     store.commit("general/selectProject", project);
 }
 

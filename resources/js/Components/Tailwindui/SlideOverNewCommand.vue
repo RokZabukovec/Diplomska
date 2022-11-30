@@ -97,8 +97,15 @@ import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } fro
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { PlusIcon } from "@heroicons/vue/20/solid";
 import store from "../../Store/store";
+import {useRoute} from "vue-router";
 
-let projectId = computed(() => store.state.general.selectedProject.id);
+    const route = useRoute();
+   
+   let projectId = computed(() => store.state.general.selectedProject?.id);
+
+   if(projectId == null){
+       projectId = route.params.id;
+   }
 
 let form = ref({
     command: "",

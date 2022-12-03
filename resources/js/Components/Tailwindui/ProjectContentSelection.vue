@@ -16,68 +16,12 @@
             </div>
             <div class="flex">
                 <CommandList></CommandList>
-                <TeamMembersFilter></TeamMembersFilter>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import SlideOverNewCommand from "./SlideOverNewCommand.vue";
-import SlideOverNewPage from "./SlideOverNewPage.vue";
-import store from "../../Store/store.js";
 import CommandList from "./CommandList.vue";
-import TeamMembersFilter from "./TeamMembersFilter.vue";
-
-const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
-const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
-const isQuoted = (text) => /^(".+")|('.+')$/.test(text);
-
-let colorizeCommand = (command) => {
-    const cursorNode = document.createElement("span");
-    cursorNode.className = "stylized-commands";
-
-    const originalTextContent = command.split(" ");
-
-    originalTextContent.forEach((text, index) => {
-        const textNode = document.createElement("span");
-        textNode.textContent = `${text} `;
-
-        // If first word or first after a pipe, highlight as command
-        if (index === 0 || isOperator(originalTextContent[index - 1])) {
-            textNode.className = "command";
-            textNode.className = "text-stone-100";
-        }
-
-        if (text.startsWith("--") || text.startsWith("-")) {
-            textNode.className = "flag";
-            textNode.className = "text-amber-200";
-        }
-
-        if (isOperator(text)) {
-            textNode.className = "operator";
-            textNode.className = "text-blue-200";
-        }
-
-        if (isFile(text)) {
-            textNode.className = "file";
-            textNode.className = "text-green-400";
-        }
-
-        if (isQuoted(text)) {
-            textNode.className = "quoted";
-            textNode.className = "text-green-400";
-        }
-        return cursorNode.appendChild(textNode);
-    });
-    return cursorNode.outerHTML;
-};
-
-const categories = ref({
-    Commands: computed(() => store.state.commands.commands),
-    Pages: computed(() => store.state.pages.pages),
-    Links: computed(() => store.state.links.links),
-});
 </script>

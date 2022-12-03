@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { getCommands, storeCommandAsync } from "../API/commands.js";
+import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
 import { getLinks, storeLinkAsync } from "../API/links";
 import { getSnippets, storeSnippetAsync } from "../API/snippets";
 import { getPages, storePageAsync } from "../API/pages";
@@ -209,6 +209,22 @@ const store = createStore({
                                 return;
                             }
                             store.state.commands.commands.push(response.data.data);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+                async editCommand(state, form) {
+                    let response = editCommandAsync(form);
+                    console.log(response);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            var foundIndex = store.state.commands.commands.findIndex((x) => x.id == response.data.data.id);
+                            store.state.commands.commands[foundIndex] = response.data.data;
                         })
                         .catch((e) => {
                             console.log(e);

@@ -1,6 +1,6 @@
 <template>
     <div class="my-2">
-        <button @click="open = true" type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add +</button>
+        <button type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="open = true">Add +</button>
         <TransitionRoot :show="open" as="template">
             <Dialog as="div" class="relative z-10" @close="open = false">
                 <div class="fixed inset-0" />
@@ -60,7 +60,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="space-y-1 px-4 sm:px-6 sm:py-5">
-                                                    <span v-for="(tag, index) in form.tags" class="inline-flex items-center rounded-full bg-indigo-100 py-0.5 pl-2 mx-1 pr-0.5 text-xs font-medium text-indigo-700">
+                                                    <span v-for="(tag, index) in form.tags" :key="index" class="inline-flex items-center rounded-full bg-indigo-100 py-0.5 pl-2 mx-1 pr-0.5 text-xs font-medium text-indigo-700">
                                                         {{ tag }}
                                                         <button class="ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:bg-indigo-500 focus:text-white focus:outline-none" type="button" @click="removeTag(index)">
                                                             <span class="sr-only">Remove small option</span>
@@ -92,10 +92,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { PlusIcon } from "@heroicons/vue/20/solid";
 import store from "../../Store/store";
 
 let projectId = computed(() => store.state.general.selectedProject.id);

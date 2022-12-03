@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Projects list (only on smallest breakpoint) -->
-        <div class="mt-10 sm:hidden" v-show="!loading">
+        <div class="mt-10 sm:hidden">
             <div class="px-4 sm:px-6">
                 <h2 class="text-sm font-medium text-gray-900">Projects</h2>
             </div>
@@ -21,9 +21,9 @@
         </div>
 
         <!-- Projects table (small breakpoint and up) -->
-        <div class="hidden sm:block min-h-screen" v-show="!loading">
+        <div class="hidden sm:block min-h-screen">
             <div class="inline-block min-w-full border-b border-gray-200 align-middle min-h-screen">
-                <table class="min-w-full" v-if="userProjects.length">
+                <table v-if="userProjects.length" class="min-w-full">
                     <thead>
                         <tr class="border-t border-gray-200">
                             <th class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900" scope="col">
@@ -54,7 +54,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="mt-5 h-full" v-else>
+                <div v-else class="mt-5 h-full">
                     <EmptyProject></EmptyProject>
                 </div>
             </div>
@@ -71,10 +71,8 @@
 import { computed } from "vue";
 import store from "../../Store/store";
 import moment from "moment";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { ChevronRightIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
+import { ChevronRightIcon } from "@heroicons/vue/20/solid";
 import ProjectEditMenu from "./ProjectEditMenu.vue";
-import UserHeading from "./UserHeading.vue";
 import EmptyProject from "./EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
 import { useRoute } from "vue-router";
@@ -83,7 +81,6 @@ let loading = computed(() => store.state.general.loadingProjects);
 const route = useRoute();
 
 const userProjects = computed(() => store.state.general.projects);
-const pined = computed(() => store.state.general.pined);
 
 function selectProject(project) {
     const id = route.params.id;
@@ -93,27 +90,6 @@ function selectProject(project) {
     }
     store.commit("general/selectProject", project);
 }
-
-function pinProject(project) {
-    project.initials = initials(project).toUpperCase();
-    store.commit("projects/pinProject", project);
-}
-
-let initials = (project) => {
-    let splitName = project.name.split(" ");
-
-    if (splitName.length === 1) {
-        return splitName[0].slice(0, 2);
-    }
-
-    if (splitName.length >= 2) {
-        return splitName[0].slice(0, 1) + splitName[1].slice(0, 1);
-    }
-};
-
-let getProjectColorClass = (color) => {
-    return "text-" + color.toLowerCase() + "-400";
-};
 </script>
 
 <style scoped></style>

@@ -19,18 +19,13 @@
             </div>
             <div class="flex">
                 <CommandList></CommandList>
-                <TeamMembersFilter></TeamMembersFilter>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/vue";
 import SlideOverNewCommand from "./SlideOverNewCommand.vue";
-import SlideOverNewPage from "./SlideOverNewPage.vue";
-import store from "../../Store/store.js";
 import CommandList from "./CommandList.vue";
 import TeamMembersFilter from "./TeamMembersFilter.vue";
 import { HollowDotsSpinner } from "epic-spinners";

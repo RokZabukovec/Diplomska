@@ -1,5 +1,5 @@
-import { createStore } from "vuex";
-import { getCommands, storeCommandAsync } from "../API/commands.js";
+import { createStore, axios } from "vuex";
+import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
 import { getLinks, storeLinkAsync } from "../API/links";
 import { getSnippets, storeSnippetAsync } from "../API/snippets";
 import { getPages, storePageAsync } from "../API/pages";
@@ -131,27 +131,6 @@ const store = createStore({
                             console.error(error);
                         });
                 },
-                pinProject(state, project) {
-                    let projects = store.state.general.projects;
-                    axios
-                        .put(`api/projects/${project.id}/pin`)
-                        .then((response) => {
-                            let index = projects.map((project) => project.id).indexOf(project);
-                            project.pined = !project.pined;
-                            if (!project.pined) {
-                                project.pined = false;
-                                store.state.general.pined.splice(index, 1);
-                            } else {
-                                project.pined = true;
-                                store.state.general.pined.push(project);
-                            }
-
-                            store.state.general.projects[index] = project;
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                },
             },
         },
         commands: {
@@ -168,10 +147,13 @@ const store = createStore({
             }),
             mutations: {
                 async getCommands(state, { project, page }) {
+                    console.log("STATE: ", state);
+                    console.log("PAGE IN STORE: ", page);
                     store.state.general.loading = true;
                     let commands = getCommands(project, page);
                     await commands
                         .then((response) => {
+                            console.log(response);
                             store.state.commands.data = response;
                             store.state.commands.commands = response.data.data;
                             store.state.commands.pagination = response.data;
@@ -211,6 +193,22 @@ const store = createStore({
                                 return;
                             }
                             store.state.commands.commands.push(response.data.data);
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
+                async editCommand(state, form) {
+                    let response = editCommandAsync(form);
+                    console.log(response);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            var foundIndex = store.state.commands.commands.findIndex((x) => x.id == response.data.data.id);
+                            store.state.commands.commands[foundIndex] = response.data.data;
                         })
                         .catch((e) => {
                             console.log(e);

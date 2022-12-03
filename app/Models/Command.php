@@ -23,31 +23,14 @@ class Command extends Model
     public function user()
     {
         return $this->hasOneThrough(User::class, Project::class,
-        'id','id','project_id','user_id');    
-    }
-    
-    /**
-     * Modify the query used to retrieve models when making all of the models searchable.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function makeAllSearchableUsing($query)
-    {
-        return $query->with('user')->pluck('id');
+        'id','id','project_id','user_id');
     }
 
-        /**
-     * Get the indexable data array for the model.
-     *
-     * @return array
-     */
     public function toSearchableArray()
     {
         $array = $this->toArray();
- 
-        $array["user_id"] = $this->project()->first()->user_id;
- 
+        $array['user_id'] = $this->project()->first()->user_id;
+        $array['visibility'] = 'public';
         return $array;
     }
 }

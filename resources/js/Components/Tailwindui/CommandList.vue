@@ -43,12 +43,10 @@ let commands = computed(() => store.state.commands.commands);
 let pagination = computed(() => store.state.commands.pagination);
 let projectId = computed(() => store.state.general.selectedProject?.id);
     const route = useRoute();
-    console.log(projectId);
 
-   if(projectId.value == undefined){
+   if (projectId.value == undefined) {
        projectId = route.params.id;
    }
-    console.log(projectId);
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);

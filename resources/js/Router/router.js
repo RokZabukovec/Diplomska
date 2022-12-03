@@ -10,6 +10,6 @@ const dashboardRoutes = [
 ];
 
 export const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
+    history: VueRouter.createMemoryHistory(),
     routes: dashboardRoutes,
 });

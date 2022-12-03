@@ -61,13 +61,7 @@
         </div>
         <div>
             <div class="pt-5">
-                <hollow-dots-spinner
-                class="container mx-auto mt-5"
-                :animation-duration="1000"
-                :dot-size="15"
-                :dots-num="3"
-                color="#9400ff"
-                />
+                <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
             </div>
         </div>
     </div>
@@ -82,9 +76,8 @@ import { ChevronRightIcon, EllipsisVerticalIcon } from "@heroicons/vue/20/solid"
 import ProjectEditMenu from "./ProjectEditMenu.vue";
 import UserHeading from "./UserHeading.vue";
 import EmptyProject from "./EmptyProject.vue";
-import { HollowDotsSpinner } from 'epic-spinners'
-import {useRoute} from "vue-router";
-
+import { HollowDotsSpinner } from "epic-spinners";
+import { useRoute } from "vue-router";
 
 let loading = computed(() => store.state.general.loadingProjects);
 const route = useRoute();
@@ -93,9 +86,9 @@ const userProjects = computed(() => store.state.general.projects);
 const pined = computed(() => store.state.general.pined);
 
 function selectProject(project) {
-   const id = route.params.id;
-   console.log("Project id: ", id);
-    if(project == null){
+    const id = route.params.id;
+
+    if (project == null) {
         project = id;
     }
     store.commit("general/selectProject", project);

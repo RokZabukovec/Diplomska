@@ -17,7 +17,7 @@ const store = createStore({
                 selectedProject: null,
                 teams: [],
                 loading: false,
-                loadingProjects: false
+                loadingProjects: false,
             }),
             mutations: {
                 async switchTeam(state, team) {
@@ -49,7 +49,7 @@ const store = createStore({
                         });
                 },
                 async getProjects(state) {
-                    store.state.general.loadingProjects  = true;
+                    store.state.general.loadingProjects = true;
                     await axios
                         .get("/api/user/teams/projects")
                         .then((response) => {
@@ -74,7 +74,7 @@ const store = createStore({
                         .catch((error) => {
                             console.error(error);
                         })
-                        .finally(()=>{
+                        .finally(() => {
                             store.state.general.loadingProjects = false;
                         });
                 },

@@ -51,7 +51,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project): \Inertia\Response
     {
-        return Inertia::render('Pages/ProjectPage', ['project' => $project]);
+        return Inertia::render('ProjectContentSelection', ['project' => $project]);
     }
 
     /**

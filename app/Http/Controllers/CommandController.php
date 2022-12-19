@@ -61,7 +61,7 @@ class CommandController extends Controller
      */
     public function show(Command $command)
     {
-        //
+        return new CommandResource($command);
     }
 
     /**
@@ -77,7 +77,8 @@ class CommandController extends Controller
         if (!empty($data['tags'])) {
             $command->syncTags($data['tags']);
         }
-        $command->update();
+
+        $command->update($data);
         return $command;
     }
 

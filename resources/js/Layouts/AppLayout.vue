@@ -1,9 +1,8 @@
 <script setup>
 import { Head } from "@inertiajs/inertia-vue3";
-import Banner from "@/Components/Banner.vue";
-import MultiColumnLayout from "../Components/Tailwindui/MultiColumnLayout.vue";
+import Banner from "../Components/Banner.vue";
 import { onMounted } from "vue";
-import store from "../Store/store";
+import store from "../Store/store.js";
 
 defineProps({
     title: String,

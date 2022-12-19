@@ -1,140 +1,105 @@
-<script setup>
-import { Head, Link } from "@inertiajs/inertia-vue3";
-
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-});
-</script>
-
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <!-- This example requires Tailwind CSS v3.0+ -->
-    <div class="isolate bg-white">
-        <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
-            <svg class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill="url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)" fill-opacity=".3" d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z" />
-                <defs>
-                    <linearGradient id="45de2b6b-92d5-4d68-a6a0-9b9b2abad533" x1="1155.49" x2="-78.208" y1=".177" y2="474.645" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#9089FC"></stop>
-                        <stop offset="1" stop-color="#FF80B5"></stop>
-                    </linearGradient>
-                </defs>
-            </svg>
-        </div>
-        <div class="px-6 pt-6 lg:px-8">
+    <div>
+        <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
             <div>
-                <nav class="flex h-9 items-center justify-between" aria-label="Global">
-                    <div class="flex lg:min-w-0 lg:flex-1" aria-label="Global">
-                        <a href="#" class="-m-1.5 p-1.5">
-                            <span class="sr-only">Your Company</span>
-                            <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-                        </a>
-                    </div>
-                    <div class="flex lg:hidden">
-                        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                            <span class="sr-only">Open main menu</span>
-                            <!-- Heroicon name: outline/bars-3 -->
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-                        <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Product</a>
+                <ApplicationLogo class="block h-12 w-auto" />
+            </div>
 
-                        <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Features</a>
+            <div class="mt-8 text-2xl">Welcome to your Jetstream application!</div>
 
-                        <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Marketplace</a>
+            <div class="mt-6 text-gray-500">Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed to help you build your application using a development environment that is simple, powerful, and enjoyable. We believe you should love expressing your creativity through programming, so we have spent time carefully crafting the Laravel ecosystem to be a breath of fresh air. We hope you love it.</div>
+        </div>
 
-                        <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Company</a>
+        <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
+            <div class="p-6">
+                <div class="flex items-center">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">
+                        <a href="https://laravel.com/docs">Documentation</a>
                     </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2">Log in</a>
-                        <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">Register</a>
-                    </div>
-                </nav>
-                <!-- Mobile menu, show/hide based on menu open state. -->
-                <div role="dialog" aria-modal="true">
-                    <div focus="true" class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
-                        <div class="flex h-9 items-center justify-between">
-                            <div class="flex">
-                                <a href="#" class="-m-1.5 p-1.5">
-                                    <span class="sr-only">Your Company</span>
-                                    <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-                                </a>
-                            </div>
-                            <div class="flex">
-                                <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-                                    <span class="sr-only">Close menu</span>
-                                    <!-- Heroicon name: outline/x-mark -->
-                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
+                </div>
+
+                <div class="ml-12">
+                    <div class="mt-2 text-sm text-gray-500">Laravel has wonderful documentation covering every aspect of the framework. Whether you're new to the framework or have previous experience, we recommend reading all of the documentation from beginning to end.</div>
+
+                    <a href="https://laravel.com/docs">
+                        <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                            <div>Explore the documentation</div>
+
+                            <div class="ml-1 text-indigo-500">
+                                <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </div>
                         </div>
-                        <div class="mt-6 flow-root">
-                            <div class="-my-6 divide-y divide-gray-500/10">
-                                <div class="space-y-2 py-6">
-                                    <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Product</a>
+                    </a>
+                </div>
+            </div>
 
-                                    <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Features</a>
+            <div class="p-6 border-t border-gray-200 md:border-t-0 md:border-l">
+                <div class="flex items-center">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400">
+                        <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">
+                        <a href="https://laracasts.com">Laracasts</a>
+                    </div>
+                </div>
 
-                                    <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Marketplace</a>
+                <div class="ml-12">
+                    <div class="mt-2 text-sm text-gray-500">Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.</div>
 
-                                    <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Company</a>
-                                </div>
-                                <div class="py-6">
-                                    <a href="#" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">Log in</a>
-                                </div>
+                    <a href="https://laracasts.com">
+                        <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                            <div>Start watching Laracasts</div>
+
+                            <div class="ml-1 text-indigo-500">
+                                <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
                             </div>
                         </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-gray-200">
+                <div class="flex items-center">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400">
+                        <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">
+                        <a href="https://tailwindcss.com/">Tailwind</a>
                     </div>
+                </div>
+
+                <div class="ml-12">
+                    <div class="mt-2 text-sm text-gray-500">Laravel Jetstream is built with Tailwind, an amazing utility first CSS framework that doesn't get in your way. You'll be amazed how easily you can build and maintain fresh, modern designs with this wonderful framework at your fingertips.</div>
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-gray-200 md:border-l">
+                <div class="flex items-center">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400">
+                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold">Authentication</div>
+                </div>
+
+                <div class="ml-12">
+                    <div class="mt-2 text-sm text-gray-500">Authentication and registration views are included with Laravel Jetstream, as well as support for user email verification and resetting forgotten passwords. So, you're free to get started what matters most: building your application.</div>
                 </div>
             </div>
         </div>
-        <main>
-            <div class="relative px-6 lg:px-8">
-                <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
-                    <div>
-                        <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-                            <div class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                                <span class="text-gray-600">
-                                    Announcing our next round of funding.
-                                    <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">Data to enrich your online business</h1>
-                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
-                            <div class="mt-8 flex gap-x-4 sm:justify-center">
-                                <a href="#" class="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700">
-                                    Get started
-                                    <span class="text-indigo-200" aria-hidden="true">&rarr;</span>
-                                </a>
-                                <a href="#" class="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 text-gray-900 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                                    Live demo
-                                    <span class="text-gray-400" aria-hidden="true">&rarr;</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-                            <svg class="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill="url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)" fill-opacity=".3" d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z" />
-                                <defs>
-                                    <linearGradient id="ecb5b0c9-546c-4772-8c71-4d3f06d544bc" x1="1155.49" x2="-78.208" y1=".177" y2="474.645" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#9089FC"></stop>
-                                        <stop offset="1" stop-color="#FF80B5"></stop>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        <DescriptionList />
     </div>
 </template>
+<script>
+export default {
+    layout: null,
+};
+</script>

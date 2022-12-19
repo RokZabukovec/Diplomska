@@ -15,7 +15,7 @@ class CommandRepository implements RepositoryInterface
 {
     public function getAll(int $project_id): LengthAwarePaginator
     {
-        return Command::where(['project_id' => $project_id])->with('tags')->paginate(10);
+        return Command::where(['project_id' => $project_id])->with('tags')->paginate(5);
     }
 
     public function store(CommandStoreRequest $request): ?Command

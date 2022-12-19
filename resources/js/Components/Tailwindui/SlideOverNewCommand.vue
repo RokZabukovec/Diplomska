@@ -96,20 +96,20 @@ import { computed, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import store from "../../Store/store";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
 
 let projectId = computed(() => store.state.general.selectedProject?.id);
 
-if (projectId == null) {
-    projectId = route.params.id;
-}
+const props = defineProps({
+    project: {
+        type: Object,
+        default: null,
+    },
+});
 
 let form = ref({
     command: "",
     description: "",
-    project_id: parseInt(projectId.value),
+    project_id: parseInt(projectId.value ?? props.project.id),
     tags: [],
 });
 

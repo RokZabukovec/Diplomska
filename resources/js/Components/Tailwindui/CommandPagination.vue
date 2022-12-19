@@ -22,10 +22,9 @@
                     results
                 </p>
             </div>
-            <div>
+            <div v-if="pagination.last_page > 1">
                 <nav class="isolate inline-flex space-x-px" aria-label="Pagination">
-                    <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-                    <a v-for="link in pagination.links" :key="link.label" href="#" aria-current="page" :class="{ 'border-indigo-500 bg-indigo-50': link.active }" class="rounded relative z-10 inline-flex items-center border px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20" @click="getCommands(link.label)" v-html="link.label"></a>
+                    <a v-for="link in links" :key="link.label" href="#" aria-current="page" :class="{ 'border-indigo-500 bg-indigo-50': link.active }" class="rounded relative z-10 inline-flex items-center border px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20" @click="getCommands(link.url)" v-html="link.label"></a>
                 </nav>
             </div>
         </div>
@@ -33,21 +32,25 @@
 </template>
 
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/20/solid";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 let store = useStore();
 
 let projectId = computed(() => store.state.general.selectedProject.id);
+let pagination = computed(() => store.state.commands.pagination);
+let links = computed(() => pagination.value.links.filter((link) => link.url != null));
 
-const getCommands = (page) => {
+const getCommands = (url) => {
+    const urlParsed = new URL(url);
+    const searchParams = urlParsed.searchParams;
+
+    const page = searchParams.get("page");
+    console.log(page);
     const payload = {
         project: projectId.value,
-        page: page,
+        page: page ?? 1,
     };
     store.commit("commands/getCommands", payload);
 };
-
-let pagination = computed(() => store.state.commands.pagination);
 </script>

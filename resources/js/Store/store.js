@@ -1,4 +1,4 @@
-import { createStore, axios } from "vuex";
+import { createStore } from "vuex";
 import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
 import { getLinks, storeLinkAsync } from "../API/links";
 import { getSnippets, storeSnippetAsync } from "../API/snippets";
@@ -147,13 +147,10 @@ const store = createStore({
             }),
             mutations: {
                 async getCommands(state, { project, page }) {
-                    console.log("STATE: ", state);
-                    console.log("PAGE IN STORE: ", page);
                     store.state.general.loading = true;
                     let commands = getCommands(project, page);
                     await commands
                         .then((response) => {
-                            console.log(response);
                             store.state.commands.data = response;
                             store.state.commands.commands = response.data.data;
                             store.state.commands.pagination = response.data;

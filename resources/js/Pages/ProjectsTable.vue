@@ -38,11 +38,11 @@
                             <td class="w-full max-w-0 whitespace-nowrap px-6 py-3 text-sm font-medium text-gray-900">
                                 <div class="flex items-center space-x-3 lg:pl-2">
                                     <div :class="['flex-shrink-0 w-2.5 h-2.5 rounded-full']" aria-hidden="true" />
-                                    <RouterLink :to="'/project/' + project.id" @click="selectProject(project)">
+                                    <Link :href="route('project', { id: project.id })" @click="selectProject(project)">
                                         <span>
                                             {{ project.name }}
                                         </span>
-                                    </RouterLink>
+                                    </Link>
                                 </div>
                             </td>
                             <td class="hidden whitespace-nowrap px-6 py-3 text-right text-sm text-gray-500 md:table-cell">
@@ -69,25 +69,19 @@
 
 <script setup>
 import { computed } from "vue";
-import store from "../../Store/store";
+import { Link } from "@inertiajs/inertia-vue3";
+import store from "../Store/store";
 import moment from "moment";
 import { ChevronRightIcon } from "@heroicons/vue/20/solid";
-import ProjectEditMenu from "./ProjectEditMenu.vue";
-import EmptyProject from "./EmptyProject.vue";
+import ProjectEditMenu from "../Components/Tailwindui/ProjectEditMenu.vue";
+import EmptyProject from "../Components/Tailwindui/EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
-import { useRoute } from "vue-router";
 
 let loading = computed(() => store.state.general.loadingProjects);
-const route = useRoute();
 
 const userProjects = computed(() => store.state.general.projects);
 
 function selectProject(project) {
-    const id = route.params.id;
-
-    if (project == null) {
-        project = id;
-    }
     store.commit("general/selectProject", project);
 }
 </script>

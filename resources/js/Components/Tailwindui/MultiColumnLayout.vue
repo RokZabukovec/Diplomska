@@ -31,7 +31,7 @@
                                     <div class="mt-8">
                                         <h3 id="mobile-teams-headline" class="px-3 text-sm font-medium text-gray-500">Teams</h3>
                                         <div aria-labelledby="mobile-teams-headline" class="mt-1 space-y-1" role="group">
-                                            <a href="#" v-for="team in teams" :key="team.id" @click.prevent="switchToTeam(team)" class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                            <a v-for="team in teams" :key="team.id" href="#" class="group flex items-center rounded-md px-3 py-2 text-base font-medium leading-5 text-gray-600 hover:bg-gray-50 hover:text-gray-900" @click.prevent="switchToTeam(team)">
                                                 <span class="truncate">{{ team.name }}</span>
                                             </a>
                                         </div>
@@ -109,13 +109,13 @@
                 <!-- Navigation -->
                 <nav class="mt-6 px-3">
                     <div class="space-y-1">
-                        <RouterLink v-for="item in navigation" :key="item.name" :to="item.href" :aria-current="item.current ? 'page' : undefined" :class="[item.current ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']">{{ item.name }} </RouterLink>
+                        <Link v-for="item in navigation" :key="item.name" :href="item.href" :aria-current="item.current ? 'page' : undefined" :class="[item.current ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50', 'group flex items-center px-2 py-2 text-sm font-medium rounded-md']">{{ item.name }} </Link>
                     </div>
                     <div class="mt-8">
                         <!-- Secondary navigation -->
                         <h3 id="desktop-teams-headline" class="px-3 text-sm font-medium text-gray-500">Teams</h3>
                         <div aria-labelledby="desktop-teams-headline" class="mt-1 space-y-1" role="group">
-                            <a v-for="team in props.page.user.all_teams" :key="team.name" href="#" @click.prevent="switchToTeam(team)" class="relative group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900">
+                            <a v-for="team in props.page.user.all_teams" :key="team.name" href="#" class="relative group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" @click.prevent="switchToTeam(team)">
                                 <span v-if="team.id === props.page.user.current_team_id" class="absolute bg-green-500 top-0 left-0 h-full w-1"></span>
                                 <span :class="[team.bgColorClass, 'w-2.5 h-2.5 mr-4 rounded-full']" aria-hidden="true" />
                                 <span class="truncate">{{ team.name }}</span>
@@ -190,7 +190,7 @@
                 <!-- Page title & actions -->
                 <div class="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
                     <div class="min-w-0 flex-1">
-                        <router-link to="/">
+                        <router-link :to="{ name: 'dashboard' }">
                             <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                 <HomeIcon class="h-4 w-4 text-white" />
                                 Home
@@ -221,29 +221,26 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Projects table (small breakpoint and up) -->
-                <router-view></router-view>
+                <slot />
             </main>
         </div>
     </div>
 </template>
 
 <script setup>
-import moment from "moment";
 import { Inertia } from "@inertiajs/inertia";
 import Spotlight from "./Spotlight.vue";
-
+import { Link } from "@inertiajs/inertia-vue3";
 import { computed, onMounted, ref } from "vue";
 import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { Bars3CenterLeftIcon, Bars4Icon, HomeIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Bars3CenterLeftIcon, HomeIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { ChevronRightIcon, ChevronUpDownIcon, MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import store from "../../Store/store.js";
 import SlideOverNewProject from "./SlideOverNewProject.vue";
 
 let spotlightOpen = ref(false);
 
-const navigation = [{ name: "Home", href: "/", icon: HomeIcon, current: true }];
+const navigation = [{ name: "Home", href: "/dashboard", icon: HomeIcon, current: true }];
 
 const props = defineProps({
     page: {
@@ -251,6 +248,7 @@ const props = defineProps({
         default: null,
     },
 });
+
 const projects = computed(() => store.state.general.projects);
 const teams = computed(() => store.state.general.teams);
 

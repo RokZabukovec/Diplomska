@@ -1,10 +1,10 @@
 <script setup>
-import AppLayout from "../Layouts/AppLayout.vue";
+import MainLayout from "../Layouts/MainLayout.vue";
 import MultiColumnLayout from "../Components/Tailwindui/MultiColumnLayout.vue";
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
+    <MainLayout title="Dashboard">
         <MultiColumnLayout :page="$page.props"></MultiColumnLayout>
-    </AppLayout>
+    </MainLayout>
 </template>

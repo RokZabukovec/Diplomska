@@ -1,88 +1,8 @@
-Tailwind UI Components Templates New Documentation Stacked Layouts Application UI Application Shells Light nav with bottom border Requires JS Light nav on gray background Requires JS Dark nav with white page header Requires JS Branded nav with compact white page header Requires JS Dark nav with overlap Requires JS Brand nav with overlap Requires JS Branded nav with white page header Requires JS Dark nav with compact white page header Requires JS Two-row navigation with overlap Requires JS
-
-<!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
-    <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-100">
-    <body class="h-full">
-    ```
-  -->
     <div class="min-h-full">
         <Popover v-slot="{ open }" as="header" class="bg-indigo-600 pb-24">
             <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <div class="relative flex items-center justify-center py-5 lg:justify-between">
-                    <!-- Logo -->
-                    <div class="absolute left-0 flex-shrink-0 lg:static">
-                        <a href="#">
-                            <span class="sr-only">Your Company</span>
-                            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300" alt="Your Company" />
-                        </a>
-                    </div>
-
-                    <!-- Right section on desktop -->
-                    <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
-                        <button type="button" class="flex-shrink-0 rounded-full p-1 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-                            <span class="sr-only">View notifications</span>
-                            <BellIcon class="h-6 w-6" aria-hidden="true" />
-                        </button>
-
-                        <!-- Profile dropdown -->
-                        <Menu as="div" class="relative ml-4 flex-shrink-0">
-                            <div>
-                                <MenuButton class="flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
-                                    <span class="sr-only">Open user menu</span>
-                                    <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
-                                </MenuButton>
-                            </div>
-                            <transition leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems class="absolute -right-2 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                                        <a :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ item.name }}</a>
-                                    </MenuItem>
-                                </MenuItems>
-                            </transition>
-                        </Menu>
-                    </div>
-
-                    <!-- Search -->
-                    <div class="min-w-0 flex-1 px-12 lg:hidden">
-                        <div class="mx-auto w-full max-w-xs">
-                            <label for="desktop-search" class="sr-only">Search</label>
-                            <div class="relative text-white focus-within:text-gray-600">
-                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                    <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-                                </div>
-                                <input id="desktop-search" class="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" name="search" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Menu button -->
-                    <div class="absolute right-0 flex-shrink-0 lg:hidden">
-                        <!-- Mobile menu button -->
-                        <PopoverButton class="inline-flex items-center justify-center rounded-md bg-transparent p-2 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
-                            <span class="sr-only">Open main menu</span>
-                            <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-                            <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
-                        </PopoverButton>
-                    </div>
-                </div>
+                <MainNavigation></MainNavigation>
                 <div class="hidden border-t border-white border-opacity-20 py-5 lg:block">
                     <div class="grid grid-cols-3 items-center gap-8">
                         <div class="col-span-2">
@@ -97,7 +17,7 @@ Tailwind UI Components Templates New Documentation Stacked Layouts Application U
                                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                         <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
                                     </div>
-                                    <input id="mobile-search" class="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" name="search" />
+                                    <input id="mobile-search" v-model="q" class="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" name="search" @input="search()" @keyup.enter="search()" />
                                 </div>
                             </div>
                         </div>
@@ -126,13 +46,7 @@ Tailwind UI Components Templates New Documentation Stacked Layouts Application U
                                             </PopoverButton>
                                         </div>
                                     </div>
-                                    <div class="mt-3 space-y-1 px-2">
-                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Home</a>
-                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Profile</a>
-                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Resources</a>
-                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Company Directory</a>
-                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">Openings</a>
-                                    </div>
+                                    <div class="mt-3 space-y-1 px-2"></div>
                                 </div>
                                 <div class="pt-4 pb-2">
                                     <div class="flex items-center px-5">
@@ -149,7 +63,7 @@ Tailwind UI Components Templates New Documentation Stacked Layouts Application U
                                         </button>
                                     </div>
                                     <div class="mt-3 space-y-1 px-2">
-                                        <a v-for="item in userNavigation" :key="item.name" :href="item.href" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800">{{ item.name }}</a>
+                                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-800" @click.prevent="logout()">Sign out</a>
                                     </div>
                                 </div>
                             </div>
@@ -196,12 +110,16 @@ Tailwind UI Components Templates New Documentation Stacked Layouts Application U
 </template>
 
 <script setup>
-import { Menu, MenuButton, MenuItem, MenuItems, Popover, PopoverButton, PopoverOverlay, PopoverPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { computed, onMounted, ref } from "vue";
 import store from "../Store/store.js";
-
+import { Inertia } from "@inertiajs/inertia";
+import MainNavigation from "../Components/MainNavigation.vue";
+import _ from "lodash";
+import axios from "axios";
+let q = ref("");
 const user = {
     name: "Tom Cook",
     email: "tom@example.com",
@@ -214,11 +132,11 @@ const navigation = [
     { name: "Company Directory", href: "#", current: false },
     { name: "Openings", href: "#", current: false },
 ];
-const userNavigation = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
-];
+
+function logout() {
+    console.log(this.$attrs);
+    Inertia.post("/logout");
+}
 
 const props = defineProps({
     page: {
@@ -238,6 +156,18 @@ onMounted(() => {
     store.commit("general/getTeams");
     //store.commit("general/setUser", props.page.user);
 });
-</script>
 
-© 2022 Tailwind Labs Inc. All rights reserved. Privacy policy Changelog
+function search() {
+    axios
+        .get("/api/search?q=" + q.value)
+        .then((response) => {
+            store.commit("commands/setCommands", response);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+_.debounce(() => {
+    search();
+}, 2000);
+</script>

@@ -10,10 +10,12 @@ class SearchController extends Controller
     public function search(Request $request){
         $query = $request->get("q", "");
         $user = request()->user();
-        $teams = $user->allTeams();
+        $teams = $user->personalTeam();
+        $users = $teams->allUsers()->pluck("id")->toArray();
+
         $commands = Command::search($query)
-        ->where('user.id', $user->id)
-        ->get();
+        ->whereIn('user_id', $users)
+        ->paginate(10);
 
         return response()->json($commands);
     }

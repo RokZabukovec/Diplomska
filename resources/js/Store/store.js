@@ -1,8 +1,5 @@
 import { createStore } from "vuex";
 import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
-import { getLinks, storeLinkAsync } from "../API/links";
-import { getSnippets, storeSnippetAsync } from "../API/snippets";
-import { getPages, storePageAsync } from "../API/pages";
 import { getMembers } from "../API/team.js";
 
 // Create a new store instance.
@@ -211,114 +208,10 @@ const store = createStore({
                             console.log(e);
                         });
                 },
-            },
-        },
-        pages: {
-            namespaced: true,
-            state: () => ({
-                pages: [],
-            }),
-            mutations: {
-                async getPages(state, projectId) {
-                    store.state.general.loading = true;
-                    let pages = getPages(projectId.value);
-                    await pages
-                        .then((response) => {
-                            console.log(response);
-                            store.state.pages.pages = response.data.data;
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        })
-                        .finally(() => {
-                            store.state.general.loading = false;
-                        });
-                },
-
-                async storePage(state, form) {
-                    let response = storePageAsync(form);
-                    response
-                        .then((response) => {
-                            if (response.status > 300) {
-                                console.log(response);
-                                return;
-                            }
-                            state.pages.push(response.data.data);
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                },
-            },
-        },
-        links: {
-            namespaced: true,
-            state: () => ({
-                links: [],
-            }),
-            mutations: {
-                async getLinks(state, projectId) {
-                    store.state.general.loading = true;
-                    let links = getLinks(projectId.value);
-                    await links
-                        .then((response) => {
-                            store.state.links.links = response.data;
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        })
-                        .finally(() => {
-                            store.state.general.loading = false;
-                        });
-                },
-
-                async storeLink(state, form) {
-                    let response = storeLinkAsync(form);
-                    response
-                        .then((response) => {
-                            if (response.status > 300) {
-                                console.log(response);
-                                return;
-                            }
-                            store.state.links.links.push(response.data.data);
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                },
-            },
-        },
-        snippets: {
-            namespaced: true,
-            state: () => ({
-                snippets: [],
-            }),
-            mutations: {
-                async getSnippets(state, projectId) {
-                    let snippets = getSnippets(projectId.value);
-                    await snippets
-                        .then((response) => {
-                            console.log(response);
-                            store.state.snippets.snippets = response.data;
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                },
-
-                async storeSnippet(state, form) {
-                    let response = storeSnippetAsync(form);
-                    response
-                        .then((response) => {
-                            if (response.status > 300) {
-                                console.log(response);
-                                return;
-                            }
-                            state.snippets.push(response);
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
+                async setCommands(state, response) {
+                    store.state.commands.data = response;
+                    store.state.commands.commands = response.data.data;
+                    store.state.commands.pagination = response.data;
                 },
             },
         },

@@ -1,13 +1,18 @@
 <template>
-    <div>
+    <MainLayout>
         <!-- Projects list (only on smallest breakpoint) -->
         <div class="mt-10 sm:hidden">
             <div class="px-4 sm:px-6">
                 <h2 class="text-sm font-medium text-gray-900">Projects</h2>
             </div>
-            <ul role="list" class="mt-3 divide-y divide-gray-100 border-t border-gray-200">
+            <div v-show="loading">
+                <div class="pt-5">
+                    <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
+                </div>
+            </div>
+            <ul v-if="userProjects.length && !loading" role="list" class="mt-3 divide-y divide-gray-100 border-t border-gray-200">
                 <li v-for="project in userProjects" :key="project.id">
-                    <a href="#" class="group flex items-center justify-between px-4 py-4 hover:bg-gray-50 sm:px-6">
+                    <Link :href="route('project', { id: project.id })" @click="selectProject(project)">
                         <span class="flex items-center space-x-3 truncate">
                             <span :class="[project.label_color, 'w-2.5 h-2.5 flex-shrink-0 rounded-full']" aria-hidden="true" />
                             <span class="truncate text-sm font-medium leading-6" @click="selectProject(project)">
@@ -15,15 +20,23 @@
                             </span>
                         </span>
                         <ChevronRightIcon class="ml-4 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
-                    </a>
+                    </Link>
                 </li>
             </ul>
+            <div v-else-if="!userProjects.length && !loading" class="mt-5 h-full">
+                <EmptyProject></EmptyProject>
+            </div>
         </div>
 
         <!-- Projects table (small breakpoint and up) -->
         <div class="hidden sm:block min-h-screen">
+            <div v-show="loading">
+                <div class="pt-5">
+                    <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
+                </div>
+            </div>
             <div class="inline-block min-w-full border-b border-gray-200 align-middle min-h-screen">
-                <table v-if="userProjects.length" class="min-w-full">
+                <table v-if="userProjects.length && !loading" class="min-w-full">
                     <thead>
                         <tr class="border-t border-gray-200">
                             <th class="border-b border-gray-200 bg-gray-50 px-6 py-3 text-left text-sm font-semibold text-gray-900" scope="col">
@@ -54,17 +67,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <div v-else class="mt-5 h-full">
+                <div v-else-if="!userProjects.length && !loading" class="mt-5 h-full">
                     <EmptyProject></EmptyProject>
                 </div>
             </div>
         </div>
-        <div>
-            <div class="pt-5">
-                <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
-            </div>
-        </div>
-    </div>
+    </MainLayout>
 </template>
 
 <script setup>
@@ -76,6 +84,7 @@ import { ChevronRightIcon } from "@heroicons/vue/20/solid";
 import ProjectEditMenu from "../Components/Tailwindui/ProjectEditMenu.vue";
 import EmptyProject from "../Components/Tailwindui/EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
+import MainLayout from "../Layouts/MainLayout.vue";
 
 let loading = computed(() => store.state.general.loadingProjects);
 
@@ -85,5 +94,3 @@ function selectProject(project) {
     store.commit("general/selectProject", project);
 }
 </script>
-
-<style scoped></style>

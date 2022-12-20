@@ -1,19 +1,19 @@
 <template>
-    <nav class="bg-white border-b border-gray-100">
+    <nav>
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center">
-                        <Link :href="route('dashboard')">
+                        <Link :href="route('projects')">
                             <ApplicationMark class="block h-9 w-auto" />
                         </Link>
                     </div>
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </NavLink>
+                        <NavLink :href="route('projects')" :active="route().current('projects')"> Projects </NavLink>
                     </div>
                 </div>
 
@@ -41,8 +41,6 @@
 
                                         <!-- Team Settings -->
                                         <DropdownLink :href="route('teams.show', $page.props.user.current_team)"> Team Settings </DropdownLink>
-
-                                        <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')"> Create New Team </DropdownLink>
 
                                         <div class="border-t border-gray-100" />
 
@@ -145,7 +143,7 @@
             class="sm:hidden"
         >
             <div class="pt-2 pb-3 space-y-1">
-                <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')"> Dashboard </ResponsiveNavLink>
+                <ResponsiveNavLink :href="route('projects')" :active="route().current('projects')"> Projects </ResponsiveNavLink>
             </div>
 
             <!-- Responsive Settings Options -->
@@ -183,8 +181,6 @@
 
                         <!-- Team Settings -->
                         <ResponsiveNavLink :href="route('teams.show', $page.props.user.current_team)" :active="route().current('teams.show')"> Team Settings </ResponsiveNavLink>
-
-                        <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')"> Create New Team </ResponsiveNavLink>
 
                         <div class="border-t border-gray-200" />
 

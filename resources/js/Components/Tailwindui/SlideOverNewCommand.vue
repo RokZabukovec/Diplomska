@@ -117,6 +117,7 @@ const tagsInput = ref("");
 let open = ref(false);
 
 function storeCommand() {
+    console.log(form.value);
     store.commit("commands/storeCommand", form.value);
     open.value = false;
     for (let data in form) delete form[data];

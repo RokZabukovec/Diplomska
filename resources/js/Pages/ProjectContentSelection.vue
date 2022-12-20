@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <MainLayout>
         <div v-if="loading" class="w-1/2 pt-5">
             <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="20" :dots-num="5" color="#9400ff" />
         </div>
@@ -21,15 +21,16 @@
                 <CommandList></CommandList>
             </div>
         </div>
-    </div>
+    </MainLayout>
 </template>
 
 <script setup>
-import SlideOverNewCommand from "@/Components/Tailwindui/SlideOverNewCommand.vue";
+import SlideOverNewCommand from "../Components/Tailwindui/SlideOverNewCommand.vue";
 import CommandList from "@/Components/Tailwindui/CommandList.vue";
 import { HollowDotsSpinner } from "epic-spinners";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
+import MainLayout from "../Layouts/MainLayout.vue";
 
 let store = useStore();
 let props = defineProps({

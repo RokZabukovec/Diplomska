@@ -10,3 +10,13 @@
 .command-list-item:hover .edit-link {
     visibility: visible;
 }
+
+.page-enter-active,
+.page-leave-active {
+    transition: all 0.1s;
+}
+
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}

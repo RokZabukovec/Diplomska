@@ -6,6 +6,7 @@ use App\Helpers\CacheKey;
 use App\Http\Requests\CommandStoreRequest;
 use App\Models\Command;
 use App\Models\Project;
+use App\Models\Tool;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -25,6 +26,7 @@ class CommandRepository implements RepositoryInterface
         if (!empty($validated['tags'])) {
             $command->syncTags($validated['tags']);
         }
+        $tool = strtok($validated["command"], " ");
 
         if ($command instanceof Command) {
             $key = Str::replace('?', $command->project_id, CacheKey::$userCommands);

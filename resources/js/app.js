@@ -14,14 +14,7 @@ const appName = window.document.getElementsByTagName("title")[0]?.innerText || "
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => {
-        const page = resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob("./Pages/**/*.vue"));
-        page.then((module) => {
-            module.default.layout = module.default.layout || MainLayout;
-            if (name === "Welcome") {
-                module.default.layout = null;
-            }
-        });
-        return page;
+        return resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob("./Pages/**/*.vue"));
     },
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })

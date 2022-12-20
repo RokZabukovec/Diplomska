@@ -43,7 +43,6 @@ let props = defineProps({
 let loading = computed(() => store.state.general.loading);
 
 onMounted(() => {
-    console.log("Loading");
     store.commit("general/selectProject", props.project);
     store.commit("commands/getCommands", { project: props.project.id, page: 1 });
 });

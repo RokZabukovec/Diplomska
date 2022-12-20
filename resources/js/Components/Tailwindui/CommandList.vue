@@ -36,7 +36,7 @@
 
 <script setup>
 import CommandPagination from "./CommandPagination.vue";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, defineProps } from "vue";
 import { useStore } from "vuex";
 import { Link } from "@inertiajs/inertia-vue3";
 

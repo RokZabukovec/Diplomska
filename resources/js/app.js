@@ -7,7 +7,6 @@ import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import store from "./Store/store.js";
-import MainLayout from "./Layouts/MainLayout.vue";
 
 const appName = window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
@@ -25,4 +24,6 @@ createInertiaApp({
     },
 }).then(() => console.log("Welcome to WhatNow"));
 
-InertiaProgress.init({ color: "green" });
+InertiaProgress.init({
+    color: '#f10e73',
+});

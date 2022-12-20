@@ -81,7 +81,7 @@
                     <div class="grid grid-cols-1 gap-4 lg:col-span-2">
                         <section aria-labelledby="section-1-title">
                             <h2 id="section-1-title" class="sr-only">Section title</h2>
-                            <div class="overflow-hidden rounded-lg bg-white shadow">
+                            <div class="overflow-hidden rounded-lg bg-white shadow min-h-screen">
                                 <div class="p-6"><slot></slot></div>
                             </div>
                         </section>
@@ -92,8 +92,8 @@
                         <section aria-labelledby="section-2-title">
                             <h2 id="section-2-title" class="sr-only">Section title</h2>
                             <div class="overflow-hidden rounded-lg bg-white shadow">
-                                <div class="p-6">
-                                    <h1>Tags</h1>
+                                <div class="p-2">
+                                    <slot name="sidebar"></slot>
                                 </div>
                             </div>
                         </section>
@@ -154,7 +154,6 @@ const sidebarOpen = ref(false);
 onMounted(() => {
     store.commit("general/getProjects");
     store.commit("general/getTeams");
-    //store.commit("general/setUser", props.page.user);
 });
 
 function search() {

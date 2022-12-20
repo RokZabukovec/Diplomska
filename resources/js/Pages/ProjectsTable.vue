@@ -1,5 +1,5 @@
 <template>
-    <MainLayout>
+    <MainLayout :context="page.props.context">
         <!-- Projects list (only on smallest breakpoint) -->
         <div class="mt-10 sm:hidden">
             <div class="px-4 sm:px-6">
@@ -76,8 +76,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import {computed, onMounted} from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import {usePage} from '@inertiajs/inertia-vue3'
 import store from "../Store/store";
 import moment from "moment";
 import { ChevronRightIcon } from "@heroicons/vue/20/solid";
@@ -86,6 +87,8 @@ import EmptyProject from "../Components/Tailwindui/EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
 import MainLayout from "../Layouts/MainLayout.vue";
 
+const page = usePage();
+
 let loading = computed(() => store.state.general.loadingProjects);
 
 const userProjects = computed(() => store.state.general.projects);
@@ -93,4 +96,8 @@ const userProjects = computed(() => store.state.general.projects);
 function selectProject(project) {
     store.commit("general/selectProject", project);
 }
+
+onMounted(() => {
+    store.commit("general/setUser", page);
+});
 </script>

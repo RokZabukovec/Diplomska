@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\web\CommandController;
+use App\Services\PageContextService;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -31,10 +33,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('ProjectsTable', ["context" => PageContextService::getContext()]);
+    })->name('projects');
 
-    Route::inertia('/dashboard', 'ProjectsTable')->name('projects');
     Route::get('/project/{project:id}', [ProjectController::class, 'show'])->name('project');
     Route::get('/command/{command:id}/edit', [CommandController::class, 'edit'])->name('command.edit');
+    Route::get('/search', [SearchController::class, 'show'])->name('search.show');
 });
 
 Route::Resource('projects', ProjectController::class)->middleware('auth');

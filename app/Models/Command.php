@@ -15,6 +15,8 @@ class Command extends Model
     use Searchable;
 
     protected $fillable = ['command', 'description', 'project_id'];
+    public static string $index = 'commands';
+    public static array $filterable = ['user_id', 'project_id'];
 
     public function project()
     {

@@ -46,11 +46,12 @@ const getCommands = (url) => {
     const searchParams = urlParsed.searchParams;
 
     const page = searchParams.get("page");
-    console.log(page);
-    const payload = {
-        project: projectId.value,
-        page: page ?? 1,
-    };
-    store.commit("commands/getCommands", payload);
+    if (projectId) {
+        const payload = {
+            project: projectId.value,
+            page: page ?? 1,
+        };
+        store.commit("commands/getCommands", payload);
+    }
 };
 </script>

@@ -21,7 +21,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use Searchable;
-    
+
     /**
      * The attributes that are mass assignable.
      *

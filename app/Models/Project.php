@@ -18,6 +18,10 @@ class Project extends Model
         'label_color'
     ];
 
+    public static string $index = 'projects';
+
+    public static array $filterable = ['user_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,7 +35,7 @@ class Project extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
- 
+
         return $array;
     }
 }

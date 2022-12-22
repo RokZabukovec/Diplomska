@@ -13,14 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->longText('body')->nullable();
-            $table->foreignId('project_id')
-                ->constrained()
-                ->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('commands', function (Blueprint $table) {
+            $table->foreignId('tool_id')->nullable()->references('id')->on('tools');
         });
     }
 
@@ -31,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::table('commands', function (Blueprint $table) {
+            $table->removeColumn("tool_id");
+        });
     }
 };

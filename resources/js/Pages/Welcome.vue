@@ -31,7 +31,8 @@
                         <a v-for="item in navigation" :key="item.name" :href="item.href" class="font-semibold text-gray-900 hover:text-gray-900">{{ item.name }}</a>
                     </div>
                     <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">Log in</a>
+                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-1">Log in</a>
+                        <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
                     </div>
                 </nav>
                 <Dialog as="div" :open="mobileMenuOpen" @close="mobileMenuOpen = false">

@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('snippets', function (Blueprint $table) {
+        Schema::create('tools', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('body')->nullable();
-            $table->foreignId('project_id')
-                ->constrained()
-                ->onDelete('cascade');
+            $table->string('title');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('snippets');
+        Schema::dropIfExists('tools');
     }
 };

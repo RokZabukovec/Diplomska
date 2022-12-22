@@ -27,7 +27,10 @@ class CommandRepository implements RepositoryInterface
             $command->syncTags($validated['tags']);
         }
         $tool = strtok($validated["command"], " ");
-
+        if (!empty($tool)){
+            $toolSaved = Tool::firstOrCreate(['title' =>  strtolower($tool)]);
+            $command->tool_id = $toolSaved->id;
+        }
         if ($command instanceof Command) {
             $key = Str::replace('?', $command->project_id, CacheKey::$userCommands);
             Cache::forget($key);

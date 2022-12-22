@@ -7,11 +7,12 @@
                     <kbd class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-sm font-medium text-gray-400">⌘K</kbd>
                 </div>
             </div>
-            <ul>
-                <li v-for="command in commands">
-                    {{command.command}}
-                </li>
+            <ul v-if="commands.length">
+                <SearchResults :commands="commands"></SearchResults>
             </ul>
+            <div v-else class="flex justify-content-center mt-5">
+                <h3 class="text-slate-500">No results yet</h3>
+            </div>
         </div>
         <template #sidebar>
             <div class="p-2">
@@ -32,10 +33,11 @@
 
 <script setup>
 import MainLayout from "../Layouts/MainLayout.vue";
-import {defineProps, onMounted, ref, computed} from "vue";
+import SearchResults from "../Components/Tailwindui/SearchResults.vue";
 import axios from "axios";
 import _ from "lodash";
 import { useStore } from "vuex";
+import {defineProps, onMounted, ref, computed} from "vue";
 
 let store = useStore();
 let commands = computed(() => store.state.commands.commands);

@@ -22,8 +22,8 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
-}).then(() => console.log("Welcome to WhatNow"));
+}).then(() => console.log("Welcome to BrainWallet"));
 
 InertiaProgress.init({
-    color: '#f10e73',
+    color: '#15cce8',
 });

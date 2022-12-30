@@ -2,9 +2,9 @@ Tailwind UI Components Templates New Documentation Dropdowns Application UI Elem
 
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-    <Menu as="div" class="relative inline-block text-left">
+    <Menu as="div" class="inline-block text-left">
         <div>
-            <MenuButton class="overflow-y-auto flex items-center rounded-full bg-transparent text-gray-900 hover:text-gray-700 focus:outline-none z-10">
+            <MenuButton class="overflow-y-auto flex items-center rounded-full bg-transparent text-gray-900 hover:text-gray-700 focus:outline-none z-1000">
                 <span class="sr-only">Open options</span>
                 <EllipsisVerticalIcon aria-hidden="true" class="h-5 w-5" />
             </MenuButton>
@@ -29,12 +29,9 @@ Tailwind UI Components Templates New Documentation Dropdowns Application UI Elem
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { EllipsisVerticalIcon } from "@heroicons/vue/20/solid";
 import DeleteProjectModal from "./DeleteProjectModal.vue";
-import { onMounted } from "vue";
+
 let props = defineProps({
     project: Object,
 });
 
-onMounted(() => {
-    console.log("PROJECT EDIT MENU", props);
-});
 </script>

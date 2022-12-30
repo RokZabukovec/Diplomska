@@ -2,22 +2,53 @@
     <div class="min-h-full">
         <Popover v-slot="{ open }" as="header" class="bg-indigo-600 pb-24">
             <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <MainNavigation></MainNavigation>
-                <div class="hidden border-t border-white border-opacity-20 py-5 lg:block">
-                    <div class="grid grid-cols-3 items-center gap-8">
+                <div class="hidden py-5 lg:block">
+                    <div class="flex items-center justify-between">
                         <div class="col-span-2">
-                            <nav class="flex space-x-4">
-                                <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'text-white' : 'text-indigo-100', 'text-sm font-medium rounded-md bg-white bg-opacity-0 px-3 py-2 hover:bg-opacity-10']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+                            <nav class="flex space-x-4 hidden lg:inline-flex">
+                                <Link :href="route('projects')"  class="p-2 text-xs font-bold">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/dashboard') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-indigo-100 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 bg-indigo-400 dark:highlight-white/5 transition-colors">
+                                        <HomeModernIcon v-if="$page.url.startsWith('/dashboard')" class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200" aria-hidden="true" />
+                                        Home
+                                    </button>
+                                </Link>
+                                <Link :href="route('profile.show')"  class="rounded p-2 font-bold text-xs font-medium">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/profile') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                        Profile
+                                    </button>
+                                </Link>
+                                <Link :href="route('api-tokens.index')"  class="rounded p-2 text-xs font-bold">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/api-tokens') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                        API tokens
+                                    </button>
+                                </Link>
+                                <Link :href="route('teams.show', $page.props.user.current_team_id)"  class="rounded p-2 text-xs font-bold">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/teams') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                        Team
+                                    </button>
+                                </Link>
+
+                                <Link @click.prevent="Inertia.post(route('logout'))" class="p-2 text-xs font-bold float-right">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/logout') }"  class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                        Logout
+                                    </button>
+                                </Link>
                             </nav>
                         </div>
                         <div>
-                            <div class="mx-auto w-full max-w-md">
+                            <div class="max-w-md">
                                 <label for="mobile-search" class="sr-only">Search</label>
                                 <div class="relative text-white focus-within:text-gray-600">
-                                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-                                    </div>
-                                    <input id="mobile-search" v-model="q" class="block w-full rounded-md border border-transparent bg-white bg-opacity-20 py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-white focus:border-transparent focus:bg-opacity-100 focus:placeholder-gray-500 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" name="search" @input="search()" @keyup.enter="search()" />
+                                    <Link :href="route('search.show')" class="p-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        <div class="sticky top-0 -ml-0.5 pointer-events-none">
+                                            <div class="bg-white bg-indigo-600 relative pointer-events-auto">
+                                                <button type="button" class="hidden w-full lg:flex items-center text-sm leading-6 text-indigo-100 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 bg-indigo-400 dark:highlight-white/5 dark:hover:bg-slate-700 transition-colors">
+                                                    <MagnifyingGlassIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200" aria-hidden="true" />
+                                                    Quick search...
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -74,28 +105,20 @@
         </Popover>
         <main class="-mt-24 pb-8">
             <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <h1 class="sr-only">Page title</h1>
-                <!-- Main 3 column grid -->
-                <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
-                    <!-- Left column -->
-                    <div class="grid grid-cols-1 gap-4 lg:col-span-2">
+                <h1 class="sr-only">Dashboard</h1>
+                <div class="flex flex-col md:flex-row mt-6 md:mt-0">
+                    <div class="w-full md:w-3/4 mb-2">
                         <section aria-labelledby="section-1-title">
-                            <h2 id="section-1-title" class="sr-only">Section title</h2>
-                            <div class="overflow-hidden rounded-lg bg-white shadow min-h-screen">
-                                <div class="p-6"><slot></slot></div>
-                            </div>
+                        <h2 id="section-1-title" class="sr-only">Layout left</h2>
+                        <div class="overflow-hidden rounded-lg bg-white shadow min-h-screen mr-0 md:mr-2">
+                            <div class="p-6"><slot></slot></div>
+                        </div>
                         </section>
                     </div>
-
-                    <!-- Right column -->
-                    <div class="grid grid-cols-1 gap-4">
+                    <div class="w-full md:w-1/4">
                         <section aria-labelledby="section-2-title">
-                            <h2 id="section-2-title" class="sr-only">Section title</h2>
-                            <div class="overflow-hidden rounded-lg bg-white shadow">
-                                <div class="p-2">
-                                    <slot name="sidebar"></slot>
-                                </div>
-                            </div>
+                            <h2 id="section-2-title" class="sr-only">Layout right</h2>
+                            <slot name="sidebar"></slot>
                         </section>
                     </div>
                 </div>
@@ -103,7 +126,7 @@
         </main>
         <footer>
             <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2021 Your Company, Inc.</span> <span class="block sm:inline">All rights reserved.</span></div>
+                <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2022 Brain Wallet.</span> <span class="block sm:inline">All rights reserved.</span></div>
             </div>
         </footer>
     </div>
@@ -116,30 +139,24 @@ import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { computed, onMounted, ref } from "vue";
 import store from "../Store/store.js";
 import { Inertia } from "@inertiajs/inertia";
-import MainNavigation from "../Components/MainNavigation.vue";
 import _ from "lodash";
 import axios from "axios";
+import {Link} from "@inertiajs/inertia-vue3";
+import { HomeModernIcon } from '@heroicons/vue/20/solid'
+
 let q = ref("");
 const user = {
     name: "Tom Cook",
     email: "tom@example.com",
     imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [
-    { name: "Home", href: "#", current: true },
-    { name: "Profile", href: "#", current: false },
-    { name: "Resources", href: "#", current: false },
-    { name: "Company Directory", href: "#", current: false },
-    { name: "Openings", href: "#", current: false },
-];
 
 function logout() {
-    console.log(this.$attrs);
     Inertia.post("/logout");
 }
 
 const props = defineProps({
-    page: {
+    context: {
         type: Object,
         default: null,
     },
@@ -156,6 +173,22 @@ onMounted(() => {
     store.commit("general/getTeams");
 });
 
+function mainSearchFocus() {
+    const input = document.querySelector('#search');
+    if(input === null) return;
+
+    document.addEventListener('keydown', (event) => {
+        event.preventDefault();
+        if (event.ctrlKey && event.key === 'f') {
+            input.focus();
+        }
+    });
+}
+
+onMounted(() => {
+    mainSearchFocus();
+});
+
 function search() {
     axios
         .get("/api/search?q=" + q.value)
@@ -166,6 +199,7 @@ function search() {
             console.log(err);
         });
 }
+
 _.debounce(() => {
     search();
 }, 2000);

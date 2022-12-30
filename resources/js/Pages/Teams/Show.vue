@@ -4,6 +4,7 @@ import DeleteTeamForm from "@/Pages/Teams/Partials/DeleteTeamForm.vue";
 import SectionBorder from "@/Components/SectionBorder.vue";
 import TeamMemberManager from "@/Pages/Teams/Partials/TeamMemberManager.vue";
 import UpdateTeamNameForm from "@/Pages/Teams/Partials/UpdateTeamNameForm.vue";
+import MainLayout from "@/Layouts/MainLayout.vue";
 
 defineProps({
     team: Object,
@@ -13,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Team Settings">
+    <MainLayout title="Team Settings">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Team Settings</h2>
         </template>
@@ -31,5 +32,5 @@ defineProps({
                 </template>
             </div>
         </div>
-    </AppLayout>
+    </MainLayout>
 </template>

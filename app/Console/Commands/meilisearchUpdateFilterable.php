@@ -26,7 +26,7 @@ class meilisearchUpdateFilterable extends CommandAlias
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Add filterable attributes to meilisearch index. The attributes are defined in the model.';
 
     /**
      * Execute the console command.

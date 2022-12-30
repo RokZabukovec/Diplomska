@@ -74,9 +74,9 @@
                                                 -->
 
                                                 <!-- Privacy -->
-                                                <fieldset class="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
+                                                <fieldset class="items-center space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
                                                     <legend class="sr-only">Privacy</legend>
-                                                    <div aria-hidden="true" class="text-sm font-medium text-gray-900">Color</div>
+                                                    <div aria-hidden="true" class="text-sm font-medium text-gray-900">Label</div>
 
                                                     <div>
                                                         <RadioGroup v-model="form.label_color" class="mt-4">
@@ -93,56 +93,9 @@
                                                             </div>
                                                         </RadioGroup>
                                                     </div>
-                                                    <div class="space-y-5 sm:col-span-2">
-                                                        <div class="space-y-5 sm:mt-0">
-                                                            <div class="relative flex items-start">
-                                                                <div class="absolute flex h-5 items-center">
-                                                                    <input id="public-access" aria-describedby="public-access-description" checked="" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" name="privacy" type="radio" />
-                                                                </div>
-                                                                <div class="pl-7 text-sm">
-                                                                    <label class="font-medium text-gray-900" for="public-access">Public access</label>
-                                                                    <p id="public-access-description" class="text-gray-500">Everyone with the link will see this project</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="relative flex items-start">
-                                                                <div class="absolute flex h-5 items-center">
-                                                                    <input id="restricted-access" aria-describedby="restricted-access-description" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" name="privacy" type="radio" />
-                                                                </div>
-                                                                <div class="pl-7 text-sm">
-                                                                    <label class="font-medium text-gray-900" for="restricted-access">Private to Project Members</label>
-                                                                    <p id="restricted-access-description" class="text-gray-500">Only members of this project would be able to access</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="relative flex items-start">
-                                                                <div class="absolute flex h-5 items-center">
-                                                                    <input id="private-access" aria-describedby="private-access-description" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" name="privacy" type="radio" />
-                                                                </div>
-                                                                <div class="pl-7 text-sm">
-                                                                    <label class="font-medium text-gray-900" for="private-access">Private to you</label>
-                                                                    <p id="private-access-description" class="text-gray-500">You are the only one able to access this project</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <hr class="border-gray-200" />
-                                                        <div class="space-between sm:space-between flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0">
-                                                            <div class="flex-1">
-                                                                <a class="group flex items-center space-x-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-900" href="#">
-                                                                    <LinkIcon aria-hidden="true" class="h-5 w-5 text-indigo-500 group-hover:text-indigo-900" />
-                                                                    <span>Copy link</span>
-                                                                </a>
-                                                            </div>
-                                                            <div>
-                                                                <a class="group flex items-center space-x-2.5 text-sm text-gray-500 hover:text-gray-900" href="#">
-                                                                    <QuestionMarkCircleIcon aria-hidden="true" class="h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                                                                    <span>Learn more about sharing</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </fieldset>
                                             </div>
                                         </div>
-
                                         <!-- Action buttons -->
                                         <div class="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
                                             <div class="flex justify-end space-x-3">

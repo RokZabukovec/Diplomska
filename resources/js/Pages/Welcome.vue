@@ -30,9 +30,12 @@
                     <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
                         <a v-for="item in navigation" :key="item.name" :href="item.href" class="font-semibold text-gray-900 hover:text-gray-900">{{ item.name }}</a>
                     </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-1">Log in</a>
+                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-if="_.isEmpty(user)">
+                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Log in</a>
                         <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
+                    </div>
+                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-else>
+                        <a href="/dashboard" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-indigo-500">Dashboard</a>
                     </div>
                 </nav>
                 <Dialog as="div" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
@@ -77,18 +80,11 @@
                             </div>
                         </div>
                         <div>
-                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">Data to enrich your online business</h1>
-                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
-                            <div class="mt-8 flex gap-x-4 sm:justify-center">
-                                <a href="#" class="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700">
-                                    Get started
-                                    <span class="text-indigo-200" aria-hidden="true">&rarr;</span>
-                                </a>
-                                <a href="#" class="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 text-gray-900 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                                    Live demo
-                                    <span class="text-gray-400" aria-hidden="true">&rarr;</span>
-                                </a>
-                            </div>
+                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">{{$page.props.context.app_name}}</h1>
+                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
+                                "Are you tired of searching through old terminal windows to find that one command you need?
+                                Try our web app and easily store and access all your terminal commands and information in one place."
+                            </p>
                         </div>
                         <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
                             <svg class="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,6 +100,9 @@
                     </div>
                 </div>
             </div>
+            <section id="get-started">
+                <Features/>
+            </section>
         </main>
     </div>
 </template>
@@ -112,6 +111,13 @@
 import { ref } from "vue";
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
+import _ from "lodash";
+import {usePage} from "@inertiajs/inertia-vue3";
+import Features from "../Components/Tailwindui/Features.vue";
+
+const props = defineProps(["data"]);
+const page = usePage();
+const user = page.props.value.context.user;
 
 const navigation = [
     { name: "Product", href: "#" },

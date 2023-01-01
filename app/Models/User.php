@@ -11,11 +11,13 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
+    use HasRoles;
     use HasProfilePhoto;
     use HasTeams;
     use Notifiable;

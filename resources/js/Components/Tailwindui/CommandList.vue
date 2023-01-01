@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="overflow-hidden bg-white shadow sm:rounded-md w-full" v-if="commands.length">
-            <ul role="list" class="divide-y divide-gray-200">
+        <div class="overflow-hidden bg-white shadow sm:rounded-md w-full mt-6" v-if="commands.length">
+            <ul role="list" class="divide-y divide-gray-200 mt-6">
                 <li v-for="command in commands" :key="command.id" class="command-list-item">
                     <div class="relative">
                         <div class="w-full flex justify-end absolute edit-link">
@@ -32,6 +32,9 @@
                 </li>
             </ul>
             <CommandPagination :pagination="pagination"></CommandPagination>
+        </div>
+        <div v-else>
+            <h3 class="text-slate-500 text-center my-3">No results found</h3>
         </div>
     </div>
 </template>

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\web\CommandController;
 use App\Services\PageContextService;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -21,6 +23,7 @@ use App\Http\Controllers\web\ProjectController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
+        'context'=> PageContextService::getContext(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -40,6 +43,10 @@ Route::middleware([
     Route::get('/project/{project:id}', [ProjectController::class, 'show'])->name('project');
     Route::get('/command/{command:id}/edit', [CommandController::class, 'edit'])->name('command.edit');
     Route::get('/search', [SearchController::class, 'show'])->name('search.show');
+
+    Route::group(['middleware' => 'super-user'], function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    });
 });
 
 Route::Resource('projects', ProjectController::class)->middleware('auth');

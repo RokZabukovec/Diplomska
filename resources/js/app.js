@@ -22,7 +22,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
-}).then(() => console.log("Welcome to BrainWallet"));
+}).then(() => console.log("Welcome to Command Hub"));
 
 InertiaProgress.init({
     color: '#15cce8',

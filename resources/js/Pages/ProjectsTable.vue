@@ -17,12 +17,13 @@
                     <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                         <div class="flex-1 truncate px-4 py-2 text-sm">
                             <Link class="font-medium text-gray-900 hover:text-gray-600" :href="route('project', { id: project.id })">{{ project.name }}</Link>
-                            <p class="ext-gray-500">members</p>
                         </div>
                     </div>
-                    <ProjectEditMenu :project="project"></ProjectEditMenu>
                 </li>
             </ul>
+            <div class="mt-6" v-else>
+                <EmptyProject/>
+            </div>
         </div>
     </MainLayout>
 </template>
@@ -76,6 +77,6 @@ function selectProject(project) {
 }
 
 onMounted(() => {
-    store.commit("general/setUser", page);
+    store.commit("general/setUser", page.props.value.context.user);
 });
 </script>

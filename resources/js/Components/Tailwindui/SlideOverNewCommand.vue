@@ -1,5 +1,5 @@
 <template>
-    <div class="my-2">
+    <div>
         <button type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="open = true">Add +</button>
         <TransitionRoot :show="open" as="template">
             <Dialog as="div" class="relative z-10" @close="open = false">

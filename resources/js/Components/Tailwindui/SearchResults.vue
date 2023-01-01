@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-hidden bg-white shadow sm:rounded-md w-full mt-6">
+    <div class="overflow-hidden bg-white shadow sm:rounded-md w-full">
         <ul role="list" class="divide-y divide-gray-200">
             <li v-for="command in props.commands" :key="command.id" class="command-list-item">
                 <div class="relative">

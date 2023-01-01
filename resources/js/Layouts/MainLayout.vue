@@ -7,30 +7,33 @@
                         <div class="col-span-2">
                             <nav class="flex space-x-4 hidden lg:inline-flex">
                                 <Link :href="route('projects')"  class="p-2 text-xs font-bold">
-                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/dashboard') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-indigo-100 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 bg-indigo-400 dark:highlight-white/5 transition-colors">
-                                        <HomeModernIcon v-if="$page.url.startsWith('/dashboard')" class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200" aria-hidden="true" />
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/dashboard') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-indigo-100 rounded-md py-1.5 pl-2 pr-3 dark:highlight-white/5 transition-colors">
+                                        <HomeModernIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200" aria-hidden="true" />
                                         Home
                                     </button>
                                 </Link>
                                 <Link :href="route('profile.show')"  class="rounded p-2 font-bold text-xs font-medium">
-                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/profile') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/profile') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 hover:bg-indigo-400 transition-colors">
+                                        <UserIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200"></UserIcon>
                                         Profile
                                     </button>
                                 </Link>
                                 <Link :href="route('api-tokens.index')"  class="rounded p-2 text-xs font-bold">
-                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/api-tokens') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/user/api-tokens') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 hover:bg-indigo-400 transition-colors">
+                                        <GlobeAltIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200"></GlobeAltIcon>
                                         API tokens
                                     </button>
                                 </Link>
-                                <Link :href="route('teams.show', $page.props.user.current_team_id)"  class="rounded p-2 text-xs font-bold">
-                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/teams') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
+                                <Link v-if="$page.props.context.user.current_team_id" :href="route('teams.show', $page.props.user.current_team_id)"  class="rounded p-2 text-xs font-bold">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/teams') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 hover:bg-indigo-400 transition-colors">
+                                        <UserGroupIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200"></UserGroupIcon>
                                         Team
                                     </button>
                                 </Link>
-
-                                <Link @click.prevent="Inertia.post(route('logout'))" class="p-2 text-xs font-bold float-right">
-                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/logout') }"  class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-slate-900/10 py-1.5 pl-2 pr-3 bg-transparent hover:bg-indigo-400 transition-colors">
-                                        Logout
+                                <Link v-if="$page.props.context.isSuperUser" :href="route('admin')"  class="rounded p-2 text-xs font-bold">
+                                    <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/admin') }" class="hidden w-full lg:flex items-center text-sm leading-6 text-white rounded-md ring-amber-500 ring-slate-900/10 py-1.5 pl-2 pr-3 hover:bg-indigo-400 transition-colors">
+                                        <UserGroupIcon class="-ml-0.5 mr-2 h-4 w-4 fill-amber-500 hover:fill-amber-200"></UserGroupIcon>
+                                        Admin
                                     </button>
                                 </Link>
                             </nav>
@@ -38,7 +41,7 @@
                         <div>
                             <div class="max-w-md">
                                 <label for="mobile-search" class="sr-only">Search</label>
-                                <div class="relative text-white focus-within:text-gray-600">
+                                <div class="relative flex text-white focus-within:text-gray-600">
                                     <Link :href="route('search.show')" class="p-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                         <div class="sticky top-0 -ml-0.5 pointer-events-none">
                                             <div class="bg-white bg-indigo-600 relative pointer-events-auto">
@@ -48,6 +51,11 @@
                                                 </button>
                                             </div>
                                         </div>
+                                    </Link>
+                                    <Link @click.prevent="Inertia.post(route('logout'))" class="p-2 text-xs font-bold float-right">
+                                        <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/logout') }"  class="hidden w-full lg:flex items-center text-sm leading-6 text-red-500 rounded-md py-1.5 pl-2 pr-3 bg-transparent hover:text-white bg-red-200 hover:bg-red-500 transition-colors">
+                                            Logout
+                                        </button>
                                     </Link>
                                 </div>
                             </div>
@@ -126,7 +134,7 @@
         </main>
         <footer>
             <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2022 Brain Wallet.</span> <span class="block sm:inline">All rights reserved.</span></div>
+                <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2022 {{ $page.props.app_name }}.</span> <span class="block sm:inline">All rights reserved.</span></div>
             </div>
         </footer>
     </div>
@@ -143,6 +151,9 @@ import _ from "lodash";
 import axios from "axios";
 import {Link} from "@inertiajs/inertia-vue3";
 import { HomeModernIcon } from '@heroicons/vue/20/solid'
+import { UserIcon } from '@heroicons/vue/20/solid'
+import { GlobeAltIcon } from '@heroicons/vue/20/solid'
+import { UserGroupIcon } from '@heroicons/vue/20/solid'
 
 let q = ref("");
 const user = {

@@ -2,7 +2,7 @@ Tailwind UI Components Templates New Documentation Dropdowns Application UI Elem
 
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-    <Menu as="div" class="inline-block text-left">
+    <Menu as="div" class="inline-flex relative">
         <div>
             <MenuButton class="overflow-y-auto flex items-center rounded-full bg-transparent text-gray-900 hover:text-gray-700 focus:outline-none z-1000">
                 <span class="sr-only">Open options</span>

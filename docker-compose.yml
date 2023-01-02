@@ -9,7 +9,6 @@ services:
         environment:
             ASUSER: "${KOOL_ASUSER:-0}"
             UID: "${UID:-0}"
-        command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
         volumes:
             - .:/app:delegated
             - ./node_modules:/app/node_modules

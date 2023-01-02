@@ -12,7 +12,7 @@
             </div>
             <ul v-if="userProjects.length && !loading"  role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
                 <li v-for="project in userProjects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
-                    <div :class="['bg-'+ project.label_color.toString().toLowerCase() +'-400', 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md']">
+                    <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md']">
                         {{ getInitials(project.name) }}</div>
                     <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
                         <div class="flex-1 truncate px-4 py-2 text-sm">
@@ -32,7 +32,6 @@ import {computed, onMounted} from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import {usePage} from '@inertiajs/inertia-vue3'
 import store from "../Store/store";
-import ProjectEditMenu from "../Components/Tailwindui/ProjectEditMenu.vue";
 import EmptyProject from "../Components/Tailwindui/EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
 import MainLayout from "../Layouts/MainLayout.vue";
@@ -45,7 +44,6 @@ let loading = computed(() => store.state.general.loadingProjects);
 const userProjects = computed(() => store.state.general.projects);
 
 function getInitials(text, max=2) {
-    console.log(text);
     const words = text.split(' ');
 
     let initials = '';

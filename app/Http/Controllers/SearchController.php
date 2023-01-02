@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class SearchController extends Controller
 {
     public function show(Request $request){
-        return Inertia::render('Search', ['context' => PageContextService::getContext()]);
+        return Inertia::render('Search');
     }
 
     public function search(Request $request){

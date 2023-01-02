@@ -23,7 +23,6 @@ use App\Http\Controllers\web\ProjectController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'context'=> PageContextService::getContext(),
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -37,7 +36,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('ProjectsTable', ["context" => PageContextService::getContext()]);
+        return Inertia::render('ProjectsTable');
     })->name('projects');
 
     Route::get('/project/{project:id}', [ProjectController::class, 'show'])->name('project');

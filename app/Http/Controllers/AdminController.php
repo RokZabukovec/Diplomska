@@ -10,6 +10,6 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        return Inertia::render('AdminPanel', ['context' => PageContextService::getContext()]);
+        return Inertia::render('AdminPanel');
     }
 }

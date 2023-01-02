@@ -47,7 +47,7 @@ let props = defineProps({
 });
 
 function getLabelColor(projectLabel){
-    if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100";
+    if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100 text-black";
 
     return "bg-" + projectLabel.toString().toLowerCase() + "-400";
 }
@@ -58,16 +58,14 @@ function mainSearchFocus() {
     if(input === null) return;
 
     document.addEventListener('keydown', (event) => {
-        event.preventDefault();
         if (event.ctrlKey && event.key === 'f') {
+            event.preventDefault();
             input.focus();
         }
     });
 }
 
 onMounted(() => {
-    console.log("PROJECT ID", page.props.value.project.id);
-
     store.commit("general/selectProject", page.props.value.project);
     store.commit("commands/getCommands", { project: page.props.value.project.id, page: 1 });
     mainSearchFocus();

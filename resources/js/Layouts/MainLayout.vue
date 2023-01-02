@@ -189,8 +189,8 @@ function mainSearchFocus() {
     if(input === null) return;
 
     document.addEventListener('keydown', (event) => {
-        event.preventDefault();
         if (event.ctrlKey && event.key === 'f') {
+            event.preventDefault();
             input.focus();
         }
     });

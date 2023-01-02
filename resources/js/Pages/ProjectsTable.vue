@@ -67,7 +67,7 @@ function getInitials(text, max=2) {
 }
 
 function getLabelColor(projectLabel){
-    if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100";
+    if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100 text-black";
 
     return "bg-" + projectLabel.toString().toLowerCase() + "-400";
 }

@@ -1,4 +1,6 @@
 <template>
+    <h2 class="text-xl font-bold my-6">Search results:</h2>
+
     <div class="overflow-hidden bg-white shadow sm:rounded-md w-full">
         <ul role="list" class="divide-y divide-gray-200">
             <li v-for="command in props.commands" :key="command.id" class="command-list-item">
@@ -28,10 +30,8 @@
 </template>
 
 <script setup>
-import CommandPagination from "./CommandPagination.vue";
 import { computed, defineProps } from "vue";
 import { useStore } from "vuex";
-import { Link } from "@inertiajs/inertia-vue3";
 
 let store = useStore();
 let commands = computed(() => store.state.commands.commands);

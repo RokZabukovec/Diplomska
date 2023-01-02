@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="overflow-hidden bg-white shadow sm:rounded-md w-full mt-6" v-if="commands.length">
+    <div class=" w-full mt-6">
+        <div class="overflow-hidden bg-white shadow sm:rounded-md" v-if="commands.length">
             <ul role="list" class="divide-y divide-gray-200 mt-6">
                 <li v-for="command in commands" :key="command.id" class="command-list-item">
                     <div class="relative">

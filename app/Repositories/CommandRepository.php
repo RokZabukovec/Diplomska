@@ -30,6 +30,7 @@ class CommandRepository implements RepositoryInterface
         if (!empty($tool)){
             $toolSaved = Tool::firstOrCreate(['title' =>  strtolower($tool)]);
             $command->tool_id = $toolSaved->id;
+            $command->save();
         }
         if ($command instanceof Command) {
             $key = Str::replace('?', $command->project_id, CacheKey::$userCommands);

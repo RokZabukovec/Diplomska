@@ -27,7 +27,7 @@ class ProjectController extends Controller
      *
      * @param Project $project
      *
-     * @return Response
+     * @return \Inertia\Response
      */
     public function edit(Project $project)
     {

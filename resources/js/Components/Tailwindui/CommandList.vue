@@ -41,12 +41,14 @@
 
 <script setup>
 import CommandPagination from "./CommandPagination.vue";
-import { computed, onMounted, defineProps } from "vue";
+import { computed, onMounted } from "vue";
+import {usePage} from "@inertiajs/inertia-vue3";
 import { useStore } from "vuex";
 import { Link } from "@inertiajs/inertia-vue3";
-import SlideOverNewCommand from "@/Components/Tailwindui/SlideOverNewCommand.vue";
 
 let store = useStore();
+let page = usePage();
+
 let commands = computed(() => store.state.commands.commands);
 let pagination = computed(() => store.state.commands.pagination);
 let projectId = computed(() => store.state.general.selectedProject?.id);
@@ -96,15 +98,16 @@ let colorizeCommand = (command) => {
     return cursorNode.outerHTML;
 };
 
-const getCommands = (page) => {
+const getCommands = (pageNumber) => {
     let payload = {
-        project: projectId.value ?? routeProjectId,
-        page: page,
+        project: projectId.value ?? page.props.value.project.id,
+        page: pageNumber,
     };
     store.commit("commands/getCommands", payload);
 };
 
 onMounted(() => {
+    console.log("pismu tle pa dela", page.props.value.project.id);
     getCommands(1);
 });
 </script>

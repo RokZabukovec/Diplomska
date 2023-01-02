@@ -106,12 +106,12 @@ const props = defineProps({
     },
 });
 
-let form = ref({
+let form = {
     command: "",
     description: "",
     project_id: parseInt(projectId.value ?? props.project.id),
     tags: [],
-});
+};
 
 const tagsInput = ref("");
 let open = ref(false);

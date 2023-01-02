@@ -34,8 +34,11 @@ import { HollowDotsSpinner } from "epic-spinners";
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import MainLayout from "../Layouts/MainLayout.vue";
+import {usePage} from "@inertiajs/inertia-vue3";
 
 let store = useStore();
+let page = usePage();
+
 let props = defineProps({
     project: {
         type: Object,
@@ -63,8 +66,10 @@ function mainSearchFocus() {
 }
 
 onMounted(() => {
-    store.commit("general/selectProject", props.project);
-    store.commit("commands/getCommands", { project: props.project.id, page: 1 });
+    console.log("PROJECT ID", page.props.value.project.id);
+
+    store.commit("general/selectProject", page.props.value.project);
+    store.commit("commands/getCommands", { project: page.props.value.project.id, page: 1 });
     mainSearchFocus();
 });
 </script>

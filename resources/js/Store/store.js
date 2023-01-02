@@ -146,6 +146,7 @@ const store = createStore({
                 async getCommands(state, { project, page }) {
                     store.state.general.loading = true;
                     let commands = getCommands(project, page);
+                    console.log('getCommands', project);
                     await commands
                         .then((response) => {
                             store.state.commands.data = response;

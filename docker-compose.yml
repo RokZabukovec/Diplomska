@@ -12,9 +12,9 @@ services:
         volumes:
             - .:/app:delegated
             - ./node_modules:/app/node_modules
-            - ./data/nginx:/etc/nginx/conf.d
+            - ./data/nginx/app.conf:/etc/nginx/conf.d
             - ./data/certbot/conf:/etc/letsencrypt
-            - ./data/certbot/www:/var/www/certbot
+            - ./data/certbot/nginx:/var/nginx/certbot
             - ./data/nginx/log:/var/log/nginx
         command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
         networks:
@@ -25,7 +25,7 @@ services:
         restart: unless-stopped
         volumes:
         - ./data/certbot/conf:/etc/letsencrypt
-        - ./data/certbot/www:/var/www/certbot
+        - ./data/certbot/nginx:/var/nginx/certbot
         entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     database:
         image: mysql/mysql-server:8.0

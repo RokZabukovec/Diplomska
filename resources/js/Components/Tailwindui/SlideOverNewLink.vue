@@ -138,7 +138,6 @@ function addToTags() {
 }
 
 function removeTag(index) {
-    console.log(form.value.tags);
     form.value.tags.splice(0, 1);
 }
 </script>

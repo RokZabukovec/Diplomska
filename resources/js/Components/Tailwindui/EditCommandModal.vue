@@ -94,7 +94,6 @@ function addToTags() {
 }
 
 function removeTag(index) {
-    console.log(commandModel.value);
     commandModel.value.tags.splice(index, 1);
 }
 </script>

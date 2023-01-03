@@ -107,7 +107,6 @@ const getCommands = (pageNumber) => {
 };
 
 onMounted(() => {
-    console.log("pismu tle pa dela", page.props.value.project.id);
     getCommands(1);
 });
 </script>

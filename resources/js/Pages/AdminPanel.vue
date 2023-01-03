@@ -1,7 +1,7 @@
 <template>
     <MainLayout>
         <h1>Admin Dashboard</h1>
-        <Stats/>
+        <Stats />
         <UserChart/>
     </MainLayout>
 </template>

@@ -146,7 +146,6 @@ const store = createStore({
                 async getCommands(state, { project, page }) {
                     store.state.general.loading = true;
                     let commands = getCommands(project, page);
-                    console.log('getCommands', project);
                     await commands
                         .then((response) => {
                             store.state.commands.data = response;
@@ -180,7 +179,6 @@ const store = createStore({
                 },
                 async storeCommand(state, form) {
                     let response = storeCommandAsync(form);
-                    console.log(response);
                     response
                         .then((response) => {
                             if (response.status > 300) {

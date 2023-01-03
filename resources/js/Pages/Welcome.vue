@@ -27,15 +27,12 @@
                             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-                        <a v-for="item in navigation" :key="item.name" :href="item.href" class="font-semibold text-gray-900 hover:text-gray-900">{{ item.name }}</a>
-                    </div>
                     <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-if="_.isEmpty(user)">
                         <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Log in</a>
                         <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
                     </div>
                     <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-else>
-                        <a href="/dashboard" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-indigo-500">Dashboard</a>
+                        <a href="/dashboard" class="inline-block rounded-full px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-blue-600">Dashboard</a>
                     </div>
                 </nav>
                 <Dialog as="div" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
@@ -56,9 +53,6 @@
                         </div>
                         <div class="mt-6 flow-root">
                             <div class="-my-6 divide-y divide-gray-500/10">
-                                <div class="space-y-2 py-6">
-                                    <a v-for="item in navigation" :key="item.name" :href="item.href" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">{{ item.name }}</a>
-                                </div>
                                 <div class="py-6">
                                     <a href="/login" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">Log in</a>
                                 </div>
@@ -73,9 +67,9 @@
                 <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
                     <div>
                         <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-                            <div class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                                <span class="text-gray-600">
-                                    Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true" />Read more <span aria-hidden="true">&rarr;</span></a>
+                            <div class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 bg-blue-600 text-white border-none">
+                                <span class="text-white">
+                                    This platform is not yet complete.
                                 </span>
                             </div>
                         </div>
@@ -119,12 +113,6 @@ const props = defineProps(["data"]);
 const page = usePage();
 const user = page.props.value.context.user;
 
-const navigation = [
-    { name: "Product", href: "#" },
-    { name: "Features", href: "#" },
-    { name: "Marketplace", href: "#" },
-    { name: "Company", href: "#" },
-];
 
 const mobileMenuOpen = ref(false);
 </script>

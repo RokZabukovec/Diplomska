@@ -68,13 +68,9 @@ let props = defineProps({
 })
 
 function selectMember(id){
-    console.log(props.context);
     params.value.member = id
     search();
 }
-onMounted(()=>{
-    console.log(props.context);
-});
 
 function search() {
     const parameters = params.value;

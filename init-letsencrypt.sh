@@ -41,7 +41,7 @@ docker ps
 echo
 
 echo "### Starting nginx ..."
-docker compose up --force-recreate -d nginx
+docker compose up --force-recreate -d app
 echo
 
 echo "### Deleting dummy certificate for $domains ..."

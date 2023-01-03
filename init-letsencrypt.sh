@@ -68,7 +68,10 @@ if [ $staging != "0" ]; then
 staging_arg="--staging";
 fi
 
-docker compose run --rm --entrypoint "certbot certonly -a webroot -v --debug-challenges -w /var/www/certbot $staging_arg $email_arg $domain_args $subscribe_arg --rsa-key-size $rsa_key_size --agree-tos --force-renewal" certbot
+docker compose run --rm --entrypoint "sudo docker run -it --rm --name certbot \
+                                                  -v "/etc/letsencrypt:/etc/letsencrypt" \
+                                                  -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+                                                  certbot/certbot certonly" certbot
 echo
 echo "### Reloading nginx ..."
 docker compose exec app nginx -s reload

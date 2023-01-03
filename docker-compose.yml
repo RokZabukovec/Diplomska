@@ -12,7 +12,6 @@ services:
         volumes:
             - .:/app:delegated
             - ./node_modules:/app/node_modules
-            - ./data/nginx/app.conf:/etc/nginx
             - ./data/certbot/conf:/etc/letsencrypt
             - ./data/certbot/nginx:/var/nginx/certbot
             - ./data/nginx/log:/var/log/nginx

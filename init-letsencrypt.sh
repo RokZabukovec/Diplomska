@@ -68,7 +68,7 @@ if [ $staging != "0" ]; then
 staging_arg="--staging";
 fi
 
-docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d command-hub.si
+docker compose run -d --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d command-hub.si
 
 echo
 echo "### Reloading nginx ..."

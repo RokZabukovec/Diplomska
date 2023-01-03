@@ -7,8 +7,8 @@ fi
 
 domains=(command-hub.si www.command-hub.si)
 rsa_key_size=4096
-data_path="./data/certbot"
-email="mymail@mail.com" # Adding a valid address is strongly recommended
+data_path="./data"
+email="rok.zabukovec.it@gmail.com" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 subscribe_to_eff=1 # Set to 1 if you provided an e-mail address and want to subscribe to EFF mailings
 

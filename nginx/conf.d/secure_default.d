@@ -5,6 +5,18 @@ server {
     index index.php;
     charset utf-8;
 
+    listen 443 ssl;
+
+    ssl_certificate /etc/letsencrypt/live/command-hub.si/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/command-hub.si/privkey.pem;
+
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+
+    # Redirect non-https traffic to https
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
     location = /favicon.ico { log_not_found off; access_log off; }
     location = /robots.txt  { log_not_found off; access_log off; }
 

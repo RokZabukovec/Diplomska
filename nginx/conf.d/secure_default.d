@@ -5,18 +5,35 @@ server {
     index index.php;
     charset utf-8;
 
-    listen 443 ssl;
+    server {
+      listen 443 ssl;
+      server_name command-hub.si;
 
-    ssl_certificate /etc/letsencrypt/live/command-hub.si/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/command-hub.si/privkey.pem;
+      access_log /var/log/nginx/access.log combined_ssl;
 
-    include /etc/letsencrypt/options-ssl-nginx.conf;
+      ssl_certificate /etc/letsencrypt/live/mysite.com/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/mysite.com/privkey.pem;
 
-    # Redirect non-https traffic to https
-    if ($scheme != "https") {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
+      #include /data/letsencrypt/options-ssl-nginx.conf;
 
+      location / {
+          set $upstream "site_upstream";
+
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $http_host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          proxy_set_header X-Real-Port $server_port;
+          proxy_set_header X-Real-Scheme $scheme;
+          proxy_set_header X-NginX-Proxy true;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Forwarded-Ssl on;
+
+          expires off;
+
+          proxy_pass http://$upstream;
+      }
+    }
     location = /favicon.ico { log_not_found off; access_log off; }
     location = /robots.txt  { log_not_found off; access_log off; }
 

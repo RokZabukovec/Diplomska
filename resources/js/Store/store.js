@@ -109,7 +109,7 @@ const store = createStore({
                 },
                 async deleteProject(state, project) {
                     await axios
-                        .delete("api/projects/" + project.id)
+                        .delete("/api/projects/" + project.id)
                         .then((response) => {
                             if (response.status > 300) {
                                 console.log(response);

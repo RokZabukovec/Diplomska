@@ -6,10 +6,12 @@ use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ProjectController extends Controller
@@ -60,9 +62,11 @@ class ProjectController extends Controller
     /**
      * @param Project $project
      * @return ProjectResource
+     * @throws AuthorizationException
      */
     public function destroy(Project $project): ProjectResource
     {
+        $this->authorize('delete', $project);
         $this->projects->destroy($project);
         return new ProjectResource($project);
     }

@@ -41,6 +41,7 @@ import { computed, onMounted, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
+import {Inertia} from "@inertiajs/inertia";
 
 let props = defineProps({
     project: Object,
@@ -52,5 +53,6 @@ let store = useStore();
 function deleteProject() {
     store.commit("projects/deleteProject", props.project);
     open.value = false;
+    Inertia.visit('/dashboard');
 }
 </script>

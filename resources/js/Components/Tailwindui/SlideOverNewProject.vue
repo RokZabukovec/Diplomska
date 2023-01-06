@@ -52,28 +52,6 @@
                                                         <textarea id="project-description" v-model="form.description" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" name="project-description" rows="3" />
                                                     </div>
                                                 </div>
-
-                                                <!-- Team members
-                                                <div class="space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
-                                                    <div>
-                                                        <h3 class="text-sm font-medium text-gray-900">Team Members</h3>
-                                                    </div>
-                                                    <div class="sm:col-span-2">
-                                                        <div class="flex space-x-2">
-                                                            <a v-for="person in team" :key="person.email" :href="person.href" class="flex-shrink-0 rounded-full hover:opacity-75">
-                                                                <img class="inline-block h-8 w-8 rounded-full" :src="person.imageUrl" :alt="person.name" />
-                                                            </a>
-
-                                                            <button type="button" class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                                                <span class="sr-only">Add team member</span>
-                                                                <PlusIcon class="h-5 w-5" aria-hidden="true" />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                -->
-
-                                                <!-- Privacy -->
                                                 <fieldset class="items-center space-y-2 px-4 sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:space-y-0 sm:px-6 sm:py-5">
                                                     <legend class="sr-only">Privacy</legend>
                                                     <div aria-hidden="true" class="text-sm font-medium text-gray-900">Label</div>
@@ -115,12 +93,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { StarIcon } from "@heroicons/vue/20/solid";
+import { computed, ref } from "vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { LinkIcon, QuestionMarkCircleIcon } from "@heroicons/vue/20/solid";
 import { useStore } from "vuex";
 
 let open = ref(false);

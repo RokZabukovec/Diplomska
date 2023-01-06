@@ -5,6 +5,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
+            - "587:587"
         restart: "always"
         environment:
             ASUSER: "${KOOL_ASUSER:-0}"

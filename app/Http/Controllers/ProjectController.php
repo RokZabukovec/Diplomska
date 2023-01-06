@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CacheKey;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use App\Models\User;
 use App\Repositories\ProjectRepository;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -37,16 +35,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param ProjectStoreRequest $request
@@ -59,33 +47,10 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Project $project)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
+     * @param Project $project
      */
     public function update(Request $request, Project $project)
     {
@@ -95,16 +60,14 @@ class ProjectController extends Controller
     /**
      * @param Project $project
      * @return ProjectResource
-     * @throws AuthorizationException
      */
     public function destroy(Project $project): ProjectResource
     {
-        $this->authorize('delete', $project);
         $this->projects->destroy($project);
         return new ProjectResource($project);
     }
 
-    public function pin(Request $request, Project $project)
+    public function pin(Request $request, Project $project): Project|BadRequestException
     {
         $project->pined = !$project->pined;
         $saved = $project->save();
@@ -118,7 +81,7 @@ class ProjectController extends Controller
     }
 
     public function teamsProjects(Request $request){
-        
+
         $user = request()->user()->id;
 
         return Project::where('user_id', $user)->get();

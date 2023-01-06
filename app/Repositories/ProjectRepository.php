@@ -18,14 +18,10 @@ class ProjectRepository implements RepositoryInterface
 
     public function getAll(int $user_id): array
     {
-        $projects = Project::where(['user_id' => $user_id])
-            ->get();
-        $pined = Project::where(['user_id' => $user_id, 'pined' => true])
-            ->get();
+        $projects = Project::where(['user_id' => $user_id])->get();
 
         return [
             'projects' => $projects,
-            'pined' => $pined
         ];
     }
 
@@ -34,7 +30,7 @@ class ProjectRepository implements RepositoryInterface
         $project = Project::create(
             array_merge($request->validated(),
                 ['user_id' => $request->user()->id]));
-                
+
         if ($project instanceof Project){
             $key = Str::replace('?', $request->user()->id, 'all_projects_from_user_?');
             Cache::forget($key);

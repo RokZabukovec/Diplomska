@@ -70,7 +70,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): Response
     {
-        return $user->id === $project->user_id
+        return $user->id == $project->user_id
             ? Response::allow()
             : Response::denyAsNotFound();
     }

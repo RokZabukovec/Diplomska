@@ -31,7 +31,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return Inertia::render('ProjectContentSelection', ['project' => $project]);
+        return Inertia::render('ProjectEdit', ['project' => $project]);
     }
 
 }

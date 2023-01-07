@@ -3,9 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title inertia><?php echo e(config('app.name', 'Laravel')); ?> <?php if(!empty(config('app.slogan', ''))): ?>| <?php echo e(config('app.slogan', '')); ?> <?php endif; ?></title>
-
+    <meta name="title" content="CommandHub">
+    <meta name="description" content="Our online platform makes it easy to save and search for the commands you use most, so you can save time and streamline your workflow.">
+    <meta name="keywords" content="terminal, commands, cli">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="Rok Zabukovec">
     <!-- Scripts -->
     <?php echo app('Tightenco\Ziggy\BladeRouteGenerator')->generate(); ?>
     <?php echo app('Illuminate\Foundation\Vite')('resources/js/app.js'); ?>

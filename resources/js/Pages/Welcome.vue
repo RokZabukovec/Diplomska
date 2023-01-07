@@ -94,6 +94,9 @@
                     </div>
                 </div>
             </div>
+            <section class="flex justify-center">
+                <Terminal/>
+            </section>
             <section id="get-started">
                 <Features/>
             </section>
@@ -116,6 +119,7 @@ import {usePage} from "@inertiajs/inertia-vue3";
 import Features from "../Components/Tailwindui/Features.vue";
 import Footer from "../Components/Tailwindui/Footer.vue";
 import GetInTouch from "../Components/Tailwindui/GetInTouch.vue";
+import Terminal from "../Components/Terminal.vue";
 
 const props = defineProps(["data"]);
 const page = usePage();

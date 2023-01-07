@@ -40,6 +40,7 @@ Route::middleware([
     })->name('projects');
 
     Route::get('/project/{project:id}', [ProjectController::class, 'show'])->name('project');
+    Route::get('/project/{project:id}/edit', [ProjectController::class, 'edit'])->name('project.edit');
     Route::get('/command/{command:id}/edit', [CommandController::class, 'edit'])->name('command.edit');
     Route::get('/search', [SearchController::class, 'show'])->name('search.show');
 

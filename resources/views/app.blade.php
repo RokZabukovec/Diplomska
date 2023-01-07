@@ -3,9 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
+    <title inertia>{{ config('app.name', 'Laravel') }} @if(!empty(config('app.slogan', '')))| {{ config('app.slogan', '') }} @endif</title>
+    <meta name="title" content="CommandHub">
+    <meta name="description" content="Our online platform makes it easy to save and search for the commands you use most, so you can save time and streamline your workflow.">
+    <meta name="keywords" content="terminal, commands, cli">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <meta name="author" content="Rok Zabukovec">
     <!-- Scripts -->
     @routes
     @vite('resources/js/app.js')

@@ -97,6 +97,12 @@
             <section id="get-started">
                 <Features/>
             </section>
+            <section id="get-in-touch">
+                <GetInTouch/>
+            </section>
+            <footer>
+                <Footer/>
+            </footer>
         </main>
     </div>
 </template>
@@ -108,6 +114,8 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 import _ from "lodash";
 import {usePage} from "@inertiajs/inertia-vue3";
 import Features from "../Components/Tailwindui/Features.vue";
+import Footer from "../Components/Tailwindui/Footer.vue";
+import GetInTouch from "../Components/Tailwindui/GetInTouch.vue";
 
 const props = defineProps(["data"]);
 const page = usePage();

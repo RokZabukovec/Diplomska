@@ -97,14 +97,6 @@
             <section id="get-started">
                 <Features/>
             </section>
-
-            <section id="get-in-touch">
-                <GetInTouch/>
-            </section>
-
-            <footer>
-                <Footer/>
-            </footer>
         </main>
     </div>
 </template>

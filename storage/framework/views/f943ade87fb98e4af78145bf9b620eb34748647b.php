@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>" class="h-full">
 <head>
+    <?php if(env("APP_ENV") == "production"): ?>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-15QQQ2RMEC"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-15QQQ2RMEC');
+        </script>
+    <?php endif; ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title inertia><?php echo e(config('app.name', 'Laravel')); ?> <?php if(!empty(config('app.slogan', ''))): ?>| <?php echo e(config('app.slogan', '')); ?> <?php endif; ?></title>

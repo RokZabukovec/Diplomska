@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
 import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
 import { getMembers } from "../API/team.js";
+import {editProjectAsync} from "../API/projects";
+import {Inertia} from "@inertiajs/inertia";
 
 // Create a new store instance.
 const store = createStore({
@@ -126,6 +128,21 @@ const store = createStore({
                         })
                         .catch((error) => {
                             console.error(error);
+                        });
+                },
+                async editProject(state, form) {
+                    let response = editProjectAsync(form);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                console.log(response);
+                                return;
+                            }
+                            Inertia.visit('/projects/' + form.id);
+
+                        })
+                        .catch((e) => {
+                            console.log(e);
                         });
                 },
             },

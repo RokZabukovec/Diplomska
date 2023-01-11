@@ -53,10 +53,13 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param Project $project
+     * @return Project
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $data = $request->all();
+        $project->update($data);
+        return $project;
     }
 
     /**

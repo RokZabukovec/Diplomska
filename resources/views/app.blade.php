@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-15QQQ2RMEC"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    @if(env("APP_ENV") == "production")
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-15QQQ2RMEC"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-        gtag('config', 'G-15QQQ2RMEC');
-    </script>
-
+            gtag('config', 'G-15QQQ2RMEC');
+        </script>
+    @endif
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title inertia>{{ config('app.name', 'Laravel') }} @if(!empty(config('app.slogan', '')))| {{ config('app.slogan', '') }} @endif</title>

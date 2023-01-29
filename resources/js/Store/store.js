@@ -152,6 +152,9 @@ const store = createStore({
                                 return;
                             }
                             Inertia.visit("/projects/" + form.id);
+                            toast.info("The project has been updated.", {
+                                timeout: 4000,
+                            });
                         })
                         .catch((e) => {
                             console.log(e);

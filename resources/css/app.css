@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-.command-list-item .edit-link {
-    transition: visibility 0.3s eases;
-    visibility: hidden;
+.edit-link {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    color: rgb(12, 12, 46);
+    font-weight: 600;
+    opacity: 0;
+    border-radius: 5px;
 }
 
-.command-list-item:hover .edit-link {
-    visibility: visible;
+.command:hover > .edit-link {
+    opacity: 1;
 }
 
 .page-enter-active,

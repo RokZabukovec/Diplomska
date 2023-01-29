@@ -1,8 +1,12 @@
 import { createStore } from "vuex";
 import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
 import { getMembers } from "../API/team.js";
-import {editProjectAsync} from "../API/projects";
-import {Inertia} from "@inertiajs/inertia";
+import { editProjectAsync } from "../API/projects";
+import { Inertia } from "@inertiajs/inertia";
+import { useToast } from "vue-toastification";
+import axios from "axios";
+
+const toast = useToast();
 
 // Create a new store instance.
 const store = createStore({
@@ -101,9 +105,15 @@ const store = createStore({
                             }
                             let user = store.state.general.user;
                             store.state.general.projects.push(response.data.data);
+                            toast.success("The project has been created.", {
+                                timeout: 4000,
+                            });
                         })
                         .catch((error) => {
                             console.error(error);
+                            toast.error("Something went wrong when creating a project.", {
+                                timeout: 4000,
+                            });
                         })
                         .finally(() => {
                             store.state.general.loading = false;
@@ -125,6 +135,9 @@ const store = createStore({
                                     store.state.general.projects.splice(index, 1);
                                 }
                             });
+                            toast.success("The project has been deleted.", {
+                                timeout: 4000,
+                            });
                         })
                         .catch((error) => {
                             console.error(error);
@@ -138,8 +151,7 @@ const store = createStore({
                                 console.log(response);
                                 return;
                             }
-                            Inertia.visit('/projects/' + form.id);
-
+                            Inertia.visit("/projects/" + form.id);
                         })
                         .catch((e) => {
                             console.log(e);
@@ -189,6 +201,9 @@ const store = createStore({
                                 return object.id === command.value.id;
                             });
                             store.state.general.commands.splice(indexOfObject, 1);
+                            toast.success("The command has been deleted.", {
+                                timeout: 4000,
+                            });
                         })
                         .catch((error) => {
                             console.error(error);
@@ -203,6 +218,9 @@ const store = createStore({
                                 return;
                             }
                             store.state.commands.commands.push(response.data.data);
+                            toast.success("The command has been stored.", {
+                                timeout: 4000,
+                            });
                         })
                         .catch((e) => {
                             console.log(e);

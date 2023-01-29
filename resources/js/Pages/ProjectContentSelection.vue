@@ -13,7 +13,7 @@
         <div v-show="!loading" class="inset-0">
             <div class="topbar flex justify-between mt-5">
                 <div class="relative mt-1 flex items-center">
-                    <input id="search" placeholder="Search" type="text" name="search" class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                    <input @input="search" v-model="q" id="search-project" placeholder="Search" type="text" name="search" class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                     <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
                         <kbd class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-sm font-medium text-gray-400">ctrl + F</kbd>
                     </div>
@@ -31,10 +31,11 @@ import SlideOverNewCommand from "@/Components/Tailwindui/SlideOverNewCommand.vue
 import CommandList from "@/Components/Tailwindui/CommandList.vue";
 import ProjectEditMenu from "@/Components/Tailwindui/ProjectEditMenu.vue";
 import { HollowDotsSpinner } from "epic-spinners";
-import { computed, onMounted } from "vue";
+import {computed, onMounted, ref} from "vue";
 import { useStore } from "vuex";
 import MainLayout from "../Layouts/MainLayout.vue";
 import {usePage} from "@inertiajs/inertia-vue3";
+import axios from "axios";
 
 let store = useStore();
 let page = usePage();
@@ -46,6 +47,7 @@ let props = defineProps({
     },
 });
 
+let q = ref("");
 function getLabelColor(projectLabel){
     if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100 text-black";
 
@@ -63,6 +65,23 @@ function mainSearchFocus() {
             input.focus();
         }
     });
+}
+
+function search() {
+    console.log("Search");
+    axios
+        .get("/api/search", {
+            params:{
+                "q": q.value ?? "*",
+                "member": page.props.value.context.user.id
+            },
+        })
+        .then((response) => {
+            store.commit("commands/setCommands", response);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
 
 onMounted(() => {

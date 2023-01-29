@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommandController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProjectController;
@@ -31,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/user/teams', function (Request $request
 
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
 
-Route::put('/projects/{project}/pin', [ProjectController::class, 'pin'])->name('projects.pin');
+Route::post('/contact', [ContactController::class, 'save'])->name('contact.save');
 
 Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
 

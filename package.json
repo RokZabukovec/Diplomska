@@ -39,6 +39,7 @@
         "moment": "^2.29.4",
         "nprogress": "^0.2.0",
         "vue-echarts": "^6.4.0",
+        "vue-toastification": "^2.0.0-rc.5",
         "vuex": "^4.0.2"
     }
 }

@@ -17,8 +17,11 @@
     <title inertia>{{ config('app.name', 'Laravel') }} @if(!empty(config('app.slogan', '')))| {{ config('app.slogan', '') }} @endif</title>
     <meta name="title" content="CommandHub">
     <meta name="description" content="Our online platform makes it easy to save and search for the commands you use most, so you can save time and streamline your workflow.">
+    <meta property="og:description" content="Our online platform makes it easy to save and search for the commands you use most, so you can save time and streamline your workflow." />
     <meta name="keywords" content="terminal, commands, cli">
     <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta property="og:type" content="website" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
     <meta name="author" content="Rok Zabukovec">

@@ -84,8 +84,8 @@
                     </div>
                 </div>
             </div>
-            <section class="flex justify-center">
-                <Terminal />
+            <section id="cta">
+                <DarkPanel />
             </section>
             <section id="get-started">
                 <Features />
@@ -109,6 +109,7 @@ import { usePage } from "@inertiajs/inertia-vue3";
 import Features from "../Components/Tailwindui/Features.vue";
 import Footer from "../Components/Tailwindui/Footer.vue";
 import GetInTouch from "../Components/Tailwindui/GetInTouch.vue";
+import DarkPanel from "../Components/Tailwindui/DarkPanel.vue";
 import Terminal from "../Components/Terminal.vue";
 
 const props = defineProps(["data"]);

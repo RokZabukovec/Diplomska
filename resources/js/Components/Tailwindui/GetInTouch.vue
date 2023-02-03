@@ -1,13 +1,13 @@
 <template>
     <!-- ====== Contact Section Start -->
-    <section class="relative z-10 overflow-hidden bg-white py-20 lg:py-[120px]">
+    <section class="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
         <div class="container mx-auto">
             <div class="-mx-4 flex flex-wrap lg:justify-between">
                 <div class="w-full px-4 lg:w-1/2 xl:w-6/12">
                     <div class="mb-12 max-w-[570px] lg:mb-0">
                         <span class="text-primary mb-4 block text-base font-semibold"> Contact Us </span>
                         <h2 class="text-dark mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]">GET IN TOUCH WITH US</h2>
-                        <p class="text-body-color mb-9 text-base leading-relaxed">If you have any questions or would like to schedule a call, please don't hesitate to reach out. You can contact us through our website's form, or by email at rok.zabukovec.it@gmail.com or by phone at +386 40 262 866. We look forward to speaking with you and discussing how we can assist you.</p>
+                        <p class="text-body-color mb-9 text-base leading-relaxed text-justify">If you have any questions or would like to schedule a call, please don't hesitate to reach out. You can contact us through our website's form, or by email at rok.zabukovec.it@gmail.com or by phone at +386 40 262 866. We look forward to speaking with you and discussing how we can assist you.</p>
                         <div class="mb-8 flex w-full max-w-[370px]">
                             <div class="bg-primary text-primary mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-opacity-5 sm:h-[70px] sm:max-w-[70px]">
                                 <svg width="24" height="24" viewBox="0 0 24 24" class="fill-current">

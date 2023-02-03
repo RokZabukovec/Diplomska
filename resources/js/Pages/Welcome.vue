@@ -27,11 +27,11 @@
                             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-if="_.isEmpty(user)">
+                    <div v-if="_.isEmpty(user)" class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
                         <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Log in</a>
                         <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
                     </div>
-                    <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end" v-else>
+                    <div v-else class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
                         <a href="/dashboard" class="inline-block rounded-full px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-blue-600">Dashboard</a>
                     </div>
                 </nav>
@@ -66,19 +66,9 @@
             <div class="relative px-6 lg:px-8">
                 <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
                     <div>
-                        <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-                            <div class="relative overflow-hidden rounded-full py-1.5 px-4 text-sm leading-6 ring-1 bg-blue-600 text-white border-none">
-                                <span class="text-white">
-                                    This platform is not yet complete.
-                                </span>
-                            </div>
-                        </div>
                         <div>
-                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">{{$page.props.context.app_name}}</h1>
-                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-                                "Are you tired of searching through old terminal windows to find that one command you need?
-                                Try our web app and easily store and access all your terminal commands and information in one place."
-                            </p>
+                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl relative">{{ $page.props.context.app_name }} <span class="absolute top-0 sm:right-0 md:right-8 inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">Beta</span></h1>
+                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">"Are you tired of searching through old terminal windows to find that one command you need? Try our web app and easily store and access all your terminal commands and information in one place."</p>
                         </div>
                         <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
                             <svg class="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,16 +85,16 @@
                 </div>
             </div>
             <section class="flex justify-center">
-                <Terminal/>
+                <Terminal />
             </section>
             <section id="get-started">
-                <Features/>
+                <Features />
             </section>
             <section id="get-in-touch">
-                <GetInTouch/>
+                <GetInTouch />
             </section>
             <section id="footer">
-                <Footer/>
+                <Footer />
             </section>
         </main>
     </div>
@@ -115,7 +105,7 @@ import { ref } from "vue";
 import { Dialog, DialogPanel } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 import _ from "lodash";
-import {usePage} from "@inertiajs/inertia-vue3";
+import { usePage } from "@inertiajs/inertia-vue3";
 import Features from "../Components/Tailwindui/Features.vue";
 import Footer from "../Components/Tailwindui/Footer.vue";
 import GetInTouch from "../Components/Tailwindui/GetInTouch.vue";
@@ -124,7 +114,6 @@ import Terminal from "../Components/Terminal.vue";
 const props = defineProps(["data"]);
 const page = usePage();
 const user = page.props.value.context.user;
-
 
 const mobileMenuOpen = ref(false);
 </script>

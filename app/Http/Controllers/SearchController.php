@@ -19,7 +19,7 @@ class SearchController extends Controller
         $member = $request->get("member");
         $teams = $user->personalTeam();
         $users = $teams->allUsers()->pluck("id")->toArray();
-
+        
         $query = Command::search($query);
 
         if (!empty($member)) {
@@ -30,7 +30,6 @@ class SearchController extends Controller
         }
 
         $commands = $query->paginate(10);
-
         return response()->json($commands);
     }
 }

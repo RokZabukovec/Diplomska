@@ -88,9 +88,10 @@ class ProjectController extends Controller
     }
 
     public function teamsProjects(Request $request){
-
-        $user = request()->user()->id;
-
-        return Project::where('user_id', $user)->get();
+        $userId = request()->user()->id;
+    
+        $projects = Project::with('user')->where('user_id', $userId)->get();
+    
+        return $projects;
     }
 }

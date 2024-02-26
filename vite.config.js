@@ -27,6 +27,7 @@ export default defineConfig({
         https: false,
         host: false,
         port: 3009,
+        cors: true,
         hmr: {
             protocol: "ws",
             host: "localhost",

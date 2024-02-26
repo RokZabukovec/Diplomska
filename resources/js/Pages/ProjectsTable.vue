@@ -10,18 +10,31 @@
                     <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
                 </div>
             </div>
-            <ul v-if="userProjects.length && !loading"  role="list" class="mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-                <li v-for="project in userProjects" :key="project.name" class="col-span-1 flex rounded-md shadow-sm">
-                    <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md']">
+            <ul v-if="userProjects.length && !loading" role="list" class="divide-y divide-gray-100">
+                <li v-for="project in userProjects" :key="project.name" class="flex items-center justify-between gap-x-6 py-5">
+                    <div class="min-w-0">
+                    <div class="flex items-start gap-x-3">
+                        <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded']">
                         {{ getInitials(project.name) }}</div>
-                    <div class="flex flex-1 items-center justify-between truncate rounded-r-md border-t border-r border-b border-gray-200 bg-white">
-                        <div class="flex-1 truncate px-4 py-2 text-sm">
-                            <Link class="font-medium text-gray-900 hover:text-gray-600" :href="route('project', { id: project.id })">{{ project.name }}</Link>
-                        </div>
+                        <p class="text-sm font-semibold leading-6 text-gray-900">{{ project.name }}</p>
+                    </div>
+                    <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                        <p class="whitespace-nowrap">
+                            Created on <time :datetime="project.created_at">{{ formatDate(project.created_at) }}</time>
+                        </p>
+                        <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
+                        <circle cx="1" cy="1" r="1" />
+                        </svg>
+                        <p class="truncate">Created by {{ project.user.name }}</p>
+                    </div>
+                    </div>
+                    <div class="flex flex-none items-center gap-x-4">
+                    <Link :href="route('project', { id: project.id })" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                        >View project<span class="sr-only">, {{ project.name }}</span></Link>
                     </div>
                 </li>
             </ul>
-            <div class="mt-6" v-else>
+            <div v-else class="mt-6">
                 <EmptyProject/>
             </div>
         </div>
@@ -36,6 +49,7 @@ import EmptyProject from "../Components/Tailwindui/EmptyProject.vue";
 import { HollowDotsSpinner } from "epic-spinners";
 import MainLayout from "../Layouts/MainLayout.vue";
 import SlideOverNewProject from "../Components/Tailwindui/SlideOverNewProject.vue";
+import moment from 'moment';
 
 const page = usePage();
 
@@ -72,6 +86,10 @@ function getLabelColor(projectLabel){
 
 function selectProject(project) {
     store.commit("general/selectProject", project);
+}
+
+function formatDate(date) {
+      return moment(date).format('MMMM D, YYYY');
 }
 
 onMounted(() => {

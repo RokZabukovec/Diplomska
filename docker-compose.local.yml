@@ -7,6 +7,11 @@ services:
         ports:
             - "${KOOL_APP_PORT:-80}:80"
             - "${KOOL_APP_PORT:-443}:443"
+        depends_on:
+            - database
+            - cache
+            - meilisearch
+            - mailhog
         environment:
             ASUSER: "${KOOL_ASUSER:-0}"
             UID: "${UID:-0}"

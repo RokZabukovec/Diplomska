@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommandStoreRequest;
 use App\Http\Resources\CommandResource;
+use App\Http\Resources\ProjectResource;
 use App\Models\Command;
+use App\Models\ExternalCommand;
 use App\Repositories\CommandRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use JetBrains\PhpStorm\NoReturn;
 
 class CommandController extends Controller
 {
@@ -81,5 +85,26 @@ class CommandController extends Controller
     public function destroy(Command $command)
     {
         return $command->delete();
+    }
+
+    /**
+     * Display a listing of the external commands resource.
+     *
+     * @param Request $request
+     * @return LengthAwarePaginator
+     */
+    public function external(Request $request): LengthAwarePaginator
+    {
+        $platform = $request->query('platform');
+
+        $query = ExternalCommand::query()
+            ->select('id', 'created_at', 'updated_at', 'deleted_at', 'command', 'description', 'pre', 'platform')
+            ->when($platform, function ($query) use ($platform) {
+                return $query->where('platform', $platform);
+            })
+            ->orderBy('created_at', 'desc'); // You can change the sorting as per your requirement
+
+        $perPage = $request->input('perPage', 10); // Number of records per page, default is 10
+        return $query->paginate($perPage);
     }
 }

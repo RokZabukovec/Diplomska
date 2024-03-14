@@ -5,6 +5,7 @@
 # Learn more at: https://kool.dev/docs/getting-started/how-it-works#koolyml
 scripts:
   # Common commands
+  local: docker-compose -f docker-compose.local.yml up -d
   bash: kool exec app bash
   composer: kool exec app composer
   artisan: kool exec app php artisan

@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->get('/user/teams', function (Request $request
 Route::apiResource('projects', ProjectController::class)->middleware('auth:sanctum');
 
 Route::post('/contact', [ContactController::class, 'save'])->name('contact.save');
+Route::get('/external', [CommandController::class, 'external'])->name('commands.external');
 
 Route::apiResource('commands', CommandController::class)->middleware('auth:sanctum');
 

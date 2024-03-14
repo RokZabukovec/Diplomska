@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Resources\ExternaCommand;
 use App\Http\Resources\ProjectResource;
+use App\Models\ExternalCommand;
 use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -89,9 +92,9 @@ class ProjectController extends Controller
 
     public function teamsProjects(Request $request){
         $userId = request()->user()->id;
-    
+
         $projects = Project::with('user')->where('user_id', $userId)->get();
-    
+
         return $projects;
     }
 }

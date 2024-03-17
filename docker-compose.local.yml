@@ -1,9 +1,7 @@
 version: "3.8"
 services:
     app:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: "kooldev/php:8.2-nginx"
         ports:
             - "${KOOL_APP_PORT:-80}:80"
             - "${KOOL_APP_PORT:-443}:443"

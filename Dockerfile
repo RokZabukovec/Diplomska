@@ -1,4 +1,4 @@
-FROM kooldev/php:8.1-nginx
+FROM kooldev/php:8.2-nginx
 
 ENV APP_ENV production
 

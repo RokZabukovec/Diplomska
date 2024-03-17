@@ -1,38 +1,38 @@
 {
-    "name": "laravel/laravel",
+    "name": "rokzabukovec/commandhub",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "The hub for all terminal commands",
     "keywords": [
         "framework",
         "laravel"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.2",
         "guzzlehttp/guzzle": "^7.2",
         "haydenpierce/class-finder": "^0.4.4",
         "http-interop/http-factory-guzzle": "^1.2",
-        "inertiajs/inertia-laravel": "^0.6.3",
-        "laravel/framework": "^9.19",
-        "laravel/jetstream": "^2.12",
-        "laravel/sanctum": "^3.0",
-        "laravel/scout": "^9.4",
-        "laravel/tinker": "^2.7",
-        "meilisearch/meilisearch-php": "^v0.23.3",
-        "predis/predis": "^2.0",
+        "inertiajs/inertia-laravel": "^1.0",
+        "laravel/framework": "^v11.0",
+        "laravel/jetstream": "^5.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/scout": "^v10.8.3",
+        "laravel/tinker": "^v2.9",
+        "meilisearch/meilisearch-php": "^v1.7.0",
+        "predis/predis": "^v2.0.3",
         "ramsey/uuid-doctrine": "^2.0",
-        "spatie/laravel-permission": "^5.7",
-        "spatie/laravel-tags": "^4.3",
-        "tightenco/ziggy": "^1.0"
+        "spatie/laravel-permission": "^6.4.0",
+        "spatie/laravel-tags": "^4.6.1",
+        "tightenco/ziggy": "^v2.0.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.10",
-        "spatie/laravel-ignition": "^1.0"
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^11.0.6",
+        "spatie/laravel-ignition": "2.4.2"
     },
     "autoload": {
         "psr-4": {
@@ -71,7 +71,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",

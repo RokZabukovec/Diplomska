@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Console\Commands\meilisearchUpdateFilterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Tags\HasTags;
@@ -16,7 +17,7 @@ class Command extends Model
 
     protected $fillable = ['command', 'description', 'project_id'];
     public static string $index = 'commands';
-    public static array $filterable = ['user_id', 'project_id'];
+    public static array $filterable = ['user_id'];
 
     public function project()
     {
@@ -35,6 +36,24 @@ class Command extends Model
         $array['user_id'] = $this->project()->first()->user_id;
         $array['tags'] = $this->tags()->pluck("name");
         $array['visibility'] = 'public';
+
         return $array;
     }
+
+    protected static function getFilterableAttributes(): array
+    {
+        return [
+            'project_id',
+            'user_id',
+        ];
+    }
+
+    protected static function getSortingAttributes(): array
+    {
+        return [
+            'command',
+            'created_at',
+        ];
+    }
+
 }

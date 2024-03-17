@@ -1,10 +1,10 @@
 <script setup>
 import MainLayout from "../Layouts/MainLayout.vue";
-import MultiColumnLayout from "../Components/Tailwindui/MultiColumnLayout.vue";
+import Search from "../Pages/Search.vue";
 </script>
 
 <template>
     <MainLayout title="Dashboard">
-        <MultiColumnLayout :page="$page.props"></MultiColumnLayout>
+        <Search :page="$page.props"></Search>
     </MainLayout>
 </template>

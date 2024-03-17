@@ -33,6 +33,7 @@
     "dependencies": {
         "@headlessui/vue": "^1.7.2",
         "@heroicons/vue": "^2.0.11",
+        "cors": "^2.8.5",
         "echarts": "^5.4.1",
         "epic-spinners": "^2.0.0",
         "laravel-mix-alias": "^1.0.3",

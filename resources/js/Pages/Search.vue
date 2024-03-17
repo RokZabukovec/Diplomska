@@ -1,43 +1,37 @@
 <template>
     <MainLayout :context="props.context">
-        <template #sidebar>
-            <div class="overflow-hidden rounded-lg shadow">
-                <div class="bg-white rounded p-2">
-                    <div class="p-2">
-                        <h3 class="bolder text-gray-700 mb-4">Team members</h3>
-                        <ul role="list" class="divide-y divide-gray-200" v-if="props.context.members.length">
-                            <li v-for="person in props.context.members" :key="person.id" class="flex py-4 hover:bg-blue-100 cursor-pointer px-2 rounded" :class="{'bg-blue-200': params.member === person.id}" @click="selectMember(person.id)">
-                                <img class="h-10 w-10 rounded-full" :src="person.profile_photo_url" alt="" />
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-900">{{ person.name }}</p>
-                                    <p class="text-sm text-gray-500">{{ person.email }}</p>
-                                </div>
-                            </li>
-                        </ul>
-                        <Link :href="route('teams.show', $page.props.user.current_team_id)"  class="rounded p-2 text-xs font-bold">
-                            <button type="button" :class="{ 'bg-slate-700': $page.url.startsWith('/teams') }" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                <PlusIconMini class="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
-                                Invite members
-                            </button>
-                        </Link>
-                    </div>
+            <div class="mx-auto max-w-3xl">
+                <div class="filters mb-4">
+                    <span class="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
+                        Badge
+                        <button type="button" class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-500/20">
+                            <span class="sr-only">Remove</span>
+                            <svg viewBox="0 0 14 14" class="h-3.5 w-3.5 stroke-gray-700/50 group-hover:stroke-gray-700/75">
+                            <path d="M4 4l6 6m0-6l-6 6" />
+                            </svg>
+                            <span class="absolute -inset-1"></span>
+                        </button>
+                        </span>
+                    <span class="inline-flex items-center gap-x-0.5 rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
+                        Badge
+                        <button type="button" class="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-red-600/20">
+                            <span class="sr-only">Remove</span>
+                            <svg viewBox="0 0 14 14" class="h-3.5 w-3.5 stroke-red-700/50 group-hover:stroke-red-700/75">
+                            <path d="M4 4l6 6m0-6l-6 6" />
+                            </svg>
+                            <span class="absolute -inset-1"></span>
+                        </button>
+                    </span>
+                </div>
+                <div class="card bg-white rounded shadow w-full p-4 mx-auto">
+                    <h1 class="text-gray-600 bold">This is a command card</h1>
+                </div>
+                <div class="flex justify-center p-6">
+                    <button class="border-2 border-pink-600 px-4 py-1.5 rounded-md text-pink-600 bg-transparent font-bold transition duration-300 ease-in-out hover:border-pink-600 focus:border-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50">
+                        Load more
+                    </button>
                 </div>
             </div>
-        </template>
-        <div class="sm:w-full md:w-3/4 mx-auto">
-            <div class="relative mt-1 flex items-center">
-                <input @change="search()" v-model="params.q" placeholder="Search" autofocus type="text" name="search" id="search-all" class="block w-full rounded-md border-gray-300 pr-12 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                    <kbd class="inline-flex items-center rounded border border-gray-200 px-2 font-sans text-sm font-medium text-gray-400">⌘ + F</kbd>
-                </div>
-            </div>
-            <ul v-if="commands.length">
-                <SearchResults :commands="commands"></SearchResults>
-            </ul>
-            <div v-else class="flex justify-content-center mt-5">
-                <h3 class="text-slate-500">No results yet</h3>
-            </div>
-        </div>
     </MainLayout>
 </template>
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
+use App\Models\Project;
+use App\Models\User;
 use App\Services\PageContextService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,13 +16,14 @@ class SearchController extends Controller
     }
 
     public function search(Request $request){
-        $query = $request->get("q", "");
+        $searchTerm = $request->get("q", "");
+
         $user = request()->user();
         $member = $request->get("member");
         $teams = $user->personalTeam();
         $users = $teams->allUsers()->pluck("id")->toArray();
-        
-        $query = Command::search($query);
+
+        $query = Command::search($searchTerm);
 
         if (!empty($member)) {
             $query->where('user_id', $member);
@@ -30,6 +33,15 @@ class SearchController extends Controller
         }
 
         $commands = $query->paginate(10);
-        return response()->json($commands);
+
+        $model = $request->get("model", "project");
+        //dd($model);
+        return match ($model) {
+            "project" => Project::Search($searchTerm)->paginate(10),
+            "commands" => Command::Search($searchTerm)->paginate(10),
+            "users" => User::Search($searchTerm)->paginate(10),
+            default => response()->json($commands),
+        };
+
     }
 }

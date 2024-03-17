@@ -51,16 +51,19 @@ services:
             test: ["CMD", "redis-cli", "ping"]
 
     meilisearch:
-        image: "getmeili/meilisearch:v0.27.0"
-        ports:
-            - "7720:7700"
-        environment:
-            - MEILI_NO_ANALYTICS=true
-            - MEILI_NO_SENTRY=true
-            - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
-        networks:
-            - kool_local
-            - kool_global
+      image: "getmeili/meilisearch:v1.7"
+      ports:
+        - "7720:7700"
+      environment:
+        - MEILI_NO_ANALYTICS=true
+        - MEILI_NO_SENTRY=true
+        - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+      volumes:
+        - meilisearch_data:/data.ms
+      networks:
+        - kool_local
+        - kool_global
+
     mailhog:
         image: mailhog/mailhog:latest
         environment:
@@ -78,3 +81,4 @@ networks:
 volumes:
     database:
     cache:
+    meilisearch_data:

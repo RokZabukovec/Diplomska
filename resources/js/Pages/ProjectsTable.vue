@@ -2,7 +2,6 @@
     <MainLayout :context="page.props.context">
         <div>
             <div class="flex justify-between border-b border-gray-200 pb-1">
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Projects</h3>
                 <SlideOverNewProject></SlideOverNewProject>
             </div>
             <div v-show="loading">

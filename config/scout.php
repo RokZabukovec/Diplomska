@@ -1,6 +1,9 @@
 <?php
 
 use App\Models\Command;
+use App\Models\ExternalCommand;
+use App\Models\Project;
+use App\Models\TeamUser;
 
 return [
 
@@ -134,6 +137,24 @@ return [
     'meilisearch' => [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY', null),
+        'index-settings' => [
+            ExternalCommand::class => [
+                'filterableAttributes' => ['id', 'platform'],
+                'sortableAttributes' => ['command', 'created_at', 'updated_at']
+            ],
+            Command::class => [
+                'filterableAttributes' => ['id', 'project_id', 'tool_id', 'user_id'],
+                'sortableAttributes' => ['command', 'created_at', 'updated_at']
+            ],
+            Project::class => [
+                'filterableAttributes' => ['id', 'name', 'user_id', 'description'],
+                'sortableAttributes' => ['name', 'created_at', 'updated_at']
+            ],
+            TeamUser::class => [
+                'filterableAttributes' => ['team_id', 'user_id'],
+                'sortableAttributes' => ['created_at', 'updated_at']
+            ]
+        ],
     ],
 
 ];

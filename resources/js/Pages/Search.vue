@@ -1,5 +1,5 @@
 <template>
-    <MainLayout :context="props.context">
+    <MainLayout>
             <div class="mx-auto max-w-3xl">
                 <div class="filters mb-4">
                     <span class="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600">
@@ -23,9 +23,7 @@
                         </button>
                     </span>
                 </div>
-                <div class="card bg-white rounded shadow w-full p-4 mx-auto">
-                    <h1 class="text-gray-600 bold">This is a command card</h1>
-                </div>
+                <Projects v-show="showProjects" :projects="projects"></Projects>
                 <div class="flex justify-center p-6">
                     <button class="border-2 border-pink-600 px-4 py-1.5 rounded-md text-pink-600 bg-transparent font-bold transition duration-300 ease-in-out hover:border-pink-600 focus:border-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50">
                         Load more
@@ -37,52 +35,16 @@
 
 <script setup>
 import MainLayout from "../Layouts/MainLayout.vue";
-import SearchResults from "../Components/Tailwindui/SearchResults.vue";
-import { PlusIcon as PlusIconMini } from '@heroicons/vue/20/solid';
-import axios from "axios";
-import _ from "lodash";
+import Projects from "../Pages/Redesign/Projects.vue";
 import { useStore } from "vuex";
-import {defineProps, onMounted, ref, computed} from "vue";
-import {Link} from "@inertiajs/inertia-vue3";
+import {computed} from "vue";
+import searchStore from "../Store/search";
 
 let store = useStore();
-let commands = computed(() => store.state.commands.commands);
-let pagination = computed(() => store.state.commands.pagination);
+const projects = computed(() => searchStore.state.search.projects);
+const type = computed(() => searchStore.state.search.type);
+const loading = computed(() => searchStore.state.search.loading);
 
-let params = ref({
-    member: null,
-    q: ""
-});
-
-let props = defineProps({
-    "context": {
-        type: Object,
-        default: null,
-    },
-})
-
-function selectMember(id){
-    params.value.member = id
-    search();
-}
-
-function search() {
-    const parameters = params.value;
-    axios
-        .get("/api/search", {
-            params:{
-                "q": parameters.q,
-                "member": parameters.member
-            },
-        })
-        .then((response) => {
-            store.commit("commands/setCommands", response);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-_.debounce(() => {
-    search(params.value);
-}, 2000);
+let showProjects = type.value === "projects";
+let showLoading = loading.value;
 </script>

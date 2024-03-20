@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
-import { getCommands, storeCommandAsync, editCommandAsync } from "../API/commands.js";
-import { getMembers } from "../API/team.js";
-import { editProjectAsync } from "../API/projects";
+import { getCommands, storeCommandAsync, editCommandAsync } from "@/API/commands";
+import { getMembers } from "@/API/team";
+import { editProjectAsync } from "@/API/projects";
 import { Inertia } from "@inertiajs/inertia";
 import { useToast } from "vue-toastification";
 import axios from "axios";
@@ -16,7 +16,6 @@ const store = createStore({
             state: () => ({
                 user: {},
                 projects: [],
-                pined: [],
                 selectedProject: null,
                 teams: [],
                 loading: false,

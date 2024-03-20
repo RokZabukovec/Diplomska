@@ -8,13 +8,18 @@
                 <div class="flex flex-grow justify-center sm:text-lg text-gray-400 ">
                     <div class="pl-4 p-1 relative flex items-center w-1/3 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
-                        <input type="search" placeholder="Search something" id="search" class="py-2 block w-full border-0 pl-2 pr-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:ring-opacity-0 text-lg focus:ring-inset focus:ring-transparent  sm:leading-6">
+                        <input v-model="q"
+                            type="search"
+                            placeholder="Search something"
+                            id="search"
+                            class="py-2 block w-full border-0 pl-2 pr-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:ring-opacity-0 text-lg focus:ring-inset focus:ring-transparent  sm:leading-6"
+                            @input="triggerSearch"/>
                     </div>
                     <div class="relative flex items-center ml-2">
-                        <select id="location" name="location" class="text-lg focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600  text-gray-400 h-full block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 shadow ring-inset ring-gray-300 sm:text-sm sm:leading-6">
-                            <option selected>Projects</option>
-                            <option>Commands</option>
-                            <option>Team members</option>
+                        <select v-model="selectedType" @change="setType" id="location" name="location" class="text-lg focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600  text-gray-400 h-full block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 shadow ring-inset ring-gray-300 sm:text-sm sm:leading-6">
+                            <option value="projects">Projects</option>
+                            <option value="commands">Commands</option>
+                            <option value="team_members">Team members</option>
                         </select>
                     </div>
                 </div>
@@ -34,77 +39,38 @@
 </template>
 
 <script setup>
-import { Popover, PopoverButton, PopoverOverlay, PopoverPanel, TransitionChild, TransitionRoot } from "@headlessui/vue";
-import { BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { MagnifyingGlassIcon } from "@heroicons/vue/20/solid";
 import { computed, onMounted, ref } from "vue";
-import store from "../Store/store.js";
+import searchStore from "../Store/search.js";
 import { Inertia } from "@inertiajs/inertia";
 import _ from "lodash";
-import axios from "axios";
-import {Link} from "@inertiajs/inertia-vue3";
-import { HomeModernIcon } from '@heroicons/vue/20/solid'
-import { UserIcon } from '@heroicons/vue/20/solid'
-import { GlobeAltIcon } from '@heroicons/vue/20/solid'
-import { UserGroupIcon } from '@heroicons/vue/20/solid'
+import { Link } from "@inertiajs/inertia-vue3";
 
 let q = ref("");
-const user = {
-    name: "Tom Cook",
-    email: "tom@example.com",
-    imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
+let selectedType = ref("projects");
 
-function logout() {
-    Inertia.post("/logout");
+function setType() {
+    searchStore.commit("search/resetPage");
+    searchStore.commit("search/type", selectedType.value);
+    searchStore.commit("search/search");
 }
 
-const props = defineProps({
-    context: {
-        type: Object,
-        default: null,
-    },
-});
-
-const projects = computed(() => store.state.general.projects);
-const teams = computed(() => store.state.general.teams);
-
-const sidebarOpen = ref(false);
-
-// lifecycle
-onMounted(() => {
-    store.commit("general/getProjects");
-    store.commit("general/getTeams");
-});
-
-function mainSearchFocus() {
-    const input = document.querySelector('#search');
-    if(input === null) return;
-
-    document.addEventListener('keydown', (event) => {
-        if (event.ctrlKey && event.key === 'f') {
-            event.preventDefault();
-            input.focus();
-        }
-    });
+function setQuery(newQuery) {
+    searchStore.commit('search/setQuery', newQuery);
 }
 
 onMounted(() => {
-    mainSearchFocus();
+    searchStore.commit("search/search");
 });
+
+const debouncedSearch = _.debounce(search, 500);
+
+function triggerSearch(event) {
+    setQuery(event.target.value);
+    debouncedSearch();
+}
 
 function search() {
-    axios
-        .get("/api/search?q=" + q.value)
-        .then((response) => {
-            store.commit("commands/setCommands", response);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+    searchStore.commit("search/search");
 }
-
-_.debounce(() => {
-    search();
-}, 2000);
 </script>
+

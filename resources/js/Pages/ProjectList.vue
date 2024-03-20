@@ -49,11 +49,11 @@
       </li>
     </ul>
   </template>
-  
+
   <script setup>
   import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
   import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
-  
+
   const statuses = {
     Complete: 'text-green-700 bg-green-50 ring-green-600/20',
     'In progress': 'text-gray-600 bg-gray-50 ring-gray-500/10',
@@ -98,7 +98,7 @@
     },
     {
       id: 5,
-      name: 'Marketing site redesign',
+      name: 'Marketing site Redesign',
       href: '#',
       status: 'Archived',
       createdBy: 'Courtney Henry',

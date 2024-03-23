@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\web\CommandController;
 use App\Services\PageContextService;
@@ -35,8 +36,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('ProjectsTable');
+    Route::get('/search', function () {
+        return Inertia::render('Search');
     })->name('projects');
 
     Route::get('/project/{project:id}', [ProjectController::class, 'show'])->name('project');
@@ -50,3 +51,6 @@ Route::middleware([
 });
 
 Route::Resource('projects', ProjectController::class)->middleware('auth');
+
+Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);

@@ -17,7 +17,7 @@ class Project extends Model
         'user_id',
         'description',
         'label_color',
-        'owner_username'
+        'user'
     ];
 
     public function user()
@@ -33,7 +33,7 @@ class Project extends Model
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
-        $array['owner'] = $this->user()->first()->name;
+        $array['username'] = $this->user()->first()->name;
         return $array;
     }
 

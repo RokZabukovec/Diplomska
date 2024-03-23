@@ -4,6 +4,7 @@ use App\Models\Command;
 use App\Models\ExternalCommand;
 use App\Models\Project;
 use App\Models\TeamUser;
+use App\Models\User;
 
 return [
 
@@ -153,6 +154,10 @@ return [
             TeamUser::class => [
                 'filterableAttributes' => ['team_id', 'user_id'],
                 'sortableAttributes' => ['created_at', 'updated_at']
+            ],
+            User::class =>[
+                'filterableAttributes' => ['id'],
+                'sortableAttributes' => ['name', 'created_at', 'updated_at']
             ]
         ],
     ],

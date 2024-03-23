@@ -1,6 +1,6 @@
 <template>
     <div class="w-full mt-6">
-        <div v-if="commands.length" class="overflow-hidden bg-white shadow sm:rounded-md">
+        <div class="overflow-hidden bg-white shadow sm:rounded-md">
             <ul role="list" class="divide-y divide-gray-200 mt-6">
                 <li v-for="command in commands" :key="command.id" class="command-list-item">
                     <div class="relative">
@@ -31,26 +31,18 @@
             </ul>
             <CommandPagination :pagination="pagination"></CommandPagination>
         </div>
-        <div v-else>
-            <h3 class="text-slate-500 text-center my-3">No results found</h3>
-        </div>
     </div>
 </template>
 
 <script setup>
 import CommandPagination from "./CommandPagination.vue";
 import { computed, onMounted } from "vue";
-import { usePage } from "@inertiajs/inertia-vue3";
-import { useStore } from "vuex";
 import { Link } from "@inertiajs/inertia-vue3";
 
-let store = useStore();
-let page = usePage();
+import searchStore from "../../Store/search.js";
 
-let commands = computed(() => store.state.commands.commands);
-let pagination = computed(() => store.state.commands.pagination);
-let projectId = computed(() => store.state.general.selectedProject?.id);
-var routeProjectId = null;
+let commands = computed(() => searchStore.state.commands);
+let projectId = computed(() => searchStore.state.search.selected.project_id);
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);

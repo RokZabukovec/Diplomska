@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex justify-end">
         <button class="inline-flex justify-between items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="button" @click="open = true" @open-new-project="open = true">
             New project
             <PlusIcon aria-hidden="true" class="ml-2 -mr-0.5 h-4 w-4" />
@@ -100,40 +100,6 @@ import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
 
 let open = ref(false);
-
-// data
-const team = [
-    {
-        name: "Tom Cook",
-        email: "tom.cook@example.com",
-        href: "#",
-        imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Whitney Francis",
-        email: "whitney.francis@example.com",
-        href: "#",
-        imageUrl: "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Leonard Krasner",
-        email: "leonard.krasner@example.com",
-        href: "#",
-        imageUrl: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Floyd Miles",
-        email: "floy.dmiles@example.com",
-        href: "#",
-        imageUrl: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Emily Selman",
-        email: "emily.selman@example.com",
-        href: "#",
-        imageUrl: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-];
 
 // computed
 const store = useStore();

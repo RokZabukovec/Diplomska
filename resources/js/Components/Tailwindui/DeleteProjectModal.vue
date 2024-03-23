@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";

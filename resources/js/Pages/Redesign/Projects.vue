@@ -1,9 +1,24 @@
 <script setup>
 
 import EmptyProject from "../../Components/Tailwindui/EmptyProject.vue";
-import SlideOverNewProject from "../../Components/Tailwindui/SlideOverNewProject.vue";
-import { HollowDotsSpinner } from "epic-spinners";
 import { Link } from "@inertiajs/inertia-vue3";
+import { computed } from "vue";
+import searchStore from "../../Store/search";
+import SlideOverNewProject from "../../Components/Tailwindui/SlideOverNewProject.vue";
+import Badges from "../Badges.vue";
+
+const totalPages = computed(() => searchStore.state.search.totalPages);
+const currentPage = computed(() => searchStore.state.search.page);
+let showMore = currentPage.value < totalPages.value
+
+function loadNextPage() {
+    searchStore.dispatch('search/incrementPage');
+}
+
+function selectProject(id, name) {
+    searchStore.dispatch('search/setProject', id, name);
+    searchStore.dispatch('search/addBadge', name);
+}
 
 function getLabelColor(projectLabel){
     if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100 text-black";
@@ -33,24 +48,17 @@ function getInitials(text, max=2) {
 }
 
 defineProps({
-    projects: Array,
-    loading: Boolean
+    projects: Array
 });
 
 </script>
 
 <template>
     <div>
-        <div class="flex justify-between border-b border-gray-200 pb-1">
-            <SlideOverNewProject></SlideOverNewProject>
-        </div>
-        <div v-show="$props.loading">
-            <div class="pt-5">
-                <hollow-dots-spinner class="container mx-auto mt-5" :animation-duration="1000" :dot-size="15" :dots-num="3" color="#9400ff" />
-            </div>
-        </div>
-        <ul v-if="$props.projects.length && !$props.loading" role="list" class="divide-y divide-gray-100">
-            <li v-for="project in $props.projects" :key="project.name" class="flex items-center justify-between gap-x-6 py-5">
+        <Badges></Badges>
+        <SlideOverNewProject></SlideOverNewProject>
+        <ul v-if="$props.projects.length" role="list" class="divide-y divide-gray-100">
+            <li v-for="project in $props.projects" @click="selectProject(project.id, project.name)" :key="project.name" :class="{ 'fade-in': !$props.loading, 'fade-out': $props.loading }" class="flex items-center justify-between gap-x-6 py-5">
                 <div class="min-w-0">
                     <div class="flex items-start gap-x-3">
                         <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded']">
@@ -64,8 +72,13 @@ defineProps({
                 </div>
             </li>
         </ul>
-        <div v-else class="mt-6">
+        <div v-if="$props.projects.length === 0 && !loading" class="mt-6">
             <EmptyProject/>
+        </div>
+        <div v-show="showMore" class="flex justify-center p-6">
+            <button class="border-2 border-pink-600 px-4 py-1.5 rounded-md text-pink-600 bg-transparent font-bold transition duration-300 ease-in-out hover:border-pink-600 focus:border-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50" @click="loadNextPage">
+                Load more
+            </button>
         </div>
     </div>
 </template>

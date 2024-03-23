@@ -26,6 +26,7 @@ class SearchController extends Controller
         $searchTerm = $request->input('q', '');
         $member = $request->input('member');
         $model = $request->input('model', 'projects');
+        $project_id = $request->input('project_id');
 
         $user = $request->user();
 
@@ -35,11 +36,14 @@ class SearchController extends Controller
             case 'projects':
                 $query = Project::search($searchTerm)->where('user_id', $user->id);
                 break;
-            case 'users':
-                $query = User::search($searchTerm);
+            case 'team_members':
+                $query = User::search($searchTerm)->whereIn('id', $teamUsers);
                 break;
             case 'commands':
                 $query = Command::search($searchTerm);
+                if (isset($project_id)){
+                    $query->where('project_id', $project_id);
+                }
                 $externalQuery = ExternalCommand::search($searchTerm);
 
                 if (!empty($member)) {

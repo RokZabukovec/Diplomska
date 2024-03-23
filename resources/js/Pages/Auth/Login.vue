@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import { Link, useForm } from "@inertiajs/inertia-vue3";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 import Checkbox from "@/Components/Checkbox.vue";
@@ -8,6 +8,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import RegistrationLayout from "../../Layouts/RegistrationLayout.vue";
+import GoogleSignIn from "../Redesign/GoogleSignIn.vue";
 
 defineProps({
     canResetPassword: Boolean,
@@ -77,6 +78,10 @@ const submit = () => {
         <div class="flex flex-col text-center mt-2">
             <h3>You don't have an account yet?</h3>
             <p>Sign up <Link href="/register" class="text-indigo-500 font-bold">here</Link>.</p>
+        </div>
+        <div class="flex flex-col text-center mt-2">
+            <p class="mb-2 text-gray-500">Or</p>
+            <GoogleSignIn></GoogleSignIn>
         </div>
     </RegistrationLayout>
 

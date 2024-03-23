@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import searchStore from "../Store/search.js";
 import { Inertia } from "@inertiajs/inertia";
 import _ from "lodash";
@@ -65,6 +65,7 @@ onMounted(() => {
 const debouncedSearch = _.debounce(search, 500);
 
 function triggerSearch(event) {
+    searchStore.commit("search/resetPage");
     setQuery(event.target.value);
     debouncedSearch();
 }

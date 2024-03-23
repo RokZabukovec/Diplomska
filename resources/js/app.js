@@ -31,5 +31,5 @@ createInertiaApp({
 }).then(() => console.log("Welcome to Command Hub"));
 
 InertiaProgress.init({
-    color: "#15cce8",
+    color: "#e115e8",
 });

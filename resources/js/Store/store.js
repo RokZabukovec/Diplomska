@@ -93,16 +93,13 @@ const store = createStore({
             state: () => ({}),
             mutations: {
                 async storeProject(state, form) {
-                    store.state.general.loading = true;
                     await axios
                         .post("api/projects", form)
                         .then((response) => {
                             if (response.status > 300) {
-                                store.state.general.loading = false;
                                 state.error = "There was something wrong with the request.";
                                 return;
                             }
-                            let user = store.state.general.user;
                             store.state.general.projects.push(response.data.data);
                             toast.success("The project has been created.", {
                                 timeout: 4000,

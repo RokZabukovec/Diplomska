@@ -32,7 +32,7 @@
                         <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
                     </div>
                     <div v-else class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/dashboard" class="inline-block rounded-full px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-blue-600">Dashboard</a>
+                        <a href="/search" class="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Dashboard</a>
                     </div>
                 </nav>
                 <Dialog as="div" :open="mobileMenuOpen" @close="mobileMenuOpen = false">

@@ -10,7 +10,13 @@ scripts:
   composer: kool exec app composer
   artisan: kool exec app php artisan
   phpunit: kool exec app php ./vendor/bin/phpunit
-  # Use this to setup your projects the first in a new environment.
+  search:
+    - kool run artisan ziggy:generate
+    - kool run artisan scout:import "App\\Models\\Project"
+    - kool run artisan scout:import "App\\Models\\Command"
+    - kool run artisan scout:import "App\\Models\\User"
+    - kool run artisan scout:import "App\\Models\\TeamUser"
+    - kool run artisan scout:sync-index-settings
   setup:
     - cp .env.example .env
     - kool start
@@ -19,6 +25,7 @@ scripts:
     - kool run node-setup
     - kool run artisan migrate:fresh
     - kool run superuser
+    - kool run artisan ziggy:generate
   # Use this to reset the state of your database and run common hoursekeeping
   # when changing branches.
   reset:
@@ -28,8 +35,8 @@ scripts:
   # CLI access to MySQL
   mysql: kool exec -e MYSQL_PWD=$DB_PASSWORD database mysql -u $DB_USERNAME $DB_DATABASE
   # npm - helpers for JS handling
-  npm: kool docker kooldev/node:16 npm
-  npx: kool docker kooldev/node:16 npx
+  npm: kool docker kooldev/node:18 npm
+  npx: kool docker kooldev/node:18 npx
   node-setup:
     - kool run npm install
     - kool run npm run build

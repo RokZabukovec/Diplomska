@@ -5,19 +5,10 @@
         </svg>
         <h3 class="mt-2 text-sm font-medium text-gray-900">No projects</h3>
         <p class="mt-1 text-sm text-gray-500">Get started by creating a new project.</p>
-        <div class="mt-6">
-            <slide-over-new-project></slide-over-new-project>
-        </div>
     </div>
 </template>
 
 <script setup>
-import { PlusIcon } from "@heroicons/vue/20/solid";
-import SlideOverNewProject from "./SlideOverNewProject.vue";
 
-function openModal() {
-    this.$root.$emit("openProjectModal", {
-        message: "This is a message object sent with the event",
-    });
-}
+
 </script>

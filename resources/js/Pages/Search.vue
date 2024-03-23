@@ -5,7 +5,9 @@
                     <h1>Loading</h1>
                 </div>
                 <div v-else>
-                    <Projects v-show="showProjects" :projects="projects"></Projects>
+                    <Transition>
+                        <Projects v-show="showProjects" :projects="projects"></Projects>
+                    </Transition>
                 </div>
             </div>
     </MainLayout>
@@ -21,3 +23,15 @@ const projects = computed(() => searchStore.state.search.projects);
 const loading = computed(() => searchStore.state.search.loading);
 let showProjects = computed(() => searchStore.state.search.type).value === "projects";
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+</style>

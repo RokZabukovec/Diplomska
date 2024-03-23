@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-end">
         <button class="inline-flex justify-between items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="button" @click="open = true" @open-new-project="open = true">
-            New project
+            New project 1
             <PlusIcon aria-hidden="true" class="ml-2 -mr-0.5 h-4 w-4" />
         </button>
         <TransitionRoot :show="open" as="template">
@@ -15,6 +15,7 @@
                                 <DialogPanel class="pointer-events-auto w-screen max-w-2xl">
                                     <form class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                                         <div class="flex-1">
+
                                             <!-- Header -->
                                             <div class="bg-gray-50 px-4 py-6 sm:px-6">
                                                 <div class="flex items-start justify-between space-x-3">

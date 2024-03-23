@@ -93,6 +93,7 @@ const store = createStore({
             state: () => ({}),
             mutations: {
                 async storeProject(state, form) {
+                    console.log(form);
                     await axios
                         .post("api/projects", form)
                         .then((response) => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +26,12 @@ class GoogleLoginController extends Controller
             $existingUser->google_id = $user->getId();
             $existingUser->name = $user->getName();
             $existingUser->save();
+
             auth()->login($existingUser, true);
+
+            if (!$existingUser->current_team_id) {
+                $this->createPersonalTeam($existingUser);
+            }
         }
         else{
             $newUser = new User();
@@ -36,8 +42,23 @@ class GoogleLoginController extends Controller
             $newUser->save();
 
             auth()->login($newUser, true);
+
+            // Create a personal team for the new user
+            $this->createPersonalTeam($newUser);
         }
 
         return redirect()->intended('/search');
+    }
+
+    protected function createPersonalTeam($user)
+    {
+        $team = new Team();
+        $team->user_id = $user->id;
+        $team->name = $user->name . "'s Team"; // You can customize the team name
+        $team->personal_team = true;
+        $team->save();
+
+        $user->current_team_id = $team->id;
+        $user->save();
     }
 }

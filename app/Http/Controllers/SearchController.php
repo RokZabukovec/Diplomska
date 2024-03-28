@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Scout\Builder;
 
 class SearchController extends Controller
 {
@@ -34,8 +35,9 @@ class SearchController extends Controller
 
         switch ($model) {
             case 'projects':
-                $query = Project::search($searchTerm)->where('user_id', $user->id);
-                break;
+                $query = Project::search($searchTerm)->whereIn('user_id', $teamUsers)->latest()->raw();
+
+                return response()->json($query);
             case 'team_members':
                 $query = User::search($searchTerm)->whereIn('id', $teamUsers);
                 break;

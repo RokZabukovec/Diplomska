@@ -1,5 +1,9 @@
 import { createStore } from "vuex";
 import { search } from "@/API/search";
+import axios from "axios";
+import { useToast } from "vue-toastification";
+
+const toast= useToast();
 
 const searchStore = createStore({
     modules: {
@@ -22,7 +26,6 @@ const searchStore = createStore({
                 }
             }),
             mutations: {
-                // Mutation to add a string to the array
                 addBadge(state, value) {
                     const index = state.badges.indexOf(value);
                     if (index === -1) {
@@ -39,18 +42,37 @@ const searchStore = createStore({
                 setLoading(state, loading){
                     state.loading = loading
                 },
+                async storeProject(state, form) {
+                    await axios
+                        .post("api/projects", form)
+                        .then((response) => {
+                            if (response.status > 300) {
+                                state.error = "There was something wrong with the request.";
+                                return;
+                            }
+                            state.projects.unshift(response.data);
+                            toast.success("The project has been created.", {
+                                timeout: 4000,
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            toast.error("Something went wrong when creating a project.", {
+                                timeout: 4000,
+                            });
+                        });
+                },
                 async search(state) {
                     try {
                         state.loading = true;
                         const response = await search(state.query, state.type, state.page, state.selected);
                         switch (state.type){
                             case 'projects':
-                                state.projects = response.data;
+                                console.log(response);
+                                state.projects.push(...response.hits);
+
                                 break;
                             case 'commands':
-                                console.log("response", response);
-                                console.log("commands", response.commands.data);
-
                                 state.commands = response.commands.data;
                                 break;
                             case 'team_members':
@@ -112,6 +134,9 @@ const searchStore = createStore({
                 incrementPage({ commit }) {
                     commit('nextPage');
                     commit('search');
+                },
+                storeProject({ commit }, data) {
+                    commit('storeProject', data);
                 },
                 setProject({ commit }, project_id){
                     commit('type', 'commands');

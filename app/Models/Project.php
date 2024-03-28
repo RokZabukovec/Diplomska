@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Searchable;
+use App\Models\Command;
+
 
 class Project extends Model
 {
@@ -23,6 +25,11 @@ class Project extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function commands()
+    {
+        return $this->hasMany(Command::class);
     }
 
     /**

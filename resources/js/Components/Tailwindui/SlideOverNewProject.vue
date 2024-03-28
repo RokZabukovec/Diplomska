@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-end">
         <button class="inline-flex justify-between items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" type="button" @click="open = true" @open-new-project="open = true">
-            New project 1
+            New project
             <PlusIcon aria-hidden="true" class="ml-2 -mr-0.5 h-4 w-4" />
         </button>
         <TransitionRoot :show="open" as="template">
@@ -94,22 +94,19 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { PlusIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { useStore } from "vuex";
+import searchStore from "../../Store/search";
 
 let open = ref(false);
-
-// computed
-const store = useStore();
-const projects = computed(() => store.state.general.projects);
 
 // methods
 function storeProject() {
     open.value = false;
-    store.commit("projects/storeProject", form.value);
+    searchStore.dispatch("search/storeProject", form.value);
+    resetForm();
 }
 
 const product = {
@@ -135,4 +132,12 @@ let form = ref({
     description: "",
     label_color: product.colors[0].name,
 });
+
+function resetForm() {
+    form.value = {
+        name: "",
+        description: "",
+        label_color: product.colors[0].name,
+    };
+}
 </script>

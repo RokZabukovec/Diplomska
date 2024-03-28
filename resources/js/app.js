@@ -10,6 +10,7 @@ import store from "./Store/search.js";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 const appName = window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+import PrimeVue from 'primevue/config';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -20,6 +21,7 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(store)
+            .use(PrimeVue)
             .use(ZiggyVue, Ziggy)
             .use(Toast, {
                 transition: "Vue-Toastification__bounce",

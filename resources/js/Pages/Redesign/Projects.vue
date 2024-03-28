@@ -1,15 +1,16 @@
 <script setup>
 
 import EmptyProject from "../../Components/Tailwindui/EmptyProject.vue";
-import { Link } from "@inertiajs/inertia-vue3";
 import { computed } from "vue";
 import searchStore from "../../Store/search";
 import SlideOverNewProject from "../../Components/Tailwindui/SlideOverNewProject.vue";
 import Badges from "../Badges.vue";
+import moment from "moment";
 
 const totalPages = computed(() => searchStore.state.search.totalPages);
 const currentPage = computed(() => searchStore.state.search.page);
 let showMore = currentPage.value < totalPages.value
+const projects = computed(() => searchStore.state.search.projects);
 
 function loadNextPage() {
     searchStore.dispatch('search/incrementPage');
@@ -21,7 +22,16 @@ function selectProject(id, name) {
 }
 
 function getLabelColor(projectLabel){
+
+    if (projectLabel === undefined){
+        return "bg-gray-100 text-black"
+    }
+
     if (!projectLabel.length || projectLabel.toString().toLowerCase() === "white") return "bg-gray-100 text-black";
+
+    if (projectLabel.startsWith("#")) {
+        return "bg-gray-100 text-black"
+    }
 
     return "bg-" + projectLabel.toString().toLowerCase() + "-400";
 }
@@ -47,28 +57,37 @@ function getInitials(text, max=2) {
     return initials;
 }
 
-defineProps({
-    projects: Array
-});
+function formatDate(datetime){
+    let momentDate = moment(datetime);
 
+    return momentDate.format('DD.MMMM.YYYY');
+}
 </script>
 
 <template>
     <div>
         <Badges></Badges>
         <SlideOverNewProject></SlideOverNewProject>
-        <TransitionGroup name="list" tag="ul" v-if="$props.projects.length">
-            <li v-for="project in $props.projects" @click="selectProject(project.id, project.name)" :key="project.name" class="mt-1 p-2 shadow hover:bg-indigo-100 cursor-pointer rounded flex items-center justify-between gap-x-6 py-5">
-                <div class="min-w-0">
+        <TransitionGroup v-if="projects.length" name="list" tag="ul">
+            <li tabindex="0" v-for="project in projects" :key="project.name" @click="selectProject(project.id, project.name)" class="flex-1 mt-1 p-2 pr-6 shadow hover:bg-indigo-100 cursor-pointer rounded flex items-center justify-between gap-x-6 py-5">
+                <div class="flex-grow">
                     <div class="flex items-start gap-x-3">
-                        <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded']">
-                            {{ getInitials(project.name) }}</div>
-                        <p class="text-sm font-semibold leading-6 text-gray-900">{{ project.name }}</p>
+                        <div :class="[getLabelColor(project.label_color), 'p-2 flex-shrink-0 flex items-center justify-center font-medium rounded uppercase']">
+                            {{ getInitials(project.name) }}
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-semibold leading-6 text-gray-900">{{ project.name }}</h3>
+                            <p class="leading-6 text-gray-600">{{ project.description }}</p>
+                            <div class="mt-5 text-gray-400 flex justify-between">
+                                <p> <span>Created by </span>{{ project.username }}</p>
+                                <p> <span>Created @ </span>{{ formatDate(project.created_at) }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </li>
         </TransitionGroup>
-        <div v-if="$props.projects.length === 0 && !loading" class="mt-6">
+        <div v-if="projects.length === 0" class="mt-6">
             <EmptyProject/>
         </div>
         <div v-show="showMore" class="flex justify-center p-6">

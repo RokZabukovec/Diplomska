@@ -38,11 +38,11 @@
 import CommandPagination from "./CommandPagination.vue";
 import { computed, onMounted } from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { useStore } from "vuex";
 
-import searchStore from "../../Store/search.js";
-
-let commands = computed(() => searchStore.state.commands);
-let projectId = computed(() => searchStore.state.search.selected.project_id);
+let store = useStore();
+let commands = computed(() => store.state.search.commands);
+let projectId = computed(() => store.state.search.selected.project_id);
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
@@ -90,7 +90,7 @@ let colorizeCommand = (command) => {
 
 const getCommands = (pageNumber) => {
     let payload = {
-        project: projectId.value ?? page.props.value.project.id,
+        project: projectId.value,
         page: pageNumber,
     };
     store.commit("commands/getCommands", payload);

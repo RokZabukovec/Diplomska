@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
 import basicSsl from '@vitejs/plugin-basic-ssl'
-const path = require("path");
 
 export default defineConfig({
     define: {
@@ -12,7 +11,10 @@ export default defineConfig({
     plugins: [
         basicSsl(),
         laravel({
-            input: 'resources/js/app.js',
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ],
             refresh: true,
         }),
         vue({
@@ -21,6 +23,7 @@ export default defineConfig({
                     base: null,
                     includeAbsolute: false,
                 },
+                refresh: true
             },
         }),
     ],
@@ -29,18 +32,11 @@ export default defineConfig({
             '@': '/resources/js',
         },
     },
-
     server: {
-        https: true,
-        // respond to all network requests (same as '0.0.0.0')
-        host: true,
-        // we need a strict port to match on PHP side
-        strictPort: true,
-        port: 8080,
+        host: '0.0.0.0',
         hmr: {
-            protocol: 'wss',
             host: 'localhost'
-        }
+        },
     },
 });
 

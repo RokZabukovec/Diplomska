@@ -5,10 +5,11 @@ export async function search(query = "*" , model = "projects", page = 1, selecte
     const encodedModel = encodeURIComponent(model);
     let url = `/api/search?q=${encodedQuery}&model=${encodedModel}&page=${page}`;
 
-    if (selected.project_id != null && model === 'commands') {
+    if (selected.project_id != null && encodedModel === 'commands') {
         const encodedProjectId = encodeURIComponent(selected.project_id);
 
         url = `${url}?project_id=${encodedProjectId}`;
+        console.log(url);
     }
     try {
         const response = await axios.get(url);

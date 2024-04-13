@@ -18,7 +18,7 @@ function loadNextPage() {
 
 function selectProject(id, name) {
     searchStore.dispatch('search/setProject', id, name);
-    searchStore.dispatch('search/addBadge', name);
+    searchStore.dispatch('search/addBadge', {label: 'project', value: name});
 }
 
 function getLabelColor(projectLabel){
@@ -66,7 +66,6 @@ function formatDate(datetime){
 
 <template>
     <div>
-        <Badges></Badges>
         <SlideOverNewProject></SlideOverNewProject>
         <TransitionGroup v-if="projects.length" name="list" tag="ul">
             <li tabindex="0" v-for="project in projects" :key="project.name" @click="selectProject(project.id, project.name)" class="flex-1 mt-1 p-2 pr-6 shadow hover:bg-indigo-100 cursor-pointer rounded flex items-center justify-between gap-x-6 py-5">

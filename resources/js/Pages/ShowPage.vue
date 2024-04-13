@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import marked from "marked";
 import { computed } from "vue";
 import moment from "moment";
 
@@ -30,6 +29,6 @@ let renderedBody = computed(() => {
     if (props.page === undefined || props.page.body === undefined || props.page.body === null) {
         return "<h3 class='text-center text-bold'>The page is a blank slate.</h3>";
     }
-    return marked(props.page.body);
+    return props.page.body;
 });
 </script>

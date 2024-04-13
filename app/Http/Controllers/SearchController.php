@@ -43,10 +43,10 @@ class SearchController extends Controller
                 break;
             case 'commands':
                 $query = Command::search($searchTerm);
+
                 if (isset($project_id)){
                     $query->where('project_id', $project_id);
                 }
-                $externalQuery = ExternalCommand::search($searchTerm);
 
                 if (!empty($member)) {
                     $query->where('user_id', $member);
@@ -54,12 +54,7 @@ class SearchController extends Controller
                     $query->whereIn('user_id', $teamUsers);
                 }
 
-                $responseData = [
-                    'commands' => $query->paginate(10),
-                    'external' => $externalQuery->paginate(10),
-                ];
-
-                return response()->json($responseData);
+                return response()->json($query->paginate(10));
             default:
                 return response()->json([]);
         }

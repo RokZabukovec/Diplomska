@@ -12,7 +12,6 @@ export default defineConfig({
         basicSsl(),
         laravel({
             input: [
-                'resources/css/app.css',
                 'resources/js/app.js',
             ],
             refresh: true,
@@ -23,20 +22,20 @@ export default defineConfig({
                     base: null,
                     includeAbsolute: false,
                 },
-                refresh: true
             },
         }),
     ],
     resolve: {
         alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
             '@': '/resources/js',
         },
     },
     server: {
-        host: '0.0.0.0',
         hmr: {
-            host: 'localhost'
+            host: 'localhost',
         },
+        watch: { usePolling: true }
     },
 });
 

@@ -29,13 +29,11 @@
                     </div>
                 </li>
             </ul>
-            <CommandPagination :pagination="pagination"></CommandPagination>
         </div>
     </div>
 </template>
 
 <script setup>
-import CommandPagination from "./CommandPagination.vue";
 import { computed, onMounted } from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { useStore } from "vuex";
@@ -43,6 +41,7 @@ import { useStore } from "vuex";
 let store = useStore();
 let commands = computed(() => store.state.search.commands);
 let projectId = computed(() => store.state.search.selected.project_id);
+let tag = computed(() => store.state.search.selected.tag);
 
 const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
 const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);

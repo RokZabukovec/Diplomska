@@ -93,7 +93,7 @@ const displayableRole = (role) => {
 
 <template>
     <div>
-        <div v-if="userPermissions.canAddTeamMembers">
+        <div id="add_member" v-if="userPermissions.canAddTeamMembers">
             <SectionBorder />
 
             <!-- Add Team Member -->

@@ -26,15 +26,14 @@ const searchStore = createStore({
                 }
             }),
             mutations: {
-                addBadge(state, value) {
-                    const index = state.badges.indexOf(value);
+                addBadge(state, badgeObject) {
+                    const index = state.badges.findIndex(badge => badge.label === badgeObject.label && badge.value === badgeObject.value);
                     if (index === -1) {
-                        state.badges.push(value);
+                        state.badges.push(badgeObject);
                     }
                 },
-                // Mutation to remove a string from the array
-                removeBadge(state, value) {
-                    const index = state.badges.indexOf(value);
+                removeBadge(state, badgeObject) {
+                    const index = state.badges.findIndex(badge => badge.label === badgeObject.label && badge.value === badgeObject.value);
                     if (index !== -1) {
                         state.badges.splice(index, 1);
                     }
@@ -73,7 +72,7 @@ const searchStore = createStore({
 
                                 break;
                             case 'commands':
-                                state.commands = response.commands.data;
+                                state.commands = response.data;
                                 break;
                             case 'team_members':
                                 console.log("team", response.data);
@@ -100,6 +99,11 @@ const searchStore = createStore({
                 resetPage(state)
                 {
                     state.page = 1;
+                },
+                resetSelected(state) {
+                    state.selected.projectId = null;
+                    state.selected.user_id = null;
+                    state.selected.tag = null;
                 },
                 type(state, type)
                 {
@@ -151,8 +155,18 @@ const searchStore = createStore({
                 addBadge({ commit }, value) {
                     commit('addBadge', value);
                 },
-                removeBadge({ commit }, value) {
+                removeBadge({ commit, dispatch }, value) {
                     commit('removeBadge', value);
+                    if (value.label === 'project'){
+                        dispatch('resetProject')
+                    }
+                },
+                resetSelected({ commit }){
+                    commit('resetSelected');
+                },
+                resetBadges({ commit }){
+                    commit('resetBadges');
+                    commit('resetSelected');
                 }
             },
         }

@@ -27,6 +27,9 @@
                             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
+                    <div class="lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
+                        <a href="/documentation" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Documentation</a>
+                    </div>
                     <div v-if="_.isEmpty(user)" class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
                         <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Log in</a>
                         <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
@@ -35,31 +38,6 @@
                         <a href="/search" class="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Dashboard</a>
                     </div>
                 </nav>
-                <Dialog as="div" :open="mobileMenuOpen" @close="mobileMenuOpen = false">
-                    <DialogPanel focus="true" class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
-                        <div class="flex h-9 items-center justify-between">
-                            <div class="flex">
-                                <a href="#" class="-m-1.5 p-1.5">
-                                    <span class="sr-only">Your Company</span>
-                                    <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-                                </a>
-                            </div>
-                            <div class="flex">
-                                <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
-                                    <span class="sr-only">Close menu</span>
-                                    <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                                </button>
-                            </div>
-                        </div>
-                        <div class="mt-6 flow-root">
-                            <div class="-my-6 divide-y divide-gray-500/10">
-                                <div class="py-6">
-                                    <a href="/login" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">Log in</a>
-                                </div>
-                            </div>
-                        </div>
-                    </DialogPanel>
-                </Dialog>
             </div>
         </div>
         <main>

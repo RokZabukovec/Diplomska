@@ -27,7 +27,6 @@ const store = createStore({
                         .put("/api/user/teams/switch?team_id=" + team)
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
                                 return;
                             }
                             state.teams = response.data;
@@ -41,7 +40,6 @@ const store = createStore({
                         .get("/api/user/teams")
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
                                 return;
                             }
                             state.teams = response.data;
@@ -93,7 +91,6 @@ const store = createStore({
             state: () => ({}),
             mutations: {
                 async storeProject(state, form) {
-                    console.log(form);
                     await axios
                         .post("api/projects", form)
                         .then((response) => {
@@ -121,14 +118,13 @@ const store = createStore({
                         .delete("/api/projects/" + project.id)
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
                                 return;
                             }
-                            var projects = store.state.general.projects;
+                            let projects = store.state.general.projects;
                             let user = store.state.general.user;
                             store.state.general.projects.map((stored) => {
                                 if (stored.id === project.id) {
-                                    let index = projects.findIndex((storedProject) => storedProject.id == project.id);
+                                    let index = projects.findIndex((storedProject) => storedProject.id === project.id);
                                     store.state.general.projects.splice(index, 1);
                                 }
                             });
@@ -145,7 +141,6 @@ const store = createStore({
                     response
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
                                 return;
                             }
                             Inertia.visit("/projects/" + form.id);
@@ -193,7 +188,7 @@ const store = createStore({
                         .delete("api/commands/" + command.value.id)
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
+                                return;
                             }
                             var commands = store.state.general.commands;
 
@@ -209,30 +204,11 @@ const store = createStore({
                             console.error(error);
                         });
                 },
-                async storeCommand(state, form) {
-                    let response = storeCommandAsync(form);
-                    response
-                        .then((response) => {
-                            if (response.status > 300) {
-                                console.log(response);
-                                return;
-                            }
-                            store.state.commands.commands.push(response.data.data);
-                            toast.success("The command has been stored.", {
-                                timeout: 4000,
-                            });
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                },
                 async editCommand(state, form) {
                     let response = editCommandAsync(form);
-                    console.log(response);
                     response
                         .then((response) => {
                             if (response.status > 300) {
-                                console.log(response);
                                 return;
                             }
                             var foundIndex = store.state.commands.commands.findIndex((x) => x.id == response.data.data.id);

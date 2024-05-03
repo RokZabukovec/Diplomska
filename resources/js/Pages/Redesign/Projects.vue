@@ -1,24 +1,24 @@
 <script setup>
 
-import EmptyProject from "../../Components/Tailwindui/EmptyProject.vue";
 import { computed } from "vue";
-import searchStore from "../../Store/search";
 import SlideOverNewProject from "../../Components/Tailwindui/SlideOverNewProject.vue";
-import Badges from "../Badges.vue";
 import moment from "moment";
+import { useStore } from "vuex";
+import Pagination from "../../Components/Tailwindui/Pagination.vue";
+import { TransitionRoot } from "@headlessui/vue";
 
-const totalPages = computed(() => searchStore.state.search.totalPages);
-const currentPage = computed(() => searchStore.state.search.page);
-let showMore = currentPage.value < totalPages.value
-const projects = computed(() => searchStore.state.search.projects);
-
-function loadNextPage() {
-    searchStore.dispatch('search/incrementPage');
-}
+const store = useStore();
+const projects = computed(() => store.state.search.projects);
+const loading = computed(() => store.state.search.loading);
 
 function selectProject(id, name) {
-    searchStore.dispatch('search/setProject', id, name);
-    searchStore.dispatch('search/addBadge', {label: 'project', value: name});
+    store.dispatch('search/setProject', id, name);
+    store.dispatch('search/addBadge', {label: 'project', value: name});
+}
+
+function selectMember(id, name) {
+    store.dispatch('search/setUserId', id);
+    store.dispatch('search/addBadge', {label: 'user', value: name});
 }
 
 function getLabelColor(projectLabel){
@@ -65,54 +65,55 @@ function formatDate(datetime){
 </script>
 
 <template>
-    <div>
+    <TransitionRoot
+        name="list" as="ul"
+        appear
+        :show="!loading"
+        enter="transition-opacity duration-300"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="transition-opacity duration-500"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+    >
         <SlideOverNewProject></SlideOverNewProject>
-        <TransitionGroup v-if="projects.length" name="list" tag="ul">
-            <li tabindex="0" v-for="project in projects" :key="project.name" @click="selectProject(project.id, project.name)" class="flex-1 mt-1 p-2 pr-6 shadow hover:bg-indigo-100 cursor-pointer rounded flex items-center justify-between gap-x-6 py-5">
-                <div class="flex-grow">
-                    <div class="flex items-start gap-x-3">
-                        <div :class="[getLabelColor(project.label_color), 'p-2 flex-shrink-0 flex items-center justify-center font-medium rounded uppercase']">
-                            {{ getInitials(project.name) }}
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-semibold leading-6 text-gray-900">{{ project.name }}</h3>
-                            <p class="leading-6 text-gray-600">{{ project.description }}</p>
-                            <div class="mt-5 text-gray-400 flex justify-between">
-                                <p> <span>Created by </span>{{ project.username }}</p>
-                                <p> <span>Created @ </span>{{ formatDate(project.created_at) }}</p>
-                            </div>
+
+        <li tabindex="0" @click="selectProject(-1, 'general')" class="flex-1 mt-6 p-3 shadow bg-indigo-600 text-white cursor-pointer rounded flex items-center justify-between gap-x-6">
+            <div class="flex-grow">
+                <div class="flex items-center gap-x-3">
+                    <div class="p-2 flex-shrink-0 flex items-center justify-center font-medium rounded uppercase">
+                        GE
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-semibold leading-6">General</h3>
+                        <p class="leading-6">Compiled set of Linux, MacOs and Windows bash terminal commands</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li tabindex="0" v-for="project in projects" :key="project.name" class="flex-1 mt-6 p-3 shadow rounded flex items-center justify-between gap-x-6">
+            <div class="flex-grow">
+                <div class="flex items-start gap-x-3">
+                    <div :class="[getLabelColor(project.label_color), 'p-2 flex-shrink-0 flex items-center justify-center font-medium rounded uppercase']">
+                        {{ getInitials(project.name) }}
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-semibold leading-6 text-gray-900 cursor-pointer text-gray-900" @click="selectProject(project.id, project.name)">{{ project.name }}</h3>
+                        <p v-if="project.description !== null" class="leading-6 text-gray-600">{{ project.description }}</p>
+                        <div class="mt-5 text-gray-400 flex justify-between">
+                            <p @click="selectMember(project.user_id, project.username)" class="cursor-pointer text-xs">Created by <span class="transition font-semibold">{{ project.username }}</span></p>
+                            <p class="text-xs"> <span>Created @ </span>{{ formatDate(project.created_at) }}</p>
                         </div>
                     </div>
                 </div>
-            </li>
-        </TransitionGroup>
-        <div v-if="projects.length === 0" class="mt-6">
-            <EmptyProject/>
+            </div>
+        </li>
+        <div v-show="projects.length > 0" class="flex justify-center p-6">
+            <Pagination></Pagination>
         </div>
-        <div v-show="showMore" class="flex justify-center p-6">
-            <button class="border-2 border-pink-600 px-4 py-1.5 rounded-md text-pink-600 bg-transparent font-bold transition duration-300 ease-in-out hover:border-pink-600 focus:border-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50" @click="loadNextPage">
-                Load more
-            </button>
-        </div>
-    </div>
+    </TransitionRoot>
 </template>
 
 <style scoped>
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-    transition: all 0.5s ease;
-}
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-}
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-    position: absolute;
-}
 </style>

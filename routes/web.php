@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\web\CommandController;
@@ -30,6 +31,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/documentation', [DocumentationController::class, 'index'])->name('index');
 
 Route::middleware([
     'auth:sanctum',

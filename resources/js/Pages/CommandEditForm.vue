@@ -30,7 +30,7 @@
 
                 <div class="pt-5">
                     <div class="flex justify-end items-center">
-                        <Link :href="route('project', { id: projectId })" class="text-slate-800">Back</Link>
+                        <Link :href="'/search'" class="text-slate-800">Back</Link>
                         <button type="submit" class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
                     </div>
                 </div>
@@ -44,17 +44,19 @@ import axios from "axios";
 import { ref } from "vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import MainLayout from "../Layouts/MainLayout.vue";
+import { route } from "ziggy-js";
 
 let success = ref(false);
+const props = defineProps({
+    command: Object,
+});
 
 let command = ref({
     command: props.command.command ?? "",
     description: props.command.description ?? "",
 });
 
-const props = defineProps({
-    command: Object,
-});
+
 let projectId = props.command.project_id;
 
 function submitForm() {

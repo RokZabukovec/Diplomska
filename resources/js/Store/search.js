@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { search } from "@/API/search";
 import axios from "axios";
 import { useToast } from "vue-toastification";
+import { storeCommandAsync } from "../API/commands";
 
 const toast= useToast();
 
@@ -22,10 +23,27 @@ const searchStore = createStore({
                 selected: {
                     "projectId": null,
                     "user_id": null,
-                    "tag": null
+                    "tag": null,
+                    "member": null
                 }
             }),
             mutations: {
+                async storeCommand(state, form) {
+                    let response = storeCommandAsync(form);
+                    response
+                        .then((response) => {
+                            if (response.status > 300) {
+                                return;
+                            }
+                            state.commands.unshift(response.data.data);
+                            toast.success("The command has been stored.", {
+                                timeout: 4000,
+                            });
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                },
                 addBadge(state, badgeObject) {
                     const index = state.badges.findIndex(badge => badge.label === badgeObject.label && badge.value === badgeObject.value);
                     if (index === -1) {
@@ -49,7 +67,7 @@ const searchStore = createStore({
                                 state.error = "There was something wrong with the request.";
                                 return;
                             }
-                            state.projects.unshift(response.data);
+                            state.projects.unshift(response.data.data);
                             toast.success("The project has been created.", {
                                 timeout: 4000,
                             });
@@ -67,17 +85,15 @@ const searchStore = createStore({
                         const response = await search(state.query, state.type, state.page, state.selected);
                         switch (state.type){
                             case 'projects':
-                                console.log(response);
-                                state.projects.push(...response.hits);
+                                state.projects = response.data.hits;
+                                state.totalPages = response.data.totalPages;
 
                                 break;
                             case 'commands':
-                                state.commands = response.data;
+                                state.commands = response.data.hits;
                                 break;
                             case 'team_members':
-                                console.log("team", response.data);
-
-                                state.team_members = response.data;
+                                state.team_members = response.data.hits;
                                 break;
                         }
                         state.totalPages = response.last_page;
@@ -95,6 +111,10 @@ const searchStore = createStore({
                 nextPage(state)
                 {
                     state.page++;
+                },
+                setPage(state, page)
+                {
+                    state.page = page;
                 },
                 resetPage(state)
                 {
@@ -128,21 +148,51 @@ const searchStore = createStore({
                     state.selected.user_id = null;
                 },
                 setTag(state, tag) {
-                    state.selected.tag = tag;
+                    if (state.selected.tag === null) {
+                        state.selected.tag = tag;
+                    }else {
+                        toast.error("Only one tag is supported", {
+                            timeout: 2000,
+                        });
+                    }
                 },
                 resetTag(state) {
                     state.selected.tag = null;
                 },
             },
             actions: {
-                incrementPage({ commit }) {
+                setUserId({ commit }, id){
+                    commit('setUserId', id);
+                    commit('search');
+                },
+                resetUserId({ commit }){
+                    commit('resetUserId');
+                    commit('search');
+                },
+                setTag({ commit }, tag){
+                    commit('setTag', tag);
+                    commit('search');
+                },
+                resetTag({ commit }, tag){
+                    commit('resetTag');
+                    commit('search');
+                },
+                setPage({ commit }, page) {
+                    commit('setPage', page);
+                    commit('search');
+                },
+                nextPage({ commit }) {
                     commit('nextPage');
+                    commit('search');
+                },
+                prevPage({ commit }) {
+                    commit('prevPage');
                     commit('search');
                 },
                 storeProject({ commit }, data) {
                     commit('storeProject', data);
                 },
-                setProject({ commit }, project_id){
+                setProject({ commit }, project_id, name){
                     commit('type', 'commands');
                     commit('setProjectId', project_id);
                     commit('search');
@@ -159,6 +209,12 @@ const searchStore = createStore({
                     commit('removeBadge', value);
                     if (value.label === 'project'){
                         dispatch('resetProject')
+                    }
+                    if (value.label === 'tag'){
+                        dispatch('resetTag')
+                    }
+                    if (value.label === 'user'){
+                        dispatch('resetUserId')
                     }
                 },
                 resetSelected({ commit }){

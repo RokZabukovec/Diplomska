@@ -55,13 +55,13 @@ import { Inertia } from "@inertiajs/inertia";
 import _ from "lodash";
 import { Link } from "@inertiajs/inertia-vue3";
 import { useStore } from "vuex";
+import { route } from "ziggy-js";
 
 let store = useStore();
 let q = ref("");
 let selectedType = ref("projects");
 
 function setType() {
-    console.log(selectedType.value)
     store.commit("search/resetPage");
     store.commit("search/type", selectedType.value);
     store.commit("search/search");

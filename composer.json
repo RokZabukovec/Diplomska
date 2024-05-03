@@ -19,6 +19,7 @@
         "laravel/scout": "^v10.8.3",
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^v2.9",
+        "mailersend/laravel-driver": "^2.5",
         "meilisearch/meilisearch-php": "^v1.7.0",
         "predis/predis": "^v2.0.3",
         "ramsey/uuid-doctrine": "^2.0",

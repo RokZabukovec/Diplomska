@@ -9,7 +9,6 @@ export default defineConfig({
         __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
     },
     plugins: [
-        basicSsl(),
         laravel({
             input: [
                 'resources/js/app.js',
@@ -35,7 +34,8 @@ export default defineConfig({
         hmr: {
             host: 'localhost',
         },
-        watch: { usePolling: true }
+        watch: { usePolling: true },
+        https: false
     },
 });
 

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <button type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="open = true">Add +</button>
+    <div class="flex justify-end">
+        <button type="button" class="inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="open = true">New command +</button>
         <TransitionRoot :show="open" as="template">
             <Dialog as="div" class="relative z-10" @close="open = false">
                 <div class="fixed inset-0" />
@@ -95,21 +95,15 @@
 import { computed, ref } from "vue";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import store from "../../Store/store";
+import { useStore } from "vuex";
 
-let projectId = computed(() => store.state.general.selectedProject?.id);
-
-const props = defineProps({
-    project: {
-        type: Object,
-        default: null,
-    },
-});
+const store = useStore()
+let projectId = computed(() => store.state.search.selected.projectId);
 
 let form = ref({
     command: "",
     description: "",
-    project_id: parseInt(projectId.value ?? props.project.id),
+    project_id: projectId.value,
     tags: [],
 });
 
@@ -117,7 +111,7 @@ const tagsInput = ref("");
 let open = ref(false);
 
 function storeCommand() {
-    store.commit("commands/storeCommand", form.value);
+    store.commit("search/storeCommand", form.value);
     open.value = false;
     for (let data in form) delete form[data];
 }

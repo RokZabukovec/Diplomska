@@ -144,7 +144,7 @@ return [
                 'sortableAttributes' => ['command', 'created_at', 'updated_at']
             ],
             Command::class => [
-                'filterableAttributes' => ['id', 'project_id', 'tool_id', 'user_id'],
+                'filterableAttributes' => ['id', 'project_id', 'tool_id', 'user_id', 'tags'],
                 'sortableAttributes' => ['command', 'created_at', 'updated_at']
             ],
             Project::class => [

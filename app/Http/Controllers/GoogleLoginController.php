@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -54,7 +53,7 @@ class GoogleLoginController extends Controller
     {
         $team = new Team();
         $team->user_id = $user->id;
-        $team->name = $user->name . "'s Team"; // You can customize the team name
+        $team->name = $user->name . "'s Team";
         $team->personal_team = true;
         $team->save();
 

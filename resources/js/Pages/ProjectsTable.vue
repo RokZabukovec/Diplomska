@@ -10,9 +10,9 @@
                 </div>
             </div>
             <ul v-if="userProjects.length && !loading" role="list" class="divide-y divide-gray-100">
-                <li v-for="project in userProjects" :key="project.name" class="flex items-center justify-between gap-x-6 py-5">
+                <li v-for="project in userProjects" :key="project.name" class="flex items-center justify-between gap-x-6 p-3">
                     <div class="min-w-0">
-                    <div class="flex items-start gap-x-3">
+                    <div class="flex items-center gap-x-3">
                         <div :class="[getLabelColor(project.label_color), 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded']">
                         {{ getInitials(project.name) }}</div>
                         <p class="text-sm font-semibold leading-6 text-gray-900">{{ project.name }}</p>

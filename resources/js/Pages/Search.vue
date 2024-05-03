@@ -2,15 +2,15 @@
     <MainLayout>
             <div class="mx-auto max-w-3xl">
                 <Badges></Badges>
-                <div v-if="loading">
-                    Loading ...
+                <div v-if="loading" class="flex justify-center items-center h-screen">
+                    <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" class="fill-surface-0 dark:fill-surface-800"
+                                     animationDuration=".5s" aria-label="Custom ProgressSpinner" />
                 </div>
+
                 <div v-else>
-                    <Transition>
-                        <Projects v-if="showProjects"></Projects>
-                        <CommandList v-else-if="showCommands"></CommandList>
-                        <Team v-else-if="showTeam"></Team>
-                    </Transition>
+                    <Projects v-show="showProjects"></Projects>
+                    <CommandList v-if="showCommands"></CommandList>
+                    <Team v-if="showTeam"></Team>
                 </div>
             </div>
     </MainLayout>
@@ -24,14 +24,17 @@ import CommandList from "../Components/Tailwindui/CommandList.vue";
 import { useStore } from "vuex";
 import Badges from "./Badges.vue";
 import Team from "../Components/Tailwindui/Team.vue";
-
+import ProgressSpinner from 'primevue/progressspinner';
+import { usePage } from "@inertiajs/inertia-vue3";
 let store = useStore();
-// Define a computed property to get the 'type' property from the Vuex store state
+let page = usePage();
+
 const loading = computed(() => store.state.search.loading);
 const showProjects = computed(() => store.state.search.type === "projects");
 const showCommands = computed(() => store.state.search.type === "commands");
 const showTeam = computed(() => store.state.search.type === "team_members");
-console.log(computed(() => store.state.search.type).value)
+
+
 </script>
 
 <style scoped>

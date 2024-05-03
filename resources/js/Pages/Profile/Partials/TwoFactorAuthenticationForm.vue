@@ -26,7 +26,7 @@ const confirmationForm = useForm({
     code: "",
 });
 
-const twoFactorEnabled = computed(() => !enabling.value && usePage().props.value.user?.two_factor_enabled);
+const twoFactorEnabled = computed(() => !enabling.value && usePage().props.value.auth.user?.two_factor_enabled);
 
 watch(twoFactorEnabled, () => {
     if (!twoFactorEnabled.value) {

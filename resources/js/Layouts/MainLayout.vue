@@ -34,6 +34,7 @@ id="search"
                         </select>
                     </div>
                 </div>
+
                 <div>
                     <Link class="p-2 text-xs font-bold float-right text-pink-600" @click.prevent="Inertia.post(route('logout'))">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -56,6 +57,7 @@ import _ from "lodash";
 import { Link } from "@inertiajs/inertia-vue3";
 import { useStore } from "vuex";
 import { route } from "ziggy-js";
+import Menu from "../Components/Menu.vue";
 
 let store = useStore();
 let q = ref("");

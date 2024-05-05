@@ -6,6 +6,7 @@ import { createInertiaApp } from "@inertiajs/inertia-vue3";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from 'ziggy-js';
+import { Ziggy } from './ziggy.js';
 import store from "./Store/search.js";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
@@ -20,6 +21,7 @@ createInertiaApp({
     },
 
     setup({ el, app, props, plugin }) {
+
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(store)
@@ -27,7 +29,7 @@ createInertiaApp({
                 unstyled: true,
                 pt: Lara
             })
-            .use(ZiggyVue)
+            .use(ZiggyVue, Ziggy)
             .use(Toast, {
                 transition: "Vue-Toastification__bounce",
                 maxToasts: 20,

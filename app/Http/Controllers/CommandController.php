@@ -63,9 +63,9 @@ class CommandController extends Controller
      *
      * @param Request $request
      * @param Command $command
-     * @return Response
+     * @return Command
      */
-    public function update(Request $request, Command $command)
+    public function update(Request $request, Command $command): Command
     {
         $data = $request->all();
         if (!empty($data['tags'])) {
@@ -80,11 +80,13 @@ class CommandController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Command $command
-     * @return Response
+     * @return Command
      */
-    public function destroy(Command $command)
+    public function destroy(Command $command): Command
     {
-        return $command->delete();
+        $command->delete();
+
+        return $command;
     }
 
     /**

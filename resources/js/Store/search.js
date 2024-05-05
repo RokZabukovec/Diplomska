@@ -79,6 +79,57 @@ const searchStore = createStore({
                             });
                         });
                 },
+                async deleteProject(state, id) {
+                    await axios
+                        .delete("api/projects/" + id.value)
+                        .then((response) => {
+                            if (response.status > 300) {
+                                state.error = "There was something wrong with the request.";
+                                return;
+                            }
+
+                            const index = state.projects.findIndex(obj => obj.id === response.data.data.id);
+                            if (index !== -1) {
+                                state.projects.splice(index, 1);
+                            }
+                            toast.success("The project has been deleted.", {
+                                timeout: 4000,
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            toast.error("Something went wrong when creating a project.", {
+                                timeout: 4000,
+                            });
+                        });
+                },
+                async deleteCommand(state, id) {
+                    await axios
+                        .delete("api/commands/" + id.value)
+                        .then((response) => {
+                            if (response.status > 300) {
+                                state.error = "There was something wrong with the request.";
+                                return;
+                            }
+
+                            console.log(response);
+                            console.log(state.commands);
+
+                            const index = state.commands.findIndex(obj => obj.id === response.data.id);
+                            if (index !== -1) {
+                                state.commands.splice(index, 1);
+                            }
+                            toast.success("The project has been deleted.", {
+                                timeout: 4000,
+                            });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            toast.error("Something went wrong when creating a project.", {
+                                timeout: 4000,
+                            });
+                        });
+                },
                 async search(state) {
                     try {
                         state.loading = true;
@@ -161,6 +212,12 @@ const searchStore = createStore({
                 },
             },
             actions: {
+                deleteProject({ commit }, id){
+                    commit('deleteProject', id);
+                },
+                deleteCommand({ commit }, id){
+                    commit('deleteCommand', id);
+                },
                 setUserId({ commit }, id){
                     commit('setUserId', id);
                     commit('search');

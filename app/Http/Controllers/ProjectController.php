@@ -62,6 +62,7 @@ class ProjectController extends Controller
     {
         $data = $request->all();
         $project->update($data);
+
         return $project;
     }
 
@@ -74,6 +75,7 @@ class ProjectController extends Controller
     {
         $this->authorize('delete', $project);
         $this->projects->destroy($project);
+
         return new ProjectResource($project);
     }
 
@@ -87,6 +89,7 @@ class ProjectController extends Controller
             Cache::forget($key);
             return $project;
         }
+
         return new BadRequestException();
     }
 

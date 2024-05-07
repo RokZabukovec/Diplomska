@@ -19,13 +19,15 @@
 <script setup>
 import MainLayout from "../Layouts/MainLayout.vue";
 import Projects from "../Pages/Redesign/Projects.vue";
-import {computed} from "vue";
+import { computed, onMounted } from "vue";
 import CommandList from "../Components/Tailwindui/CommandList.vue";
 import { useStore } from "vuex";
 import Badges from "./Badges.vue";
 import Team from "../Components/Tailwindui/Team.vue";
 import ProgressSpinner from 'primevue/progressspinner';
 import { usePage } from "@inertiajs/inertia-vue3";
+import useUrlParams from "../composables/useUrlParams";
+
 let store = useStore();
 let page = usePage();
 
@@ -34,7 +36,9 @@ const showProjects = computed(() => store.state.search.type === "projects");
 const showCommands = computed(() => store.state.search.type === "commands");
 const showTeam = computed(() => store.state.search.type === "team_members");
 
+const { params } = useUrlParams();
 
+store.dispatch("search/setSelected", params);
 </script>
 
 <style scoped>

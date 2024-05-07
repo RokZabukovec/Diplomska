@@ -3,8 +3,10 @@ import { search } from "@/API/search";
 import axios from "axios";
 import { useToast } from "vue-toastification";
 import { storeCommandAsync } from "../API/commands";
+import useUrlParams from "../composables/useUrlParams";
 
 const toast= useToast();
+const { setUrlParams } = useUrlParams();
 
 const searchStore = createStore({
     modules: {
@@ -188,9 +190,11 @@ const searchStore = createStore({
                 },
                 setProjectId(state, id) {
                     state.selected.projectId = id;
+                    setUrlParams({ projectId: id });
                 },
                 resetProjectId(state) {
                     state.selected.projectId = null;
+                    setUrlParams({ projectId: null });
                 },
                 setUserId(state, id) {
                     state.selected.user_id = id;
@@ -201,6 +205,9 @@ const searchStore = createStore({
                 setTag(state, tag) {
                     if (state.selected.tag === null) {
                         state.selected.tag = tag;
+
+                        const { setUrlParams } = useUrlParams();
+                        setUrlParams({ tag: tag });
                     }else {
                         toast.error("Only one tag is supported", {
                             timeout: 2000,
@@ -210,8 +217,15 @@ const searchStore = createStore({
                 resetTag(state) {
                     state.selected.tag = null;
                 },
+                setSelected(state, params) {
+                    state.selected = params;
+                },
             },
             actions: {
+                setSelected({ commit }, params){
+                    commit('setSelected', params);
+                    commit('search');
+                },
                 deleteProject({ commit }, id){
                     commit('deleteProject', id);
                 },

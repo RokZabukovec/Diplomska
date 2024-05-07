@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\web\CommandController;
 use App\Services\PageContextService;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,7 @@ Route::middleware([
     Route::get('/project/{project:id}/edit', [ProjectController::class, 'edit'])->name('project.edit');
     Route::get('/command/{command:id}/edit', [CommandController::class, 'edit'])->name('command.edit');
     Route::get('/search', [SearchController::class, 'show'])->name('search.show');
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
 
     Route::group(['middleware' => 'super-user'], function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin');

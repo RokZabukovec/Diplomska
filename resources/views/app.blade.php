@@ -27,6 +27,7 @@
     <meta name="author" content="Rok Zabukovec">
     <!-- Scripts -->
     @routes
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
     @vite('resources/js/app.js')
     @inertiaHead
 </head>

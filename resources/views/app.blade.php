@@ -25,7 +25,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
     <meta name="author" content="Rok Zabukovec">
-    <!-- Scripts -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <!-- Scripts -->
     @routes
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
     @vite('resources/js/app.js')

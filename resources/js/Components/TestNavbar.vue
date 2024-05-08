@@ -93,10 +93,11 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import Logo from "./Logo.vue";
 import { Inertia } from "@inertiajs/inertia";
-import { Link, usePage } from "@inertiajs/inertia-vue3";
+import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
 import SlideOverNewProject from "./Tailwindui/SlideOverNewProject.vue";
 
 const page = usePage()
+const form = useForm()
 const user = page.props.value.auth.user;
 
 console.log(user);

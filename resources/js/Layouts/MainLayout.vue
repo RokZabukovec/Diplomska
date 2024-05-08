@@ -7,7 +7,7 @@
                     <div class="pl-4 p-1 relative flex items-center w-1/3 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
                         <lord-icon
                             src="https://cdn.lordicon.com/unukghxb.json"
-                            trigger="loop"
+                            trigger="hover"
                             stroke="bold"
                             state="loop-spin"
                             colors="primary:#4f46e5,secondary:#4f46e5"

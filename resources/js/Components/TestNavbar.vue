@@ -45,7 +45,7 @@
                                         <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
-                                        <Link :href="route('logout')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 bold']">Sign out</Link>
+                                        <Link :href="route('logout')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 bold']" @click.prevent="Inertia.post(route('logout'))">Sign out</Link>
                                     </MenuItem>
                                 </MenuItems>
                             </transition>
@@ -93,11 +93,10 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import Logo from "./Logo.vue";
 import { Inertia } from "@inertiajs/inertia";
-import { Link, useForm, usePage } from "@inertiajs/inertia-vue3";
+import { Link, usePage } from "@inertiajs/inertia-vue3";
 import SlideOverNewProject from "./Tailwindui/SlideOverNewProject.vue";
 
 const page = usePage()
-const form = useForm()
 const user = page.props.value.auth.user;
 
 console.log(user);

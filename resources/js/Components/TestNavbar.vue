@@ -19,7 +19,7 @@
                         <Link :href="route('search.show')" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">Dashboard</Link>
                         <Link :href="route('api-tokens.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">API tokens</Link>
                         <Link :href="route('teams.show', user.current_team_id)" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Team</Link>
-                        <Link :href="route('statistics.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 font-semibold">Statistics</Link>
+                        <Link v-if="isAdmin" :href="route('statistics.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 font-semibold">Statistics</Link>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -58,7 +58,7 @@
                 <DisclosureButton as="a" :href="route('search.show')" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700 sm:pl-5 sm:pr-6">Dashboard</DisclosureButton>
                 <DisclosureButton as="a" :href="route('api-tokens.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">API tokens</DisclosureButton>
                 <DisclosureButton as="a" :href="route('teams.show', user.current_team_id)" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">Team</DisclosureButton>
-                <DisclosureButton as="a" :href="route('statistics.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6 font-bold">Statistics</DisclosureButton>
+                <DisclosureButton v-if="isAdmin" as="a" :href="route('statistics.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6 font-bold">Statistics</DisclosureButton>
             </div>
             <div class="border-t border-gray-200 pb-3 pt-4">
                 <div class="flex items-center px-4 sm:px-6">
@@ -94,6 +94,10 @@ import SlideOverNewProject from "./Tailwindui/SlideOverNewProject.vue";
 
 const page = usePage()
 const user = page.props.value.auth.user;
+const roles = page.props.value.auth.user.roles;
 
 console.log(user);
+console.log(roles);
+
+const isAdmin = roles.some(obj => obj.name === 'super-user');
 </script>

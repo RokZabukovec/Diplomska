@@ -42,10 +42,7 @@
                                         <a :href="route('profile.show')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your Profile</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
-                                        <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
-                                    </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                        <Link :href="route('logout')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 bold']" @click.prevent="Inertia.post(route('logout'))">Sign out</Link>
+                                        <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 bold']" @click.prevent="Inertia.post(route('logout'))">Sign out</a>
                                     </MenuItem>
                                 </MenuItems>
                             </transition>
@@ -79,9 +76,8 @@
                     </button>
                 </div>
                 <div class="mt-3 space-y-1">
-                    <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
-                    <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Settings</DisclosureButton>
-                    <DisclosureButton as="a" href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Sign out</DisclosureButton>
+                    <DisclosureButton as="a" :href="route('profile.show')" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
+                    <DisclosureButton as="a" :href="route('logout')" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6" @click.prevent="Inertia.post(route('logout'))">Sign out</DisclosureButton>
                 </div>
             </div>
         </DisclosurePanel>

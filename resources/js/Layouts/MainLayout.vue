@@ -3,8 +3,8 @@
         <TestNavbar></TestNavbar>
         <nav v-if="page.component.value === 'Search'" >
             <div class="items-center flex w-full p-8 bg-white justify-between mt-5">
-                <div class="flex flex-grow justify-center sm:text-lg text-gray-400 ">
-                    <div class="pl-4 p-1 relative flex items-center w-1/3 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
+                <div class="md:flex flex-grow justify-center sm:text-lg text-gray-400 ">
+                    <div class="pl-4 p-1 relative flex items-center md:w-1/3 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300">
                         <lord-icon
                             src="https://cdn.lordicon.com/unukghxb.json"
                             trigger="hover"
@@ -20,7 +20,7 @@
                             class="py-2 block w-full border-0 pl-2 pr-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:ring-opacity-0 text-lg focus:ring-inset focus:ring-transparent  sm:leading-6"
                             @input="triggerSearch"/>
                     </div>
-                    <div class="relative flex items-center ml-2">
+                    <div class="relative flex items-center md:ml-2 mt-5">
                         <select id="location" v-model="selectedType" name="location" class="text-lg focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600  text-gray-400 h-full block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 shadow ring-inset ring-gray-300 sm:text-sm sm:leading-6" @change="setType">
                             <option value="projects">Projects</option>
                             <option value="commands">Commands</option>
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </nav>
-        <main class="mt-5 mx-auto w-3/4 flex-grow">
+        <main class="mt-5 mx-auto sm:px-2 md:px-0 w-3/4 flex-grow">
             <slot></slot>
         </main>
     </div>

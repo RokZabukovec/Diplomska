@@ -20,7 +20,7 @@
                             class="py-2 block w-full border-0 pl-2 pr-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:ring-opacity-0 text-lg focus:ring-inset focus:ring-transparent  sm:leading-6"
                             @input="triggerSearch"/>
                     </div>
-                    <div class="relative flex items-center md:ml-2 mt-5">
+                    <div class="relative flex items-center md:ml-2">
                         <select id="location" v-model="selectedType" name="location" class="text-lg focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600  text-gray-400 h-full block w-full rounded-md border-0 py-1.5 pl-3 pr-10 ring-1 shadow ring-inset ring-gray-300 sm:text-sm sm:leading-6" @change="setType">
                             <option value="projects">Projects</option>
                             <option value="commands">Commands</option>

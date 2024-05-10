@@ -7,13 +7,10 @@ use App\Models\Command;
 use App\Models\ExternalCommand;
 use App\Models\Project;
 use App\Models\User;
-use App\Services\PageContextService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
-use Laravel\Scout\Builder;
 
 class SearchController extends Controller
 {
@@ -33,6 +30,21 @@ class SearchController extends Controller
             'projects' => $this->searchProjects($request, $searchTerm),
             'team_members' => $this->searchTeamMembers($request, $searchTerm),
             'commands' => $this->searchCommands($request, $searchTerm),
+            default => response()->json(),
+        };
+    }
+
+    public function searchAll(SearchRequest $request): JsonResponse
+    {
+        // Extract request parameters
+        $searchTerm = $request->input('q', '');
+        $model = $request->input('model', 'commands');
+
+        // Perform search based on the model
+        return match ($model) {
+            'projects' => $this->searchProjects($request, $searchTerm),
+            'team_members' => $this->searchTeamMembers($request, $searchTerm),
+            'commands' => $this->searchAllCommands($request, $searchTerm),
             default => response()->json(),
         };
     }
@@ -73,17 +85,15 @@ class SearchController extends Controller
         return response()->json($results);
     }
 
-    protected function SearchAllCommands($searchTerm): Collection
+    protected function searchAllCommands(SearchRequest $request, $searchTerm): JsonResponse
     {
-        $externalQuery = ExternalCommand::search($searchTerm)->get();
-        $query = Command::search($searchTerm)->get();
+        $teamUsers = $request->user()->currentTeam->allUsers()->pluck('id')->toArray();
 
-        $results = collect();
+        $externalQuery = ExternalCommand::search($searchTerm)->get()->toArray();
+        $query = Command::search($searchTerm)->whereIn('user_id', $teamUsers)->get()->toArray();
 
-        $results->push($externalQuery);
-        $results->push($query);
+        return response()->json(array_merge($query, $externalQuery));
 
-        return $results;
     }
 
 

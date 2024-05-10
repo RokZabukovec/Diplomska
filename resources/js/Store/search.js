@@ -248,6 +248,10 @@ const searchStore = createStore({
                     commit('resetTag');
                     commit('search');
                 },
+                resetPage({ commit }) {
+                    commit('setPage', 1);
+                    commit('search');
+                },
                 setPage({ commit }, page) {
                     commit('setPage', page);
                     commit('search');

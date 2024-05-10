@@ -17,6 +17,7 @@ const badges = computed(() => searchStore.state.search.badges);
 
 function remove(badge) {
     searchStore.dispatch('search/removeBadge', badge);
+    searchStore.dispatch('search/resetPage');
 }
 
 </script>

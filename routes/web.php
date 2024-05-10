@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StatisticsController;
@@ -59,3 +60,4 @@ Route::Resource('projects', ProjectController::class)->middleware('auth');
 
 Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+Route::get('/chub/deb', [DownloadController::class, 'deb']);

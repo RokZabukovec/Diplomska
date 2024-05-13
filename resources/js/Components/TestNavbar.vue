@@ -1,5 +1,5 @@
 <template>
-    <Disclosure as="nav" class="bg-white shadow" v-slot="{ open }">
+    <Disclosure as="nav" class="bg-indigo-600 shadow" v-slot="{ open }">
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 justify-between">
                 <div class="flex">
@@ -16,10 +16,10 @@
                         <Logo></Logo>
                     </div>
                     <div class="hidden md:ml-6 md:flex md:space-x-8">
-                        <Link :href="route('search.show')" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">Dashboard</Link>
-                        <Link :href="route('api-tokens.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">API tokens</Link>
-                        <Link :href="route('teams.show', user.current_team_id)" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Team</Link>
-                        <Link v-if="isAdmin" :href="route('statistics.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 font-semibold">Statistics</Link>
+                        <Link :href="route('search.show')" class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-white hover:text-yellow-400">Dashboard</Link>
+                        <Link :href="route('api-tokens.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-white hover:border-white hover:text-yellow-400">API tokens</Link>
+                        <Link :href="route('teams.show', user.current_team_id)" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-white hover:text-yellow-400">Team</Link>
+                        <Link v-if="isAdmin" :href="route('statistics.index')" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-white hover:text-yellow-400 font-semibold">Statistics</Link>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -56,9 +56,9 @@
             <div class="space-y-1 pb-3 pt-2">
                 <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
                 <DisclosureButton as="a" :href="route('search.show')" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700 sm:pl-5 sm:pr-6">Dashboard</DisclosureButton>
-                <DisclosureButton as="a" :href="route('api-tokens.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">API tokens</DisclosureButton>
-                <DisclosureButton as="a" :href="route('teams.show', user.current_team_id)" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6">Team</DisclosureButton>
-                <DisclosureButton v-if="isAdmin" as="a" :href="route('statistics.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 sm:pl-5 sm:pr-6 font-bold">Statistics</DisclosureButton>
+                <DisclosureButton as="a" :href="route('api-tokens.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:text-yellow-500 hover:border-yellow-300 sm:pl-5 sm:pr-6">API tokens</DisclosureButton>
+                <DisclosureButton as="a" :href="route('teams.show', user.current_team_id)" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:text-yellow-500 hover:border-yellow-300 sm:pl-5 sm:pr-6">Team</DisclosureButton>
+                <DisclosureButton v-if="isAdmin" as="a" :href="route('statistics.index')" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-white hover:text-yellow-500  hover:border-gray-300 sm:pl-5 sm:pr-6 font-bold">Statistics</DisclosureButton>
             </div>
             <div class="border-t border-gray-200 pb-3 pt-4">
                 <div class="flex items-center px-4 sm:px-6">
@@ -66,8 +66,8 @@
                         <img class="h-10 w-10 rounded-full" :src="user.profile_photo_url" :alt="user.name" />
                     </div>
                     <div class="ml-3">
-                        <div class="text-base font-medium text-gray-800">{{ user.name }}</div>
-                        <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
+                        <div class="text-base font-medium text-white">{{ user.name }}</div>
+                        <div class="text-sm font-medium text-white">{{ user.email }}</div>
                     </div>
                     <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span class="absolute -inset-1.5" />
@@ -76,8 +76,8 @@
                     </button>
                 </div>
                 <div class="mt-3 space-y-1">
-                    <DisclosureButton as="a" :href="route('profile.show')" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6">Your Profile</DisclosureButton>
-                    <DisclosureButton as="a" :href="route('logout')" class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6" @click.prevent="Inertia.post(route('logout'))">Sign out</DisclosureButton>
+                    <DisclosureButton as="a" :href="route('profile.show')" class="block px-4 py-2 text-base font-medium text-white hover:text-yellow-400 sm:px-6">Your Profile</DisclosureButton>
+                    <DisclosureButton as="a" :href="route('logout')" class="block px-4 py-2 text-base font-medium text-white hover:text-yellow-400 sm:px-6" @click.prevent="Inertia.post(route('logout'))">Sign out</DisclosureButton>
                 </div>
             </div>
         </DisclosurePanel>

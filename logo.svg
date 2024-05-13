@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+    <!-- Black rounded square background -->
+    <rect x="0" y="0" width="50" height="50" rx="5" ry="5" fill="black"></rect>
+    <!-- White letter C with Helvetica font -->
+    <text x="8" y="35" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="white">C</text>
+    <!-- Blinking Pipe with Courier New font -->
+    <text x="28" y="30" font-family="Courier New, monospace" font-size="28" fill="white" font-weight="bold">
+        |
+    </text>
+</svg>

@@ -14,28 +14,23 @@
         </div>
         <div class="px-6 pt-6 lg:px-8">
             <div>
-                <nav class="flex h-9 items-center justify-between" aria-label="Global">
-                    <div class="flex lg:min-w-0 lg:flex-1" aria-label="Global">
-                        <a href="#" class="-m-1.5 p-1.5">
+                <nav class="flex h-16 items-center justify-between" aria-label="Global">
+                    <div class="flex-shrink-0">
+                        <a href="#" class="p-2">
                             <span class="sr-only">Your Company</span>
-                            <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+                            <img class="h-10" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
                         </a>
                     </div>
                     <div class="flex lg:hidden">
-                        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
-                            <span class="sr-only">Open main menu</span>
+                        <button type="button" class="p-2 inline-flex items-center justify-center rounded-md text-gray-700" aria-label="Open main menu" @click="mobileMenuOpen = true">
                             <Bars3Icon class="h-6 w-6" aria-hidden="true" />
                         </button>
                     </div>
-                    <div class="lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/documentation" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Documentation</a>
-                    </div>
-                    <div v-if="_.isEmpty(user)" class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/login" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 mr-2.5">Log in</a>
-                        <a href="/register" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 bg-gray-800">Register</a>
-                    </div>
-                    <div v-else class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                        <a href="/search" class="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">Dashboard</a>
+                    <div class="hidden lg:flex lg:flex-grow lg:justify-end">
+                        <a href="/documentation" class="inline-block px-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700">Documentation</a>
+                        <a v-if="_.isEmpty(user)" href="/login" class="inline-block px-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700">Log in</a>
+                        <a v-if="_.isEmpty(user)" href="/register" class="inline-block px-4 py-2 text-sm font-semibold leading-6 text-gray-50 bg-gray-800 hover:bg-gray-700">Register</a>
+                        <a v-else href="/search" class="inline-block px-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 bg-indigo-50 hover:bg-indigo-100">Dashboard</a>
                     </div>
                 </nav>
             </div>

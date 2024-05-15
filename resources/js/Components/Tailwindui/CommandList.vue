@@ -113,6 +113,9 @@ const colorizeCommand = (command) => {
     return tokens.map((token) => {
         let className = "";
 
+        // Encode angle brackets
+        token = token.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
         if (/^(-{1,2}\w+)/.test(token)) {
             className = "flag text-blue-500"; // Flag
         } else if (/^(<{1,2})|(&{1,2})|(>{1,2})|(\|{1,2})|({|\[|\]|\})/.test(token)) {

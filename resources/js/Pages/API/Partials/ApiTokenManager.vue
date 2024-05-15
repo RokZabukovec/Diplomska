@@ -89,7 +89,7 @@ const deleteApiToken = () => {
                 </div>
 
                 <!-- Token Permissions -->
-                <div v-if="availablePermissions.length > 0" class="col-span-6">
+                <div v-if="availablePermissions.length > 0" class="col-span-6 hidden">
                     <InputLabel for="permissions" value="Permissions" />
 
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -208,10 +208,6 @@ const searchStore = createStore({
 
                         const { setUrlParams } = useUrlParams();
                         setUrlParams({ tag: tag });
-                    }else {
-                        toast.error("Only one tag is supported", {
-                            timeout: 2000,
-                        });
                     }
                 },
                 resetTag(state) {
@@ -244,7 +240,7 @@ const searchStore = createStore({
                     commit('setTag', tag);
                     commit('search');
                 },
-                resetTag({ commit }, tag){
+                resetTag({ commit }){
                     commit('resetTag');
                     commit('search');
                 },
@@ -267,7 +263,7 @@ const searchStore = createStore({
                 storeProject({ commit }, data) {
                     commit('storeProject', data);
                 },
-                setProject({ commit }, project_id, name){
+                setProject({ commit }, project_id){
                     commit('type', 'commands');
                     commit('setProjectId', project_id);
                     commit('search');

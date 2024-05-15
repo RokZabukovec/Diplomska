@@ -113,11 +113,25 @@ let open = ref(false);
 function storeCommand() {
     store.commit("search/storeCommand", form.value);
     open.value = false;
-    for (let data in form) delete form[data];
+    form.value = {
+        command: "",
+        description: "",
+        project_id: projectId.value,
+        tags: [],
+    };
 }
 
 function addToTags() {
-    form.value.tags.push(tagsInput.value.trim());
+    // Get the current value of form
+    const currentFormValue = form.value;
+
+    // Push the tag into the tags array
+    currentFormValue.tags.push(tagsInput.value.trim());
+
+    // Update the form with the modified value
+    form.value = currentFormValue;
+
+    // Clear the input
     tagsInput.value = "";
 }
 

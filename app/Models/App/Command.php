@@ -4,9 +4,12 @@ namespace App\Models\App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Searchable;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 use Spatie\Tags\HasTags;
+use Spatie\Tags\Tag;
 
 class Command extends Model
 {
@@ -21,7 +24,7 @@ class Command extends Model
      *
      * @return mixed
      */
-    public function getScoutKey()
+    public function getScoutKey(): mixed
     {
         return $this->getKey();
     }
@@ -29,9 +32,9 @@ class Command extends Model
     /**
      * Get the key name used to index the model.
      *
-     * @return mixed
+     * @return string
      */
-    public function getScoutKeyName()
+    public function getScoutKeyName(): string
     {
         return 'id';
     }
@@ -41,7 +44,7 @@ class Command extends Model
      *
      * @return array
      */
-    public function toSearchableArray()
+    public function toSearchableArray(): array
     {
         $array = $this->toArray();
         $array['project_id'] = $this->project_id;
@@ -65,13 +68,18 @@ class Command extends Model
         ];
     }
 
-    public function projects()
+    public function projects(): BelongsTo
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'entity_id');
+    }
+
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
     }
 }

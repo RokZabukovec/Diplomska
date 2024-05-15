@@ -11,6 +11,7 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
+use LogicException;
 
 class CommandRepository implements RepositoryInterface
 {

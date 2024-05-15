@@ -102,32 +102,32 @@ const commands = computed(() => store.state.search.commands);
 const hasCommands = computed(() => commands.value.length > 0);
 const projectId = computed(() => store.state.search.selected.projectId).value;
 
-const isFile = (text) => /[^\\/]+\.[^\\/]+$/.test(text);
-const isOperator = (text) => /^(\|{1,2})|(<{1,2})|(&{1,2})|(>{1,2})|{|\[|\]|\}/.test(text);
-const isQuoted = (text) => /^(".+")|('.+')$/.test(text);
-
 function selectTag(tag) {
     store.dispatch('search/setTag', tag);
     store.dispatch('search/addBadge', {label: 'tag', value: tag});
 }
 
 const colorizeCommand = (command) => {
-    const originalTextContent = command.split(" ");
-    return originalTextContent.map((text, index) => {
+    const tokens = command.match(/('[^']*'|"[^"]*"|\S+)/g) || []; // Tokenize the command
+
+    return tokens.map((token) => {
         let className = "";
-        if (index === 0 || isOperator(originalTextContent[index - 1])) {
-            className = "command text-stone-800";
-        } else if (text.startsWith("--") || text.startsWith("-")) {
-            className = "flag text-blue-500";
-        } else if (isOperator(text)) {
-            className = "operator text-orange-600";
-        } else if (isFile(text)) {
-            className = "file text-green-500";
-        } else if (isQuoted(text)) {
-            className = "quoted text-grey-500";
+
+        if (/^(-{1,2}\w+)/.test(token)) {
+            className = "flag text-blue-500"; // Flag
+        } else if (/^(<{1,2})|(&{1,2})|(>{1,2})|(\|{1,2})|({|\[|\]|\})/.test(token)) {
+            className = "operator text-orange-600"; // Operator
+        } else if (/\.\w+$/.test(token)) {
+            className = "file text-green-500"; // File
+        } else if (/^('[^']*'|"[^"]*")$/.test(token)) {
+            className = "quoted text-grey-500"; // Quoted text
+        } else {
+            className = "command text-stone-800"; // Default command
         }
-        return `<span class="${className}">${text} </span>`;
+
+        return `<span class="${className}">${token} </span>`;
     }).join("");
 };
+
 
 </script>
